@@ -49,7 +49,7 @@
 		689888112AA3838500A2D55D /* Palette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Palette.swift; sourceTree = "<group>"; };
 		689888122AA3838500A2D55D /* ColorBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorBackground.swift; sourceTree = "<group>"; };
 		689888162AA3869900A2D55D /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		68C7E9042A71A1AC008CD84F /* AppSeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppSeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		68C7E9042A71A1AC008CD84F /* $PRODUCT_APP_NAME.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = $PRODUCT_APP_NAME.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68C7E9072A71A1AC008CD84F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68C7E9102A71A1AE008CD84F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68C7E9132A71A1AE008CD84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -124,7 +124,7 @@
 		68C7E9052A71A1AC008CD84F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				68C7E9042A71A1AC008CD84F /* AppSeed.app */,
+				68C7E9042A71A1AC008CD84F /* $PRODUCT_APP_NAME.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -261,7 +261,7 @@
 			);
 			name = AppSeed;
 			productName = pawsome;
-			productReference = 68C7E9042A71A1AC008CD84F /* AppSeed.app */;
+			productReference = 68C7E9042A71A1AC008CD84F /* $PRODUCT_APP_NAME.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -487,8 +487,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.devno39.AppSeed;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = $PRODUCT_APP_NAME;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -514,8 +513,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.devno39.AppSeed;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = $PRODUCT_APP_NAME;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

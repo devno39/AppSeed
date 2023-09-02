@@ -1,6 +1,6 @@
 //
 //  ColorText.swift
-//  BaseKit
+//  AppSeed
 //
 //  Created by tunay alver on 2.09.2023.
 //

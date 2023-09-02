@@ -1,6 +1,6 @@
 //
 //  Develop.xcconfig
-//  BaseKit
+//  AppSeed
 //
 //  Created by tunay alver on 2.09.2023.
 //
@@ -8,6 +8,6 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-PRODUCT_BUNDLE_IDENTIFIER = com.devno39.BaseKit.develop
-PRODUCT_APP_NAME = BaseKit-develop
+PRODUCT_BUNDLE_IDENTIFIER = com.devno39.AppSeed.develop
+PRODUCT_APP_NAME = AppSeed-develop
 API_BASE_PATH = https:/$()/
