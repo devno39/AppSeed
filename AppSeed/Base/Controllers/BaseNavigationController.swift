@@ -26,11 +26,11 @@ class BaseNavigationController: UINavigationController {
         navigationBar.isTranslucent = true
         
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.backgroundPrimary
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.textPrimary]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.textPrimary]
+        appearance.backgroundColor = ColorBackground.backgroundPrimary.color
+        appearance.titleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
+        appearance.largeTitleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
 
-        UINavigationBar.appearance().tintColor = .palette2
+        UINavigationBar.appearance().tintColor = Palette.palette2.color
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance

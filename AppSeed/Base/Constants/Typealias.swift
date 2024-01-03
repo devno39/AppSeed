@@ -8,5 +8,5 @@
 import Foundation
 
 public typealias VoidCallback = () -> Void
-public typealias AnyCallback<T> = (T) -> Void
-public typealias AnyOptionalCallback<T> = (T?) -> Void
+public typealias AnyCallbackForce<T> = (T) -> Void
+public typealias AnyCallback<T> = (T?) -> Void

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/tunayalver/Desktop/xcode/AppSeed/AppSeed.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>

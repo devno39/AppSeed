@@ -8,6 +8,9 @@
 import UIKit
 
 class BaseViewController<V: BaseViewModelProtocol>: UIViewController {
+    // MARK: - Properties
+    private let hudView = HudView()
+    
     // MARK: - Dependency
     let viewModel: V
     
@@ -35,7 +38,19 @@ class BaseViewController<V: BaseViewModelProtocol>: UIViewController {
     // MARK: - Prapare
     func prepare() {
         // Additional setup code can be placed here
-        view.backgroundColor = .backgroundPrimary
+        view.backgroundColor = ColorBackground.backgroundPrimary.color
+    }
+    
+    // MARK: - Hud
+    func showHud() {
+        view.addSubview(hudView)
+        hudView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+    
+    func hideHud() {
+        hudView.removeFromSuperview()
     }
 }
 
