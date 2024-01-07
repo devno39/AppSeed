@@ -7,17 +7,16 @@
 
 import UIKit
 
-extension UIColor {
-    static var palette1: UIColor {
-        if let color = UIColor(named: "palette1") {
-            return color
+enum Palette: Colorable {
+    case palette1
+    case palette2
+    
+    var hex: Int {
+        switch self {
+        case .palette1:
+            return 0xFFFFFF
+        case .palette2:
+            return 0x000000
         }
-        return UIColor(rgb: 0xFFFFFF)
-    }
-    static var palette2: UIColor {
-        if let color = UIColor(named: "palette2") {
-            return color
-        }
-        return UIColor(rgb: 0xFFFFFF)
     }
 }

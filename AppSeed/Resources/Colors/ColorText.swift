@@ -7,11 +7,13 @@
 
 import UIKit
 
-extension UIColor {
-    static var textPrimary: UIColor {
-        if let color = UIColor(named: "textPrimary") {
-            return color
+enum ColorText: Colorable {
+    case textPrimary
+    
+    var hex: Int {
+        switch self {
+        case .textPrimary:
+            return 0x000000
         }
-        return UIColor(rgb: 0xFFFFFF)
     }
 }
