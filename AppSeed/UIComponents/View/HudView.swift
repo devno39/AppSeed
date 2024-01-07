@@ -15,7 +15,6 @@ final class HudView: UIView {
         let view = LottieAnimationView(name: "lottie-loading")
         view.contentMode = .scaleAspectFit
         view.loopMode = .loop
-        view.tintColor = .red
         return view
     }()
     
@@ -53,15 +52,15 @@ private extension HudView {
         addSubview(lottieView)
         lottieView.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(120)
-            make.height.equalTo(120)
+            make.width.equalTo(80)
+            make.height.equalTo(80)
         }
         
         addSubview(logo)
         logo.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
-            make.width.equalTo(36)
-            make.height.equalTo(36)
+            make.width.equalTo(40)
+            make.height.equalTo(40)
         }
     }
 }

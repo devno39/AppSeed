@@ -7,4 +7,5 @@
 
 enum Logo: Imageable {
     case logo_1024
+    case logo_40
 }
