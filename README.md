@@ -26,4 +26,9 @@ We welcome contributions to AppSeed. To contribute:
 
 ## Get in Touch
 
-<img src="https://img.icons8.com/color/48/000000/instagram-new.png"/>Instagram: @devno39
+<p align="left">
+  <a href="https://www.instagram.com/devno39">
+    <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="https://www.instagram.com/devno39"/>
+    <strong>@devno39</strong>
+  </a>
+</p>
