@@ -52,6 +52,8 @@
 		68F33C352AB4797400384E23 /* UITableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F33C342AB4797400384E23 /* UITableView+Extension.swift */; };
 		68F33C382AB48FA000384E23 /* ReuseableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F33C372AB48FA000384E23 /* ReuseableView.swift */; };
 		68F33C3A2AB48FEC00384E23 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F33C392AB48FEC00384E23 /* UICollectionView+Extension.swift */; };
+		B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B6EF0E072B6AA48F0044472A /* Kingfisher */; };
+		B6EF0E0A2B6AA4A80044472A /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6EF0E092B6AA4A80044472A /* UIImageView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +102,7 @@
 		68F33C342AB4797400384E23 /* UITableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Extension.swift"; sourceTree = "<group>"; };
 		68F33C372AB48FA000384E23 /* ReuseableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableView.swift; sourceTree = "<group>"; };
 		68F33C392AB48FEC00384E23 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		B6EF0E092B6AA4A80044472A /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */,
 				6826C8442AE2A55700ABB6D9 /* SnapKit in Frameworks */,
 				685319E42B4620B700633D64 /* Lottie in Frameworks */,
 			);
@@ -376,6 +380,7 @@
 				68F33C392AB48FEC00384E23 /* UICollectionView+Extension.swift */,
 				68F33C342AB4797400384E23 /* UITableView+Extension.swift */,
 				685319D52B461BB800633D64 /* UIView+Extension.swift */,
+				B6EF0E092B6AA4A80044472A /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -409,6 +414,7 @@
 			packageProductDependencies = (
 				6826C8432AE2A55700ABB6D9 /* SnapKit */,
 				685319E32B4620B700633D64 /* Lottie */,
+				B6EF0E072B6AA48F0044472A /* Kingfisher */,
 			);
 			productName = pawsome;
 			productReference = 68C7E9042A71A1AC008CD84F /* AppSeed-debug.app */;
@@ -441,6 +447,7 @@
 			packageReferences = (
 				6826C8422AE2A55700ABB6D9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				685319E22B4620B700633D64 /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				B6EF0E062B6AA48F0044472A /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 68C7E9052A71A1AC008CD84F /* Products */;
 			projectDirPath = "";
@@ -481,6 +488,7 @@
 				685319CE2B4619DE00633D64 /* BaseTableViewCell.swift in Sources */,
 				685319CC2B4619A200633D64 /* BaseTableView.swift in Sources */,
 				68C7E9082A71A1AC008CD84F /* AppDelegate.swift in Sources */,
+				B6EF0E0A2B6AA4A80044472A /* UIImageView+Extension.swift in Sources */,
 				685319D22B461B3600633D64 /* Imageable+Symbolable.swift in Sources */,
 				68C7E9432A71B361008CD84F /* SplashRouter.swift in Sources */,
 				68C7E93D2A71AE5F008CD84F /* BaseViewModel.swift in Sources */,
@@ -832,6 +840,14 @@
 				minimumVersion = 4.3.4;
 			};
 		};
+		B6EF0E062B6AA48F0044472A /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -844,6 +860,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 685319E22B4620B700633D64 /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		B6EF0E072B6AA48F0044472A /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B6EF0E062B6AA48F0044472A /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
