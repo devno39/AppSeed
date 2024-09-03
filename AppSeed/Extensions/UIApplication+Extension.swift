@@ -29,4 +29,27 @@ extension UIApplication {
         let buildVersion = " b. " + appBuild
         return Configuration.isRelease ? releaseVersion : releaseVersion + buildVersion
     }
+    
+    func topMostViewController() -> UIViewController? {
+        return rootWindow()?.rootViewController?.topMostViewController()
+    }
+    
+    func rootWindow() -> UIWindow? {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        return windowScene?.windows.first { $0.rootViewController is UITabBarController }
+    }
+    
+    func keyWindow() -> UIWindow? {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        return windowScene?.windows.first { $0.isKeyWindow }
+    }
+    
+    func openApplicationSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL((url)) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
 }

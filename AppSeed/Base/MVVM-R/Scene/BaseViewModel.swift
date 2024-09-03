@@ -5,7 +5,7 @@
 //  Created by tunay alver on 26.07.2023.
 //
 
-import Foundation
+import UIKit.UIViewController
 
 // MARK: - Delegate
 protocol BaseViewModelDelegate { }
@@ -14,12 +14,14 @@ protocol BaseViewModelDelegate { }
 protocol BaseViewModelDataSource { }
 
 // MARK: - Protocol
-protocol BaseViewModelProtocol: BaseViewModelDataSource { }
-
-class BaseViewModel<R: BaseRouter, D: Any>: BaseViewModelProtocol {
+protocol BaseViewModelProtocol: AnyObject, BaseViewModelDataSource {
     
-    private let router: R
-    var delegate: D?
+}
+
+class BaseViewModel<R: BaseRouter<U>, U: UIViewController, D: AnyObject>: BaseViewModelProtocol {
+    
+    let router: R
+    weak var delegate: D?
     
     deinit {
         // TODO: - create a custom logger

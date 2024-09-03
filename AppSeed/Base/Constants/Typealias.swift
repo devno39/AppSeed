@@ -7,6 +7,6 @@
 
 import Foundation
 
-public typealias VoidCallback = () -> Void
-public typealias AnyCallbackForce<T> = (T) -> Void
-public typealias AnyCallback<T> = (T?) -> Void
+public typealias EmptyClosure = () -> Void
+public typealias AnyClosure<T> = (T) -> Void
+public typealias OptinalAnyClosure<T> = (T?) -> Void

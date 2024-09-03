@@ -13,4 +13,8 @@ final class SplashRouter: BaseRouter {
         let viewController = SplashViewController(viewModel: viewModel)
         return viewController
     }
+    
+    func pushToHome() {
+        
+    }
 }

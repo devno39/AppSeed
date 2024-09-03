@@ -37,7 +37,6 @@ class BaseViewController<V: BaseViewModelProtocol>: UIViewController {
     
     // MARK: - Prapare
     func prepare() {
-        // Additional setup code can be placed here
         view.backgroundColor = ColorBackground.backgroundPrimary.color
     }
     

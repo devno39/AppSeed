@@ -29,4 +29,8 @@ final class SplashViewModel: BaseViewModel<SplashRouter, SplashViewModelDelegate
     func getSomething() {
         delegate?.didGetSomething()
     }
+    
+    func navigateToHome() {
+        
+    }
 }
