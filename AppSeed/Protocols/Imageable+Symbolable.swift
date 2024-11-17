@@ -25,8 +25,9 @@ protocol Symbolable {
 extension Symbolable {
     func symbol(size: CGFloat = 15, weight: UIImage.SymbolWeight = .medium) -> UIImage {
         let configuration = UIImage.SymbolConfiguration(pointSize: size, weight: weight)
-        
-        return UIImage(systemName: symbolName, withConfiguration: configuration)?
+        let image = UIImage(systemName: symbolName, withConfiguration: configuration)?
             .withRenderingMode(.alwaysTemplate) ?? UIImage()
+
+        return image
     }
 }

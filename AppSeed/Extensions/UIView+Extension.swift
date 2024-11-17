@@ -18,7 +18,9 @@ extension UIView {
     }
     
     func roundCorners(_ corners: UIRectCorner = [.topLeft, .topRight, .bottomLeft, .bottomRight],
-                      radius: CGFloat = 24, borderColor: UIColor? = nil, borderWidth: CGFloat? = nil) {
+                      radius: CGFloat = 24, 
+                      borderColor: UIColor? = nil,
+                      borderWidth: CGFloat? = nil) {
         clipsToBounds = true
         layer.cornerRadius = radius
         layer.maskedCorners = CACornerMask(rawValue: corners.rawValue)

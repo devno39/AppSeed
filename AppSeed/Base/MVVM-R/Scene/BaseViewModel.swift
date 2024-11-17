@@ -7,27 +7,25 @@
 
 import UIKit.UIViewController
 
-// MARK: - Delegate
-protocol BaseViewModelDelegate { }
-
 // MARK: - Source
 protocol BaseViewModelDataSource { }
 
-// MARK: - Protocol
-protocol BaseViewModelProtocol: AnyObject, BaseViewModelDataSource {
-    
+// MARK: - Closure
+protocol BaseViewModelClosureSource {
+    var loading: OptinalAnyClosure<Bool?>? { get set }
 }
 
-class BaseViewModel<R: BaseRouter<U>, U: UIViewController, D: AnyObject>: BaseViewModelProtocol {
-    
-    let router: R
-    weak var delegate: D?
-    
+// MARK: - Function
+protocol BaseViewModelFunctionSource { }
+
+// MARK: - Protocol
+protocol BaseViewModelProtocol: AnyObject, BaseViewModelDataSource, BaseViewModelClosureSource, BaseViewModelFunctionSource { }
+
+class BaseViewModel: BaseViewModelProtocol {
+    // MARK: - Closures
+    var loading: OptinalAnyClosure<Bool?>?
+
     deinit {
         // TODO: - create a custom logger
-    }
-    
-    required init(router: R) {
-        self.router = router
     }
 }

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Name</key>
+    <string>AppSeed Scene</string>
+    <key>Kind</key>
+    <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+    <key>Description</key>
+    <string>Template for creating a new ViewController, ViewModel, Router, and Builder</string>
+    <key>Summary</key>
+    <string>Creates ViewController, ViewModel, Router, and Builder</string>
+    <key>Platforms</key>
+    <array>
+        <string>com.apple.platform.iphoneos</string>
+        <string>com.apple.platform.macosx</string>
+        <string>com.apple.platform.watchos</string>
+        <string>com.apple.platform.appletvos</string>
+    </array>
+    <key>Options</key>
+    <array>
+        <dict>
+            <key>Identifier</key>
+            <string>name</string>
+            <key>Name</key>
+            <string>Scene Name</string>
+            <key>Type</key>
+            <string>text</string>
+            <key>Default</key>
+            <string>MyScene</string>
+        </dict>
+    </array>
+    <key>RequiredOptions</key>
+    <array>
+        <string>name</string>
+    </array>
+    <key>Nodes</key>
+    <array>
+        <dict>
+            <key>Group</key>
+            <string>ViewController</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___ViewController.swift</string>
+        </dict>
+        <dict>
+            <key>Group</key>
+            <string>ViewModel</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___ViewModel.swift</string>
+        </dict>
+        <dict>
+            <key>Group</key>
+            <string>Router</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___Router.swift</string>
+        </dict>
+        <dict>
+            <key>Group</key>
+            <string>Builder</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___Builder.swift</string>
+        </dict>
+    </array>
+    <key>Version</key>
+    <string>1.0</string>
+</dict>
+</plist>

@@ -7,7 +7,12 @@
 
 import UIKit
 
-class BaseRouter: Router<BaseViewController<V>, V: BaseViewModel> {
-    typealias V = U
-    weak var viewController: V?
+protocol BaseRouterProtocol: AnyObject {
+    var viewController: UIViewController? { get set }
+}
+
+class BaseRouter: BaseRouterProtocol {
+    weak var viewController: UIViewController?
+
+    init() { }
 }

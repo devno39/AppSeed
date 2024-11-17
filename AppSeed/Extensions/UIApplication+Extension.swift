@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIApplication {
+    static var appDelegate: AppDelegate? {
+        return shared.delegate as? AppDelegate
+    }
+
     static let appVersion: String = {
         if let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
             return appVersion

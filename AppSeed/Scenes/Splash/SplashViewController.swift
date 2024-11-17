@@ -8,36 +8,35 @@
 import UIKit
 import SnapKit
 
-final class SplashViewController: BaseViewController<SplashViewModel> {
+final class SplashViewController: BaseViewController<SplashViewModel, SplashRouter> {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewModel.delegate = self
-        print("my title is", viewModel.title ?? "")
-        viewModel.getSomething()
-        
-        showHud()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.hideHud()
-        }
+        viewModel?.request()
     }
     
+    // MARK: - Prepare
     override func prepare() {
         super.prepare()
-        
         draw()
     }
-}
 
-// MARK: - ViewModel Delegate
-extension SplashViewController: SplashViewModelDelegate {
-    func didGetSomething() {
-        print("i got that")
+    // MARK: - Bind
+    override func bindViewModel() {
+        super.bindViewModel()
+        viewModel?.requestClosure = { [weak self] string in
+            guard let self else { return }
+            routeTutorial()
+        }
+    }
+
+    // MARK: - Route
+    private func routeTutorial() {
+        router?.showTutorail()
     }
 }
 
 // MARK: - Draw
 private extension SplashViewController {
-    private func draw() {}
+    private func draw() { }
 }

@@ -7,14 +7,6 @@
 
 import UIKit
 
-final class SplashRouter: BaseRouter {
-    override func create() -> UIViewController {
-        let viewModel = SplashViewModel(router: self)
-        let viewController = SplashViewController(viewModel: viewModel)
-        return viewController
-    }
-    
-    func pushToHome() {
-        
-    }
+final class SplashRouter: BaseRouter, SplashRouter.Routes {
+    typealias Routes = TutorialRoute
 }
