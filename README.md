@@ -12,7 +12,15 @@ To install and use AppSeed, follow these steps:
    git clone -b develop https://github.com/devno39/AppSeed.git
    ```
 
-2. Rename to suit your project's name.
+2. Rename to suit your project's name. (will be updated)
+3. Install templates
+
+   ```bash
+   cd ...PATH.../AppSeed/Xcode\ Templates
+   ```
+   ```bash
+   swift install.swift
+   ```
 
 ### Contributing
 
@@ -20,10 +28,15 @@ We welcome contributions to AppSeed. To contribute:
 
 1. Open an issue with a clear title and detailed description.
 2. For pull requests:
-   - Name your branch using the format: `feature/issue39`.
+   - Name your branch using the format: `feature/issue39`. If there is no issue `feature/name_name` is just fine.
    - Make sure to open the pull request into the `develop` branch.
    - Reviews will be conducted before merging.
 
 ## Get in Touch
 
-<img src="https://img.icons8.com/color/48/000000/instagram-new.png"/>Instagram: @devno39
+<p align="left">
+  <a href="https://www.instagram.com/devno39">
+    <img src="https://img.icons8.com/color/48/000000/instagram-new.png" alt="https://www.instagram.com/devno39"/>
+    <strong>@devno39</strong>
+  </a>
+</p>
