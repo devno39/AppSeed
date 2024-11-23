@@ -6,21 +6,12 @@
 //
 
 enum Symbols: Symbolable {
-    case magnifyingglass
-    case xmark_circle
-    case heart
-    case heart_fill
+    case apple_logo
     
     var symbolName: String {
         switch self {
-        case .magnifyingglass:
-            return "magnifyingglass"
-        case .xmark_circle:
-            return "xmark.circle"
-        case .heart:
-            return "heart"
-        case .heart_fill:
-            return "heart.fill"
+        case .apple_logo:
+            return "apple.logo"
         }
     }
 }

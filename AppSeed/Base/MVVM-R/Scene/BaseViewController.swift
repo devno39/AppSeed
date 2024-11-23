@@ -7,17 +7,21 @@
 
 import UIKit
 
-class BaseViewController<V: BaseViewModelProtocol>: UIViewController {
+class BaseViewController<V: BaseViewModelProtocol, R: BaseRouterProtocol>: UIViewController {
     // MARK: - Properties
     private let hudView = HudView()
     
     // MARK: - Dependency
-    let viewModel: V
-    
+    var viewModel: V?
+    var router: R?
+
     // MARK: - Init
-    required init(viewModel: V) {
+    required init(viewModel: V, router: R) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
+        self.router?.viewController = self
+        bindViewModel()
     }
     
     required init?(coder: NSCoder) {
@@ -25,34 +29,43 @@ class BaseViewController<V: BaseViewModelProtocol>: UIViewController {
     }
     
     deinit {
-        // TODO: - create a custom logger
+        debugPrint("deinit controller: ", self.description)
     }
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepare()
     }
     
     // MARK: - Prapare
     func prepare() {
-        // Additional setup code can be placed here
         view.backgroundColor = ColorBackground.backgroundPrimary.color
     }
-    
+
+    // MARK: - Bind
+    func bindViewModel() {
+        viewModel?.loading = { [weak self] isLoading in
+            guard let self, let isLoading else { return }
+            DispatchQueue.main.async {
+                if isLoading ?? false {
+                    self.showHud()
+                } else {
+                    self.hideHud()
+                }
+            }
+        }
+    }
+
     // MARK: - Hud
-    func showHud() {
+    private func showHud() {
         view.addSubview(hudView)
         hudView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
     
-    func hideHud() {
+    private func hideHud() {
         hudView.removeFromSuperview()
     }
 }
-
-// MARK: - ViewModel Delegate
-extension BaseViewController: BaseViewModelDelegate { }

@@ -23,34 +23,34 @@ extension UIImageView {
                                                    .cacheOriginalImage,
                                                    .processor(DefaultImageProcessor.default)]
         
-        self.kf.setImage(with: url,
-                         placeholder: placeholder,
-                         options: options ?? cacheOptions,
-                         completionHandler: completionHandler)
+        kf.setImage(with: url,
+                    placeholder: placeholder,
+                    options: options ?? cacheOptions,
+                    completionHandler: completionHandler)
     }
     
     // MARK: - Static functions
     static func limitMemoryCacheSize(_ MB: Int) {
-        self.imageCache.memoryStorage.config.totalCostLimit = MB * 1024 * 1024
+        imageCache.memoryStorage.config.totalCostLimit = MB * 1024 * 1024
     }
     
     static func limitMemoryCacheCount(_ count: Int) {
-        self.imageCache.memoryStorage.config.totalCostLimit = count
+        imageCache.memoryStorage.config.totalCostLimit = count
     }
     
     static func setMaxCachePeriodInSeconds(_ seconds: Int) {
-        self.imageCache.memoryStorage.config.expiration = .seconds(TimeInterval(seconds))
+        imageCache.memoryStorage.config.expiration = .seconds(TimeInterval(seconds))
     }
     
     static func clearMemoryCache() {
-        self.imageCache.clearMemoryCache()
+        imageCache.clearMemoryCache()
     }
     
     static func clearDiskCache() {
-        self.imageCache.clearDiskCache()
+        imageCache.clearDiskCache()
     }
     
     static func cleanExpiredDiskCache() {
-        self.imageCache.cleanExpiredDiskCache()
+        imageCache.cleanExpiredDiskCache()
     }
 }

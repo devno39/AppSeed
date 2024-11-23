@@ -7,10 +7,6 @@
 
 import UIKit
 
-final class SplashRouter: BaseRouter {
-    override func create() -> UIViewController {
-        let viewModel = SplashViewModel(router: self)
-        let viewController = SplashViewController(viewModel: viewModel)
-        return viewController
-    }
+final class SplashRouter: BaseRouter, SplashRouter.Routes {
+    typealias Routes = TutorialRoute
 }

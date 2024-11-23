@@ -45,30 +45,6 @@ final class Configuration {
 }
 
 extension Configuration {
-    static let ApiBasePathForTests = ""
-    
-    static var apiKey: String? {
-        try? Configuration.value(for: "API_KEY")
-    }
-
-    static var apiBasePath: String {
-        guard let configValue: String = (try? Configuration.value(for: "API_BASE_PATH")) else {
-            if NSClassFromString("XCTest") != nil {
-                return ApiBasePathForTests
-            }
-            fatalError("apiBasePath path is not provided via configuration.")
-        }
-        return configValue
-    }
-
-    static var ssoBaseUrl: String {
-        guard let configValue: String = (try? Configuration.value(for: "SSO_BASE_URL")) else {
-            fatalError("ssoBaseUrl is not provided via configuration.")
-        }
-
-        return configValue
-    }
-
     static var isIpad: Bool {
         UIDevice.isIpad
     }
