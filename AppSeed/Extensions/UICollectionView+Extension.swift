@@ -8,7 +8,7 @@
 import UIKit
 
 extension UICollectionView {
-    func register<T: UICollectionViewCell>(_: T.Type) where T: ReusableView {
+    func register<T: UICollectionViewCell>(_: T.Type) where T: BaseCollectionViewCell {
         register(T.self, forCellWithReuseIdentifier: T.identifier)
     }
     
@@ -32,5 +32,12 @@ extension UICollectionView {
 
     func registerFooter<T: UICollectionReusableView>(_: T.Type) where T: ReusableView {
         register(T.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: T.identifier)
+    }
+    
+    func isValid(indexPath: IndexPath) -> Bool {
+        guard indexPath.section < numberOfSections,
+              indexPath.row < numberOfItems(inSection: indexPath.section)
+        else { return false }
+        return true
     }
 }

@@ -1,0 +1,18 @@
+/* 
+  TutorialLocalizable.strings
+  AppSeed
+
+  Created by tunay alver on 24.11.2024.
+  
+*/
+
+"tutorial_title_1" = "tutorial_title_1";
+"tutorial_title_2" = "tutorial_title_2";
+"tutorial_title_3" = "tutorial_title_3";
+
+"tutorial_subtitle_1" = "tutorial_subtitle_1";
+"tutorial_subtitle_2" = "tutorial_subtitle_2";
+"tutorial_subtitle_3" = "tutorial_subtitle_3";
+
+"actionButton_title" = "Devam Et";
+"actionButton_title_end" = "Başla";
