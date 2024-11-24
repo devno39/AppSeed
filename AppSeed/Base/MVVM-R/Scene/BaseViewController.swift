@@ -29,7 +29,7 @@ class BaseViewController<V: BaseViewModelProtocol, R: BaseRouterProtocol>: UIVie
     }
     
     deinit {
-        debugPrint("🔴 deinit vc: ", self.description)
+        debugPrint("🔴 deinit: ", self.description)
     }
     
     // MARK: - Life Cycle
@@ -40,6 +40,7 @@ class BaseViewController<V: BaseViewModelProtocol, R: BaseRouterProtocol>: UIVie
     
     // MARK: - Prapare
     func prepare() {
+        debugPrint("🟢 didload: ", self.description)
         view.backgroundColor = ColorBackground.backgroundPrimary.color
     }
 

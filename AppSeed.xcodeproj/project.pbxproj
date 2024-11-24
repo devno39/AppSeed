@@ -38,6 +38,11 @@
 		689888152AA3838500A2D55D /* ColorBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689888122AA3838500A2D55D /* ColorBackground.swift */; };
 		689888172AA3869900A2D55D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 689888162AA3869900A2D55D /* UIColor+Extension.swift */; };
 		68A284AA2C7D09CF00EF38B2 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A284A92C7D09CF00EF38B2 /* UIViewController+Extension.swift */; };
+		68B74A412CF35B240020658B /* TutorialUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B74A402CF35B240020658B /* TutorialUIModel.swift */; };
+		68B74A432CF35B5C0020658B /* TutorialImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B74A422CF35B5C0020658B /* TutorialImage.swift */; };
+		68B74A472CF35CFD0020658B /* TutorialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68B74A452CF35CFD0020658B /* TutorialLocalizable.strings */; };
+		68B74A4A2CF35D440020658B /* TutorialLocalizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B74A492CF35D440020658B /* TutorialLocalizable.swift */; };
+		68B74A4D2CF3641C0020658B /* TutorialCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B74A4C2CF3641C0020658B /* TutorialCell.swift */; };
 		68C7E9082A71A1AC008CD84F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C7E9072A71A1AC008CD84F /* AppDelegate.swift */; };
 		68C7E9112A71A1AE008CD84F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E9102A71A1AE008CD84F /* Assets.xcassets */; };
 		68C7E9142A71A1AE008CD84F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E9122A71A1AE008CD84F /* LaunchScreen.storyboard */; };
@@ -94,6 +99,12 @@
 		689888122AA3838500A2D55D /* ColorBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorBackground.swift; sourceTree = "<group>"; };
 		689888162AA3869900A2D55D /* UIColor+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		68A284A92C7D09CF00EF38B2 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		68B74A402CF35B240020658B /* TutorialUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialUIModel.swift; sourceTree = "<group>"; };
+		68B74A422CF35B5C0020658B /* TutorialImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialImage.swift; sourceTree = "<group>"; };
+		68B74A462CF35CFD0020658B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TutorialLocalizable.strings; sourceTree = "<group>"; };
+		68B74A482CF35D010020658B /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/TutorialLocalizable.strings; sourceTree = "<group>"; };
+		68B74A492CF35D440020658B /* TutorialLocalizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialLocalizable.swift; sourceTree = "<group>"; };
+		68B74A4C2CF3641C0020658B /* TutorialCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialCell.swift; sourceTree = "<group>"; };
 		68C7E9042A71A1AC008CD84F /* AppSeed-develop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AppSeed-develop.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		68C7E9072A71A1AC008CD84F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68C7E9102A71A1AE008CD84F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -175,8 +186,10 @@
 		685319DA2B461C6500633D64 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				685319D12B461B3600633D64 /* Imageable+Symbolable.swift */,
 				685319DB2B461CD300633D64 /* SFSymbols.swift */,
 				685319DD2B461D8400633D64 /* Logo.swift */,
+				68B74A422CF35B5C0020658B /* TutorialImage.swift */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -229,6 +242,7 @@
 		6898880F2AA3835200A2D55D /* Colors */ = {
 			isa = PBXGroup;
 			children = (
+				685319CF2B461B2800633D64 /* Colorable.swift */,
 				689888112AA3838500A2D55D /* Palette.swift */,
 				689888122AA3838500A2D55D /* ColorBackground.swift */,
 				689888102AA3838400A2D55D /* ColorText.swift */,
@@ -242,6 +256,40 @@
 				68C7E9372A71AE2D008CD84F /* Scene */,
 			);
 			path = "MVVM-R";
+			sourceTree = "<group>";
+		};
+		68B74A3F2CF35B180020658B /* UIModel */ = {
+			isa = PBXGroup;
+			children = (
+				68B74A402CF35B240020658B /* TutorialUIModel.swift */,
+			);
+			path = UIModel;
+			sourceTree = "<group>";
+		};
+		68B74A442CF35CE70020658B /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				68B74A452CF35CFD0020658B /* TutorialLocalizable.strings */,
+				68B74A492CF35D440020658B /* TutorialLocalizable.swift */,
+			);
+			path = Localizable;
+			sourceTree = "<group>";
+		};
+		68B74A4B2CF363CE0020658B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				68B74A4C2CF3641C0020658B /* TutorialCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		68B74A4E2CF388F80020658B /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				68D8342F2CF345AA00DA9105 /* SplashLocalizable.strings */,
+				68D834332CF345C500DA9105 /* SplashLocalizable.swift */,
+			);
+			path = Localizable;
 			sourceTree = "<group>";
 		};
 		68C7E8FB2A71A1AC008CD84F = {
@@ -267,7 +315,6 @@
 				68C7E9272A71A1D1008CD84F /* Base */,
 				68C7E9332A71A2F7008CD84F /* Scenes */,
 				68C7E9292A71A1FD008CD84F /* UIComponents */,
-				68F33C362AB48F9100384E23 /* Protocols */,
 				68C7E9472A71F188008CD84F /* Extensions */,
 				68C7E92A2A71A20B008CD84F /* Resources */,
 				689888022AA3824E00A2D55D /* Configuration */,
@@ -329,12 +376,11 @@
 		68C7E9352A71AB93008CD84F /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				68B74A4E2CF388F80020658B /* Localizable */,
 				68C7E93E2A71B346008CD84F /* SplashViewController.swift */,
 				68C7E9402A71B35A008CD84F /* SplashViewModel.swift */,
 				68C7E9422A71B361008CD84F /* SplashRouter.swift */,
 				68E3E8492CEA0069003E0464 /* SplashBuilder.swift */,
-				68D8342F2CF345AA00DA9105 /* SplashLocalizable.strings */,
-				68D834332CF345C500DA9105 /* SplashLocalizable.swift */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -353,6 +399,7 @@
 		68C7E9442A71BD1E008CD84F /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				68F33C372AB48FA000384E23 /* ReuseableView.swift */,
 				685319C32B4618D000633D64 /* CollectionView */,
 				685319CA2B46196C00633D64 /* TableView */,
 				685319C82B46195500633D64 /* Button */,
@@ -388,22 +435,15 @@
 		68E3E84D2CEA272F003E0464 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				68B74A442CF35CE70020658B /* Localizable */,
+				68B74A4B2CF363CE0020658B /* Cells */,
+				68B74A3F2CF35B180020658B /* UIModel */,
 				682E1E362CEA3D43008F3855 /* TutorialViewController.swift */,
 				682E1E352CEA3D43008F3855 /* TutorialViewModel.swift */,
 				682E1E372CEA3D43008F3855 /* TutorialRouter.swift */,
 				682E1E382CEA3D43008F3855 /* TutorialBuilder.swift */,
 			);
 			path = Tutorial;
-			sourceTree = "<group>";
-		};
-		68F33C362AB48F9100384E23 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				68F33C372AB48FA000384E23 /* ReuseableView.swift */,
-				685319CF2B461B2800633D64 /* Colorable.swift */,
-				685319D12B461B3600633D64 /* Imageable+Symbolable.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,6 +516,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				689888092AA3826800A2D55D /* Develop.xcconfig in Resources */,
+				68B74A472CF35CFD0020658B /* TutorialLocalizable.strings in Resources */,
 				6898880A2AA3826800A2D55D /* Release.xcconfig in Resources */,
 				68C7E9142A71A1AE008CD84F /* LaunchScreen.storyboard in Resources */,
 				68D8342B2CF3406D00DA9105 /* Localizable.strings in Resources */,
@@ -494,12 +535,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				68E3E8482CEA0022003E0464 /* BaseBuilder.swift in Sources */,
+				68B74A4D2CF3641C0020658B /* TutorialCell.swift in Sources */,
 				689888142AA3838500A2D55D /* Palette.swift in Sources */,
 				689888172AA3869900A2D55D /* UIColor+Extension.swift in Sources */,
 				685F077E2A84614400F5EF1F /* BaseButton.swift in Sources */,
 				6898880C2AA382D300A2D55D /* UIDevice+Extension.swift in Sources */,
 				685319DE2B461D8400633D64 /* Logo.swift in Sources */,
 				685319CE2B4619DE00633D64 /* BaseTableViewCell.swift in Sources */,
+				68B74A412CF35B240020658B /* TutorialUIModel.swift in Sources */,
 				685319CC2B4619A200633D64 /* BaseTableView.swift in Sources */,
 				68C7E9082A71A1AC008CD84F /* AppDelegate.swift in Sources */,
 				B6EF0E0A2B6AA4A80044472A /* UIImageView+Extension.swift in Sources */,
@@ -515,6 +558,7 @@
 				689888152AA3838500A2D55D /* ColorBackground.swift in Sources */,
 				685319E72B4620EE00633D64 /* BaseImageView.swift in Sources */,
 				685319C72B46192300633D64 /* BaseCollectionViewCell.swift in Sources */,
+				68B74A432CF35B5C0020658B /* TutorialImage.swift in Sources */,
 				685F07762A84347A00F5EF1F /* Typealias.swift in Sources */,
 				68D834342CF345C500DA9105 /* SplashLocalizable.swift in Sources */,
 				68F33C3A2AB48FEC00384E23 /* UICollectionView+Extension.swift in Sources */,
@@ -528,6 +572,7 @@
 				6898880E2AA3832E00A2D55D /* UIApplication+Extension.swift in Sources */,
 				685319D62B461BB800633D64 /* UIView+Extension.swift in Sources */,
 				689888132AA3838500A2D55D /* ColorText.swift in Sources */,
+				68B74A4A2CF35D440020658B /* TutorialLocalizable.swift in Sources */,
 				68F33C382AB48FA000384E23 /* ReuseableView.swift in Sources */,
 				685319D02B461B2800633D64 /* Colorable.swift in Sources */,
 				68C7E9392A71AE3B008CD84F /* BaseRouter.swift in Sources */,
@@ -543,6 +588,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		68B74A452CF35CFD0020658B /* TutorialLocalizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				68B74A462CF35CFD0020658B /* en */,
+				68B74A482CF35D010020658B /* tr */,
+			);
+			name = TutorialLocalizable.strings;
+			sourceTree = "<group>";
+		};
 		68C7E9122A71A1AE008CD84F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
