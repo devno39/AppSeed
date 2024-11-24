@@ -9,24 +9,37 @@ import Foundation
 
 // MARK: - Source
 protocol SplashViewModelDataSource {
-    var title: String? { get }
+    var title: String { get }
 }
 
-// MARK: - Delegate
-protocol SplashViewModelDelegate {
-    func didGetSomething()
+// MARK: - Closure
+protocol SplashViewModelClosureSource {
+    var requestClosure: EmptyClosure? { get }
+}
+
+// MARK: - Function
+protocol SplashViewModelFunctionSource {
+    func request()
 }
 
 // MARK: - Protocol
-protocol SplashViewModelProtocol: SplashViewModelDataSource {
-    func getSomething()
-}
+protocol SplashViewModelProtocol: BaseViewModel, SplashViewModelDataSource, SplashViewModelClosureSource, SplashViewModelFunctionSource { }
 
 // MARK: - ViewModel
-final class SplashViewModel: BaseViewModel<SplashRouter, SplashViewModelDelegate>, SplashViewModelProtocol {
-    var title: String? { "splash" }
-    
-    func getSomething() {
-        delegate?.didGetSomething()
+final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
+    // MARK: - Source
+    var title: String = "splash"
+
+    // MARK: - Closure
+    var requestClosure: EmptyClosure?
+
+    // MARK: - Function
+    func request() {
+        loading?(true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
+            guard let self else { return }
+            loading?(false)
+            requestClosure?()
+        }
     }
 }

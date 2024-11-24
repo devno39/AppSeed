@@ -1,4 +1,5 @@
 {
+  "originHash" : "1f5f6dd9705b3e62b82b951c55390a6c18bf926a1be03cbe571d26f36b937268",
   "pins" : [
     {
       "identity" : "kingfisher",
@@ -28,5 +29,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

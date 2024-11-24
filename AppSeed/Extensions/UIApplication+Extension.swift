@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIApplication {
+    static var appDelegate: AppDelegate? {
+        return shared.delegate as? AppDelegate
+    }
+
     static let appVersion: String = {
         if let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
             return appVersion
@@ -28,5 +32,28 @@ extension UIApplication {
         let releaseVersion = "v. " + appVersion
         let buildVersion = " b. " + appBuild
         return Configuration.isRelease ? releaseVersion : releaseVersion + buildVersion
+    }
+    
+    func topMostViewController() -> UIViewController? {
+        return rootWindow()?.rootViewController?.topMostViewController()
+    }
+    
+    func rootWindow() -> UIWindow? {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        return windowScene?.windows.first { $0.rootViewController is UITabBarController }
+    }
+    
+    func keyWindow() -> UIWindow? {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        return windowScene?.windows.first { $0.isKeyWindow }
+    }
+    
+    func openApplicationSettings() {
+        if let url = URL(string: UIApplication.openSettingsURLString),
+           UIApplication.shared.canOpenURL((url)) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 }

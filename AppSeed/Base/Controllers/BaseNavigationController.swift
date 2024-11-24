@@ -9,9 +9,9 @@ import UIKit
 
 class BaseNavigationController: UINavigationController {
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         prepare()
     }
     
@@ -29,11 +29,13 @@ class BaseNavigationController: UINavigationController {
         appearance.backgroundColor = ColorBackground.backgroundPrimary.color
         appearance.titleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
         appearance.largeTitleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
+        appearance.backButtonAppearance = UIBarButtonItemAppearance()
+        appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
+        appearance.shadowColor = nil
 
         UINavigationBar.appearance().tintColor = Palette.palette2.color
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
     }
-    
 }

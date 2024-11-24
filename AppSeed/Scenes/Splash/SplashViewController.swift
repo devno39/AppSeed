@@ -8,93 +8,72 @@
 import UIKit
 import SnapKit
 
-final class SplashViewController: BaseViewController<SplashViewModel> {
+final class SplashViewController: BaseViewController<SplashViewModel, SplashRouter> {
     // MARK: - UI
-    private lazy var progressView: ProgressCircleView = {
-        let view = ProgressCircleView(frame: .zero)
-        view.initialTimeString = "30"
-        view.progress = 0
-        return view
+    private lazy var splashImage: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = Logo.logo_1024.image
+        imageView.roundCorners(radius: 16)
+        return imageView
     }()
-    
-    // MARK: - Properties
-    private var count = 30000 {
-        didSet {
-            let percentage = CGFloat(count) / 30000.0
-            progressView.progress = percentage
-        }
-    }
-    private var timer: Timer?
+    private lazy var splashTitle: UILabel = {
+        let label = UILabel()
+        let text = SplashLocalizable.splash_title
+        label.text = text
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        label.textColor = ColorText.textPrimary.color
+        label.textAlignment = .center
+        return label
+    }()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewModel.delegate = self
-        print("my title is", viewModel.title ?? "")
-        viewModel.getSomething()
-        
-//        startTest()
-        showHud()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.hideHud()
-        }
+        mainRequest()
     }
     
+    // MARK: - Prepare
     override func prepare() {
         super.prepare()
-        
+        view.backgroundColor = ColorBackground.backgroundSecondary.color
         draw()
     }
-    
-    // MARK: - Private
-    private func startTest() {
-        timer?.invalidate()
-        count = 30000
-        timer = Timer.scheduledTimer(timeInterval: 0.001,
-                                     target: self,
-                                     selector: #selector(timerFired),
-                                     userInfo: nil,
-                                     repeats: true)
-    }
 
-    @objc
-    private func timerFired() {
-        count -= 1
-        print("Count: \(count)")
-        
-        progressView.timeString = String(count)
-        let progress = CGFloat(count) / 30000.0
-        progressView.progress = progress
-        
-        if count == 0 {
-            stopTest()
-            progressView.timeString = "Time's Up!"
+    // MARK: - Bind
+    override func bindViewModel() {
+        super.bindViewModel()
+        viewModel?.requestClosure = { [weak self] in
+            guard let self else { return }
+            routeTutorial()
         }
     }
-
-    private func stopTest() {
-        timer?.invalidate()
-        timer = nil
+    
+    // MARK: - Functions
+    func mainRequest() {
+        viewModel?.request()
     }
-}
 
-// MARK: - ViewModel Delegate
-extension SplashViewController: SplashViewModelDelegate {
-    func didGetSomething() {
-        print("i got that")
+    // MARK: - Route
+    private func routeTutorial() {
+        router?.showTutorial()
     }
 }
 
 // MARK: - Draw
 private extension SplashViewController {
     private func draw() {
-//        view.addSubview(progressView)
-//        progressView.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.centerY.equalToSuperview()
-//            make.height.equalTo(84*2)
-//            make.width.equalTo(84*2)
-//        }
+        view.addSubview(splashImage)
+        splashImage.snp.makeConstraints {
+            $0.width.height.equalTo(128)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        view.addSubview(splashTitle)
+        splashTitle.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(splashImage.snp.bottom).offset(8)
+        }
     }
 }
