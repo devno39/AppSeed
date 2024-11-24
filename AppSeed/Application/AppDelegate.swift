@@ -19,9 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: - Initial Scene
     private func setInitialScene() {
         let splashViewController = SplashBuilder().build()
-        let navigationController = BaseNavigationController(rootViewController: splashViewController)
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = navigationController
+        window?.rootViewController = splashViewController
         window?.makeKeyAndVisible()
     }
 }

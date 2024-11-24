@@ -29,7 +29,7 @@ class BaseViewController<V: BaseViewModelProtocol, R: BaseRouterProtocol>: UIVie
     }
     
     deinit {
-        debugPrint("deinit controller: ", self.description)
+        debugPrint("🔴 deinit vc: ", self.description)
     }
     
     // MARK: - Life Cycle
