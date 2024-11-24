@@ -29,9 +29,9 @@ class BaseNavigationController: UINavigationController {
         appearance.backgroundColor = ColorBackground.backgroundPrimary.color
         appearance.titleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
         appearance.largeTitleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
-
         appearance.backButtonAppearance = UIBarButtonItemAppearance()
         appearance.backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
+        appearance.shadowColor = nil
 
         UINavigationBar.appearance().tintColor = Palette.palette2.color
         UINavigationBar.appearance().standardAppearance = appearance

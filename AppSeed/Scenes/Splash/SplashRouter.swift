@@ -7,6 +7,4 @@
 
 import UIKit
 
-final class SplashRouter: BaseRouter, SplashRouter.Routes {
-    typealias Routes = TutorialRoute
-}
+final class SplashRouter: BaseRouter, TutorialRoute { }

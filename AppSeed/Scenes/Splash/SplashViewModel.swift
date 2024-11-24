@@ -14,7 +14,7 @@ protocol SplashViewModelDataSource {
 
 // MARK: - Closure
 protocol SplashViewModelClosureSource {
-    var requestClosure: AnyClosure<String>? { get }
+    var requestClosure: EmptyClosure? { get }
 }
 
 // MARK: - Function
@@ -31,15 +31,15 @@ final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     var title: String = "splash"
 
     // MARK: - Closure
-    var requestClosure: AnyClosure<String>?
+    var requestClosure: EmptyClosure?
 
     // MARK: - Function
     func request() {
         loading?(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
             guard let self else { return }
             loading?(false)
-            requestClosure?("END")
+            requestClosure?()
         }
     }
 }

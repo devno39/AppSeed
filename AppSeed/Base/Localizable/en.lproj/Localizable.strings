@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  AppSeed
+
+  Created by tunay alver on 24.11.2024.
+  
+*/
+
+"ok" = "Ok";
+"cancel" = "Cancel";
+"save" = "Save";
+"delete" = "Delete";
+"edit" = "Edit";
+"yes" = "Yes";
+"no" = "No";
+"retry" = "Retry";
+"close" = "Close";

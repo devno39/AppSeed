@@ -9,11 +9,11 @@ import UIKit
 
 // MARK: - Route Protocol
 protocol TutorialRoute {
-    func showTutorail()
+    func showTutorial()
 }
 
-extension TutorialRoute where Self: BaseRouterProtocol {
-    func showTutorail() {
+extension TutorialRoute where Self: BaseRouter {
+    func showTutorial() {
         let vc = TutorialBuilder().build()
         let window = UIApplication.appDelegate?.window
         window?.rootViewController = vc

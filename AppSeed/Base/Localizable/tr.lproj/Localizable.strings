@@ -1,0 +1,17 @@
+/* 
+  Localizable.strings
+  AppSeed
+
+  Created by tunay alver on 24.11.2024.
+  
+*/
+
+"ok" = "Tamam";
+"cancel" = "Vazgeç";
+"save" = "Kaydet";
+"delete" = "Sil";
+"edit" = "Düzenle";
+"yes" = "Evet";
+"no" = "Hayır";
+"retry" = "Tekrar Dene";
+"close" = "Kapat";
