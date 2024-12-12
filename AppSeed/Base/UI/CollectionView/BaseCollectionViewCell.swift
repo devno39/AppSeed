@@ -11,13 +11,11 @@ class BaseCollectionViewCell: UICollectionViewCell, ReusableView {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         prepare()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
         prepare()
     }
     

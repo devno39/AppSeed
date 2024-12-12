@@ -8,13 +8,20 @@
 import Foundation
 
 // MARK: - Source
-protocol TutorialViewModelDataSource { }
+protocol TutorialViewModelDataSource {
+    var models: [TutorialUIModel] { get }
+}
 
 // MARK: - Closure
-protocol TutorialViewModelClosureSource { }
+protocol TutorialViewModelClosureSource {
+    var completedClosure: EmptyClosure? { get set }
+}
 
 // MARK: - Function
-protocol TutorialViewModelFunctionSource { }
+protocol TutorialViewModelFunctionSource {
+    func numberOfItems() -> Int
+    func getTutorial(_ index: Int) -> TutorialUIModel
+}
 
 // MARK: - Protocol
 protocol TutorialViewModelProtocol: BaseViewModel, TutorialViewModelDataSource, TutorialViewModelClosureSource, TutorialViewModelFunctionSource { }
@@ -22,8 +29,17 @@ protocol TutorialViewModelProtocol: BaseViewModel, TutorialViewModelDataSource, 
 // MARK: - ViewModel
 final class TutorialViewModel: BaseViewModel, TutorialViewModelProtocol {
     // MARK: - Source
+    var models: [TutorialUIModel] = TutorialUIModel.getTutorialData()
 
     // MARK: - Closure
+    var completedClosure: EmptyClosure?
 
     // MARK: - Function
+    func numberOfItems() -> Int {
+        return models.count
+    }
+    
+    func getTutorial(_ index: Int) -> TutorialUIModel {
+        return models[index]
+    }
 }
