@@ -16,8 +16,11 @@ extension TutorialRoute where Self: BaseRouter {
     func showTutorial() {
         let vc = TutorialBuilder().build()
         let window = UIApplication.appDelegate?.window
-        window?.rootViewController = vc
-        window?.makeKeyAndVisible()
+        guard let window = window else { return }
+        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve) {
+            window.rootViewController = vc
+        }
+        window.makeKeyAndVisible()
     }
 }
 

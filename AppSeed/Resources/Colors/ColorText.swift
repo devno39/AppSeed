@@ -9,11 +9,14 @@ import UIKit
 
 enum ColorText: Colorable {
     case textPrimary
+    case textSecondary
     
     var hex: Int {
         switch self {
         case .textPrimary:
             return 0x000000
+        case .textSecondary:
+            return 0xEBEBEB
         }
     }
 }
