@@ -12,7 +12,16 @@ To install and use AppSeed, follow these steps:
    git clone -b develop https://github.com/devno39/AppSeed.git
    ```
 
-2. Rename to suit your project's name:
+2. Install templates:
+
+   ```bash
+   cd ...PATH.../AppSeed/Templates
+   ```
+   ```bash
+   swift install.swift
+   ```
+
+3. Rename to suit your project's name:
 
    ```bash
    cd ...PATH.../AppSeed/Renamer
@@ -21,14 +30,6 @@ To install and use AppSeed, follow these steps:
    swift Renamer.swift AppSeed NewProjectName
    ```
 
-3. Install templates:
-
-   ```bash
-   cd ...PATH.../AppSeed/Templates
-   ```
-   ```bash
-   swift install.swift
-   ```
 
 ### Contributing
 
