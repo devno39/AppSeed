@@ -30,6 +30,7 @@ To install and use AppSeed, follow these steps:
    swift Renamer.swift AppSeed NewProjectName
    ```
 
+
 ### Contributing
 
 We welcome contributions to AppSeed. To contribute:
