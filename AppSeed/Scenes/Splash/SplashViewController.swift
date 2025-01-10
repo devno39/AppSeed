@@ -14,7 +14,6 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.image = Logo.logo_1024.image
-        imageView.roundCorners(radius: 16)
         return imageView
     }()
     private lazy var splashTitle: UILabel = {
@@ -33,10 +32,15 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
         mainRequest()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        splashImage.roundCorners(radius: 64)
+    }
+    
     // MARK: - Prepare
     override func prepare() {
         super.prepare()
-        view.backgroundColor = ColorBackground.backgroundSecondary.color
+        view.backgroundColor = ColorBackground.backgroundSecondary.color.withAlphaComponent(0.5)
         draw()
     }
 

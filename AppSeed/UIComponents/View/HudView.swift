@@ -27,7 +27,6 @@ final class HudView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         draw()
         prepare()
         lottieView.play()
@@ -35,7 +34,6 @@ final class HudView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         draw()
         prepare()
         lottieView.play()

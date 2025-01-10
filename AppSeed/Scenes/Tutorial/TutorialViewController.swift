@@ -65,6 +65,7 @@ final class TutorialViewController: BaseViewController<TutorialViewModel, Tutori
         let lastPage = (viewModel?.numberOfItems() ?? 0) - 1
         if pageControl.currentPage == lastPage {
             debugPrint("LAST PAGE ACTION")
+            router?.presentScrollTest()
         } else {
             let nextIndex = min(pageControl.currentPage + 1, lastPage)
             let indexPath = IndexPath(item: nextIndex, section: 0)

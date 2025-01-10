@@ -40,12 +40,18 @@ class BaseButton: UIButton {
         prepare()
     }
     
+    // MARK: - Life Cycle
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        roundCorners(radius: 12)
+    }
+    
     // MARK: - Prepare
     private func prepare() {
         titleLabel?.font = style?.font
         setTitleColor(style?.textColor, for: .normal)
         backgroundColor = style?.backgroundColor
-        roundCorners(radius: 16)
+        
     }
 }
 

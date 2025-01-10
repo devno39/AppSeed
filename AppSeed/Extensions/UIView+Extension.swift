@@ -8,17 +8,17 @@
 import UIKit
 
 extension UIView {
-    func drawShadow(radius: CGFloat? = nil) {
+    func drawShadow(radius: CGFloat, color: UIColor = ColorBackground.shadowPrimary.color, opacity: Float = 0.3) {
         layer.masksToBounds = false
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        layer.shadowRadius = radius ?? frame.width / 2
+        layer.shadowRadius = radius
+        layer.shadowColor = color.cgColor
+        layer.shadowOpacity = opacity
         layer.shadowOffset = .zero
-        layer.shadowOpacity = 0.2
-        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
     }
     
-    func roundCorners(_ corners: UIRectCorner = [.topLeft, .topRight, .bottomLeft, .bottomRight],
-                      radius: CGFloat = 24, 
+    func roundCorners(_ corners: UIRectCorner = .allCorners,
+                      radius: CGFloat,
                       borderColor: UIColor? = nil,
                       borderWidth: CGFloat? = nil) {
         clipsToBounds = true
@@ -31,5 +31,24 @@ extension UIView {
         if let borderWidth = borderWidth {
             layer.borderWidth = borderWidth
         }
+    }
+    
+    func roundCornersWithShadow(radius: CGFloat,
+                                corners: UIRectCorner = .allCorners,
+                                color: UIColor = ColorBackground.shadowPrimary.color,
+                                opacity: Float = 0.3,
+                                borderColor: UIColor? = nil,
+                                borderWidth: CGFloat? = nil) {
+        roundCorners(corners ,radius: radius, borderColor: borderColor, borderWidth: borderWidth)
+        drawShadow(radius: radius, color: color, opacity: opacity)
+        layer.masksToBounds = false
+    }
+    
+    func roundCornersTop(radius: CGFloat) {
+        roundCorners([.topLeft, .topRight], radius: radius)
+    }
+    
+    func roundCornersBottom(radius: CGFloat) {
+        roundCorners([.bottomLeft, .bottomRight], radius: radius)
     }
 }
