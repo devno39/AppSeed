@@ -36,7 +36,7 @@ final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     // MARK: - Function
     func request() {
         loading?(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
             loading?(false)
             requestClosure?()

@@ -15,14 +15,9 @@ protocol TutorialRoute {
 extension TutorialRoute where Self: BaseRouter {
     func showTutorial() {
         let vc = TutorialBuilder().build()
-        let window = UIApplication.appDelegate?.window
-        guard let window = window else { return }
-        UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve) {
-            window.rootViewController = vc
-        }
-        window.makeKeyAndVisible()
+        SceneDelegate.setToWindow(vc)
     }
 }
 
 // MARK: - Router
-final class TutorialRouter: BaseRouter { }
+final class TutorialRouter: BaseRouter, ScrollTestRoute { }
