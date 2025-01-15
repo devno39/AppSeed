@@ -29,9 +29,18 @@ protocol SplashViewModelProtocol: BaseViewModel, SplashViewModelDataSource, Spla
 final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     // MARK: - Source
     var title: String = "splash"
+    
+    // MARK: - Service
+    private var gptService: GptServiceProtocol?
 
     // MARK: - Closure
     var requestClosure: EmptyClosure?
+    
+    // MARK: - Init
+    init(gptService: GptServiceProtocol) {
+        super.init()
+        self.gptService = gptService
+    }
 
     // MARK: - Function
     func request() {
@@ -40,6 +49,18 @@ final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
             guard let self else { return }
             loading?(false)
             requestClosure?()
+        }
+    }
+    
+    // TODO: - This is just an example request as gpt, remove before flight 🚀
+    func requestGPT() {
+        loading?(true)
+        let message = "hi dude <3"
+        let request = RequestGPT(userMessage: message)
+        gptService?.postMessage(request: request) { [weak self] response in
+            guard let self else { return }
+            print(response?.message ?? "")
+            loading?(false)
         }
     }
 }

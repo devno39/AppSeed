@@ -10,3 +10,7 @@ import Foundation
 public typealias EmptyClosure = () -> Void
 public typealias AnyClosure<T> = (T) -> Void
 public typealias OptinalAnyClosure<T> = (T?) -> Void
+
+public typealias CodableAnyClosure<T: Codable> = ((T?) -> ())
+public typealias CodableArrayClosure<T: Codable> = (([T?]?) -> ())
+public typealias ResponseErrorClosure = ((ResponseError?) -> ())
