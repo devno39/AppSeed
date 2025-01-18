@@ -54,8 +54,7 @@ final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     func requestGPT() {
         let message = "hi dude <3"
         let request = RequestGPT(userMessage: message)
-        gptService?.requestGPT(request: request) { [weak self] response in
-            guard let self else { return }
+        gptService?.requestGPT(request: request) { response in
             debugPrint(response?.message ?? "")
         }
     }
@@ -63,8 +62,7 @@ final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     func requestDALLE() {
         let prompt = "a futuristic cityscape with flying cars and neon lights"
         let request = RequestDALLE(prompt: prompt)
-        gptService?.requestDalle(request: request) { [weak self] response in
-            guard let self else { return }
+        gptService?.requestDalle(request: request) { response in
             debugPrint(response?.imageUrl ?? "")
         }
     }
