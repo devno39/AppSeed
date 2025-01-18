@@ -9,7 +9,6 @@ import UIKit
 
 class BaseViewController<V: BaseViewModelProtocol, R: BaseRouterProtocol>: UIViewController {
     // MARK: - UI
-    private let hudView = HudView()
     private lazy var scrollView: UIScrollView = {
         let view = UIScrollView()
         view.backgroundColor = ColorBackground.backgroundPrimary.color
@@ -62,28 +61,7 @@ class BaseViewController<V: BaseViewModelProtocol, R: BaseRouterProtocol>: UIVie
 
     // MARK: - Bind
     func bindViewModel() {
-        viewModel?.loading = { [weak self] isLoading in
-            guard let self, let isLoading else { return }
-            DispatchQueue.main.async {
-                if isLoading ?? false {
-                    self.showHud()
-                } else {
-                    self.hideHud()
-                }
-            }
-        }
-    }
-
-    // MARK: - Hud
-    private func showHud() {
-        view.addSubview(hudView)
-        hudView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-    
-    private func hideHud() {
-        hudView.removeFromSuperview()
+        // handle viewModel closures here
     }
 }
 

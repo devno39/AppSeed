@@ -8,11 +8,15 @@
 import Alamofire
 
 protocol GptServiceProtocol {
-    func postMessage(request: RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseGPT>)
+    func requestGPT(request: RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseGPT>)
+    func requestDalle(request: RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseDALLE>)
 }
 
 final class GptService: RequestManager, GptServiceProtocol {
-    func postMessage(request: any RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseGPT>) {
+    func requestGPT(request: any RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseGPT>) {
+        requestGPT(request, success: success)
+    }
+    func requestDalle(request: any RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseDALLE>) {
         requestGPT(request, success: success)
     }
 }

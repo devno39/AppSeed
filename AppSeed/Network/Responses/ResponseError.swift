@@ -7,7 +7,4 @@
 
 public struct ResponseError: Codable {
     let message: String?
-    let type: String?
-    let param: String?
-    let code: String?
 }

@@ -1,5 +1,5 @@
 //
-//  RequestDalle.swift
+//  RequestDALLE.swift
 //  AppSeed
 //
 //  Created by tunay alver on 11.01.2025.
@@ -7,10 +7,7 @@
 
 import Alamofire
 
-struct RequestDalle: RequestGPTProtocol {
-    // MARK: - System
-    var model: String = "image-alpha"
-
+struct RequestDALLE: RequestGPTProtocol {
     // MARK: - Properties
     var path: String { GPTModel.dalle.rawValue }
     var gptModel: GPTModel = .dalle
@@ -28,7 +25,7 @@ struct RequestDalle: RequestGPTProtocol {
         self.parameters = [
             "prompt": prompt,
             "n": 1,
-            "size": "128x128"
+            "size": "256x256"
         ]
     }
 }

@@ -11,9 +11,7 @@ import UIKit.UIViewController
 protocol BaseViewModelDataSource { }
 
 // MARK: - Closure
-protocol BaseViewModelClosureSource {
-    var loading: OptinalAnyClosure<Bool?>? { get set }
-}
+protocol BaseViewModelClosureSource { }
 
 // MARK: - Function
 protocol BaseViewModelFunctionSource { }
@@ -23,7 +21,6 @@ protocol BaseViewModelProtocol: AnyObject, BaseViewModelDataSource, BaseViewMode
 
 class BaseViewModel: BaseViewModelProtocol {
     // MARK: - Closures
-    var loading: OptinalAnyClosure<Bool?>?
 
     deinit {
         // TODO: - create a custom logger

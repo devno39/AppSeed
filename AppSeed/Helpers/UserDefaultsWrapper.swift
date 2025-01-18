@@ -45,14 +45,14 @@ struct UserDefaultCodable<T: Codable> {
 // MARK: - UserDefaults
 extension UserDefaults {
     func setObject<T: Codable>(_ object: T, forKey key: UserDefaultsKeys) {
-        if let encoded = object.encodeToData() {
-            set(encoded, forKey: key.rawValue)
-        }
+        guard let encoded = object.encodeToData() else { return }
+        set(encoded, forKey: key.rawValue)
     }
     
     func getObject<T: Codable>(forKey key: UserDefaultsKeys, type: T.Type) -> T? {
         guard let data = data(forKey: key.rawValue) else { return nil }
-        return T.decode(data)
+        let object = T.decode(data)
+        return object
     }
 }
 

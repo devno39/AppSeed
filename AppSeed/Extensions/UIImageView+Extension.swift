@@ -13,20 +13,16 @@ extension UIImageView {
     static let imageCache = ImageCache.default
 
     // MARK: - Functions
-    func setImage(with string: String, 
-                  placeholder: UIImage? = nil,
-                  options: KingfisherOptionsInfo? = nil,
-                  completionHandler: ((Result<RetrieveImageResult, KingfisherError>) -> Void)? = nil) {
-        guard let url = URL(string: string) else { return }
+    func setImage(with string: String?, placeholder: UIImage? = nil) {
+        guard let string, let url = URL(string: string) else { return }
         
-        let cacheOptions: KingfisherOptionsInfo = [.scaleFactor(UIScreen.main.scale),
-                                                   .cacheOriginalImage,
-                                                   .processor(DefaultImageProcessor.default)]
+        let cacheOptions: KingfisherOptionsInfo = [
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage,
+            .processor(DefaultImageProcessor.default)
+        ]
         
-        kf.setImage(with: url,
-                    placeholder: placeholder,
-                    options: options ?? cacheOptions,
-                    completionHandler: completionHandler)
+        kf.setImage(with: url, placeholder: placeholder)
     }
     
     // MARK: - Static functions

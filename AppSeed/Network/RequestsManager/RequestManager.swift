@@ -23,7 +23,9 @@ public class RequestManager {
         let requestAF  = AF.request(path, method: request.method, parameters: request.parameters, encoding: request.encodingType, headers: request.headers)
         
         requestAF.validate()
+        LoadingHelper.shared.showLoading()
         requestAF.responseData { (response) in
+            LoadingHelper.shared.hideLoading()
             complation(requestAF)
         }
     }
@@ -59,15 +61,15 @@ public class RequestManager {
     }
     
     // MARK: - RequestGPT
-    func requestGPT(_ request: RequestGPTProtocol, success: @escaping CodableAnyClosure<ResponseGPT>, failure: ResponseErrorClosure? = nil) {
+    func requestGPT<T: Codable>(_ request: RequestGPTProtocol, success: @escaping CodableAnyClosure<T>, failure: ResponseErrorGPTClosure? = nil) {
         createRequest(request) { [weak self] data in
             guard let self else { return }
             data.responseData { (response) in
                 switch response.result {
                 case .success:
-                    success(ResponseGPT.decode(response.value))
+                    success(T.decode(response.value))
                 case .failure:
-                    self.handleError(response: response, failure: failure)
+                    self.handleErrorGPT(response: response, failureGPT: failure)
                 }
             }
         }
@@ -75,8 +77,27 @@ public class RequestManager {
     
     //MARK: - Error Handler
     // TODO: -
-    private func handleError(response: AFDataResponse<Data>, failure: ResponseErrorClosure?) {
-        let error = ResponseError.decode(response.data)
-        print(error?.message ?? "")
+    private func handleError(response: AFDataResponse<Data>, failure: ResponseErrorClosure? = nil) {
+        guard let data = response.data else { return }
+        if let error = ResponseError.decode(data) {
+            debugPrint("🍿 Error: \(error.message ?? "Unknown error")")
+            failure?(error)
+            return
+        }
+        
+        debugPrint("🍿 Failed to decode error or no recognizable data structure")
+        failure?(ResponseError(message: "An unknown error occurred"))
+    }
+    
+    private func handleErrorGPT(response: AFDataResponse<Data>, failureGPT: ResponseErrorGPTClosure? = nil) {
+        guard let data = response.data else { return }
+        if let error = ResponseErrorGPT.decode(data) {
+            debugPrint("🍿 ErrorGPT: \(error.error?.message ?? "Unknown error")")
+            failureGPT?(error)
+            return
+        }
+        
+        debugPrint("🍿 Failed to decode error or no recognizable data structure")
+        failureGPT?(ResponseErrorGPT(error: ResponseErrorGPT.Detail(message: "An unknown error occurred")))
     }
 }
