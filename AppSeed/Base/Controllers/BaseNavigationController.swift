@@ -26,7 +26,7 @@ class BaseNavigationController: UINavigationController {
         navigationBar.isTranslucent = true
         
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = ColorBackground.backgroundPrimary.color
+        appearance.backgroundColor = ColorBackground.backgroundSecondary.color
         appearance.titleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
         appearance.largeTitleTextAttributes = [.foregroundColor: ColorText.textPrimary.color]
         appearance.backButtonAppearance = UIBarButtonItemAppearance()

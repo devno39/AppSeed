@@ -10,11 +10,16 @@ import SnapKit
 
 final class SplashViewController: BaseViewController<SplashViewModel, SplashRouter> {
     // MARK: - UI
+    private lazy var bgImage: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = BackgroundImages.bg_launch.image
+        return imageView
+    }()
     private lazy var splashImage: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         imageView.image = Logo.logo_1024.image
-        imageView.roundCorners(radius: 16)
         return imageView
     }()
     private lazy var splashTitle: UILabel = {
@@ -33,17 +38,22 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
         mainRequest()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        splashImage.roundCorners(radius: 64)
+    }
+    
     // MARK: - Prepare
     override func prepare() {
         super.prepare()
-        view.backgroundColor = ColorBackground.backgroundSecondary.color
+        view.backgroundColor = ColorBackground.backgroundSecondary.color.withAlphaComponent(0.5)
         draw()
     }
 
     // MARK: - Bind
     override func bindViewModel() {
         super.bindViewModel()
-        viewModel?.requestClosure = { [weak self] in
+        viewModel?.requestsClosure = { [weak self] in
             guard let self else { return }
             routeTutorial()
         }
@@ -51,7 +61,7 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
     
     // MARK: - Functions
     func mainRequest() {
-        viewModel?.request()
+        viewModel?.requestFake()
     }
 
     // MARK: - Route
@@ -63,6 +73,11 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
 // MARK: - Draw
 private extension SplashViewController {
     private func draw() {
+        view.addSubview(bgImage)
+        bgImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         view.addSubview(splashImage)
         splashImage.snp.makeConstraints {
             $0.width.height.equalTo(128)

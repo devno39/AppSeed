@@ -10,6 +10,8 @@ import UIKit
 enum ColorBackground: Colorable {
     case backgroundPrimary
     case backgroundSecondary
+
+    case shadowPrimary
     
     var hex: Int {
         switch self {
@@ -17,6 +19,9 @@ enum ColorBackground: Colorable {
             return 0xFFFFFF
         case .backgroundSecondary:
             return 0x333333
+
+        case .shadowPrimary:
+            return 0x000000
         }
     }
 }

@@ -8,8 +8,14 @@
 import UIKit
 
 extension UIApplication {
-    static var appDelegate: AppDelegate? {
-        return shared.delegate as? AppDelegate
+    var appDelegate: AppDelegate? {
+        return UIApplication.shared.delegate as? AppDelegate
+    }
+    
+    var sceneDelegate: SceneDelegate? {
+        connectedScenes
+            .first { $0.activationState == .foregroundActive }
+            .flatMap { $0.delegate as? SceneDelegate }
     }
 
     static let appVersion: String = {
@@ -39,15 +45,17 @@ extension UIApplication {
     }
     
     func rootWindow() -> UIWindow? {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        return windowScene?.windows.first { $0.rootViewController is UITabBarController }
+        return connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.rootViewController is UITabBarController }
     }
     
     func keyWindow() -> UIWindow? {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        return windowScene?.windows.first { $0.isKeyWindow }
+        return connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
     }
     
     func openApplicationSettings() {

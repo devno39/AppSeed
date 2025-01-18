@@ -16,6 +16,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_launch" translatesAutoresizingMaskIntoConstraints="NO" id="TT3-9F-vvU">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_1024" translatesAutoresizingMaskIntoConstraints="NO" id="shR-5E-cHr">
                                 <rect key="frame" x="132.66666666666666" y="374.66666666666669" width="127.99999999999997" height="128"/>
                                 <constraints>
@@ -29,15 +32,20 @@
                         <constraints>
                             <constraint firstItem="shR-5E-cHr" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="GeZ-no-pnN"/>
                             <constraint firstItem="shR-5E-cHr" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="QS2-G3-yCF"/>
+                            <constraint firstAttribute="trailing" secondItem="TT3-9F-vvU" secondAttribute="trailing" id="ReY-75-C0u"/>
+                            <constraint firstItem="TT3-9F-vvU" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="aWF-fw-aal"/>
+                            <constraint firstAttribute="bottom" secondItem="TT3-9F-vvU" secondAttribute="bottom" id="oDw-Um-92L"/>
+                            <constraint firstItem="TT3-9F-vvU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="xPR-DK-fxr"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
         </scene>
     </scenes>
     <resources>
+        <image name="bg_launch" width="414" height="842"/>
         <image name="logo_1024" width="1024" height="1024"/>
     </resources>
 </document>

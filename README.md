@@ -21,7 +21,7 @@ To install and use AppSeed, follow these steps:
    swift install.swift
    ```
 
-3. Rename to suit your project's name:
+2. Rename to suit your project's name:
 
    ```bash
    cd ...PATH.../AppSeed/Renamer
