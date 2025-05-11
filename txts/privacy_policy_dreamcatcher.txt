@@ -1,24 +1,17 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2820
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-{\*\expandedcolortbl;;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+Privacy Policy for Dreamcatcher
+Gizlilik Politikası - Dreamcatcher
 
-\f0\fs24 \cf0 Privacy Policy for Dreamcatcher\
-Gizlilik Politikas\uc0\u305  - Dreamcatcher\
-\
-Effective Date: May 11, 2025\
-Y\'fcr\'fcrl\'fck Tarihi: 11 May\uc0\u305 s 2025\
-\
-Dreamcatcher ("we", "us", or "our") respects your privacy.\
-Dreamcatcher ("biz") gizlili\uc0\u287 inize sayg\u305  duyar.\
-\
-- We do not collect personal information unless explicitly provided.\
-- Ki\uc0\u351 isel bilgilerinizi a\'e7\u305 k\'e7a vermedi\u287 iniz s\'fcrece toplam\u305 yoruz.\
-\
-- We may collect anonymized usage data for improving user experience.\
-- Kullan\uc0\u305 c\u305  deneyimini geli\u351 tirmek i\'e7in anonim kullan\u305 m verileri toplayabiliriz.\
-\
-By using Dreamcatcher, you agree to this Privacy Policy.\
-Dreamcatcher uygulamas\uc0\u305 n\u305  kullanarak bu gizlilik politikas\u305 n\u305  kabul etmi\u351  olursunuz.}
+Effective Date: May 11, 2025
+Yürürlük Tarihi: 11 Mayıs 2025
+
+Dreamcatcher ("we", "us", or "our") respects your privacy.
+Dreamcatcher ("biz") gizliliğinize saygı duyar.
+
+- We do not collect personal information unless explicitly provided.
+- Kişisel bilgilerinizi açıkça vermediğiniz sürece toplamıyoruz.
+
+- We may collect anonymized usage data for improving user experience.
+- Kullanıcı deneyimini geliştirmek için anonim kullanım verileri toplayabiliriz.
+
+By using Dreamcatcher, you agree to this Privacy Policy.
+Dreamcatcher uygulamasını kullanarak bu gizlilik politikasını kabul etmiş oluyorsunuz.
