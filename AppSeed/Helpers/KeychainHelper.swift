@@ -16,26 +16,32 @@ final class KeychainHelper {
     private init() {}
 
     // MARK: - Save
-    func save(key: String, value: String) -> Bool {
-        guard let data = value.data(using: .utf8) else { return false }
+    func save(key: KeychainKeys, value: String) {
+        guard let data = value.data(using: .utf8) else { return }
 
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
+            kSecAttrAccount as String: key.rawValue,
             kSecValueData as String: data
         ]
 
         SecItemDelete(query as CFDictionary)
 
+        SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
-        return status == errSecSuccess
+        
+        if status != errSecSuccess {
+            log(.error, .keychain, "save failed for key: \(key.rawValue), status: \(status)")
+        } else {
+            log(.success, .keychain, "saved: \(key.rawValue)")
+        }
     }
 
     // MARK: - Read
-    func read(key: String) -> String? {
+    func read(key: KeychainKeys) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key,
+            kSecAttrAccount as String: key.rawValue,
             kSecReturnData as String: true,
             kSecMatchLimit as String: kSecMatchLimitOne
         ]
@@ -56,5 +62,13 @@ final class KeychainHelper {
 
         let status = SecItemDelete(query as CFDictionary)
         return status == errSecSuccess
+    }
+}
+
+// MARK: - Keys
+extension KeychainHelper {
+    enum KeychainKeys: String {
+        case gptKey
+        case replicateKey
     }
 }

@@ -6,22 +6,21 @@
 //
 
 import Foundation
-import JsonFellow
 
 // MARK: - Wrapper
 @propertyWrapper
 struct UserDefault<T> {
-    let key: String
+    let key: UserDefaultsKeys
     let defaultValue: T
     
-    init(_ key: String, defaultValue: T) {
+    init(_ key: UserDefaultsKeys, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
     }
     
     var wrappedValue: T {
-        get { UserDefaults.standard.object(forKey: key) as? T ?? defaultValue }
-        set { UserDefaults.standard.set(newValue, forKey: key) }
+        get { UserDefaults.standard.object(forKey: key.rawValue) as? T ?? defaultValue }
+        set { UserDefaults.standard.set(newValue, forKey: key.rawValue) }
     }
 }
 
@@ -54,9 +53,19 @@ extension UserDefaults {
         let object = T.decode(data)
         return object
     }
+    
+    func forceSave() {
+        synchronize()
+    }
 }
 
 // MARK: - Keys
 enum UserDefaultsKeys: String {
-    case key
+    // language
+    case selectedLanguage
+    // tutorials
+    case tutorials_seen
+    // gpt_model
+    case gpt_model_free
+    case gpt_model_premium
 }
