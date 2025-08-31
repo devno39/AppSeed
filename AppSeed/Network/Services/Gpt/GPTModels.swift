@@ -8,6 +8,7 @@
 public enum GPTModel: String {
     case chat = "/chat/completions"
     case dalle = "/images/generations"
+    case flux_schnell = "/models/black-forest-labs/flux-schnell/predictions"
 }
 
 public enum RequestGPTSystemMessage: String {

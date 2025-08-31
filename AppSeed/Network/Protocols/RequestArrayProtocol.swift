@@ -12,7 +12,7 @@ protocol RequestArrayProtocol: RequestProtocol {
 }
 
 extension RequestArrayProtocol {
-    func request(success: @escaping CodableArrayClosure<ResultObject>, failure: ResponseErrorClosure? = nil) {
-        RequestManager.shared.request(self, success: success, failure: failure)
+    func request(success: @escaping CodableArrayClosure<[ResultObject]>, failure: ResponseErrorClosure? = nil) {
+        RequestManager.request(self, success: success, failure: failure)
     }
 }

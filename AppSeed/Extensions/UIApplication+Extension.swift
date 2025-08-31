@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import StoreKit
 
 extension UIApplication {
     var appDelegate: AppDelegate? {
@@ -41,14 +42,7 @@ extension UIApplication {
     }
     
     func topMostViewController() -> UIViewController? {
-        return rootWindow()?.rootViewController?.topMostViewController()
-    }
-    
-    func rootWindow() -> UIWindow? {
-        return connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first { $0.rootViewController is UITabBarController }
+        return keyWindow()?.rootViewController?.topMostViewController()
     }
     
     func keyWindow() -> UIWindow? {
@@ -63,5 +57,19 @@ extension UIApplication {
            UIApplication.shared.canOpenURL((url)) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
+    }
+    
+    // MARK: - Review
+    func requestReview() {
+        guard let windowScene = UIApplication.shared.keyWindow()?.windowScene else { return }
+        SKStoreReviewController.requestReview(in: windowScene)
+    }
+    
+    // MARK: - AppStore
+    func openAppStore() {
+        let appId = "6744341755"
+        let urlString = "https://apps.apple.com/app/id\(appId)"
+        guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

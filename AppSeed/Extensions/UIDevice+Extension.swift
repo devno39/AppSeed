@@ -223,6 +223,7 @@ extension UIDevice {
             }
             #endif
         }
+        // swiftlint:enable:this cyclomatic_complexity
         
         return mapToDevice(identifier: identifier)
     }()
