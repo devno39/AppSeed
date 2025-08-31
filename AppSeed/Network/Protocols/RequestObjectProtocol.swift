@@ -13,6 +13,6 @@ protocol RequestObjectProtocol: RequestProtocol {
 
 extension RequestObjectProtocol {
     func request(success: @escaping CodableAnyClosure<ResultObject>, failure: ResponseErrorClosure? = nil) {
-        RequestManager().request(self, success: success, failure: failure)
+        RequestManager.request(self, success: success, failure: failure)
     }
 }

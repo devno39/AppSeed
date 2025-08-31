@@ -9,95 +9,122 @@ import Foundation
 import Alamofire
 import JsonFellow
 
-public class RequestManager {
-    // TODO: - dont keep it here, keep it safe 🔒
-    static let apiKey = ""
-    
-    // MARK: - Singleton
-    static let shared = RequestManager()
-    
+public final class RequestManager {
     //MARK: - Create
-    private func createRequest(_ request: RequestProtocol, complation: @escaping (DataRequest)-> ()) {
-        let baseUrl = request is RequestGPTProtocol ? BaseUrl.gpt : BaseUrl.api
-        let path = baseUrl.rawValue + request.path
-        let requestAF  = AF.request(path, method: request.method, parameters: request.parameters, encoding: request.encodingType, headers: request.headers)
+    private static func createRequest(_ request: RequestProtocol, completion: @escaping (AFDataResponse<Data>) -> Void) {
+        let path = request.baseUrl + request.path
+        let af = AF.request(
+            path,
+            method: request.method,
+            parameters: request.parameters,
+            encoding: request.encodingType,
+            headers: request.headers
+        )
         
-        requestAF.validate()
-        LoadingHelper.shared.showLoading()
-        requestAF.responseData { (response) in
-            LoadingHelper.shared.hideLoading()
-            complation(requestAF)
+        if request.showLoading { LoadingHelper.shared.showLoading() }
+        
+        af.validate().responseData { response in
+            if request.showLoading { LoadingHelper.shared.hideLoading() }
+            completion(response)
         }
     }
     
     //MARK: - Request Object
-    func request<T: Codable>(_ request: RequestProtocol, success: @escaping CodableAnyClosure<T>, failure: ResponseErrorClosure? = nil) {
-        createRequest(request) { [weak self] data in
-            guard let self else { return }
-            data.responseData { (response) in
-                switch response.result {
-                case .success:
-                    success(T.decode(response.value))
-                case .failure:
-                    self.handleError(response: response, failure: failure)
+    static func request<T: Codable>(_ request: RequestProtocol, success: @escaping CodableAnyClosure<T>, failure: ResponseErrorClosure? = nil, failureGPT: ResponseErrorGPTClosure? = nil) {
+        createRequest(request) { response in
+            switch response.result {
+            case .success:
+                success(T.decode(response.value))
+            case .failure:
+                if request is RequestGPTProtocol {
+                    self.handleError(.gpt, response: response, failureGPT: failureGPT)
+                } else {
+                    self.handleError(.api, response: response, failure: failure)
                 }
             }
         }
     }
     
-    //MARK: - Request Array (may remove cuz request any can cover this case too)
-    func request<T: Codable>(_ request: RequestProtocol, success: @escaping CodableArrayClosure<T>, failure: ResponseErrorClosure? = nil) {
-        createRequest(request) { [weak self] data in
-            guard let self else { return }
-            data.responseData { (response) in
-                switch response.result {
-                case .success:
-                    success([T].decode(response.value))
-                case .failure:
-                    self.handleError(response: response, failure: failure)
-                }
+    // MARK: - Download Image
+    func downloadImage(from urlString: String, completion: @escaping (String?) -> Void) {
+        guard let url = URL(string: urlString),
+              let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        else {
+            completion(nil)
+            return
+        }
+        
+        let fileURL = documentsURL.appendingPathComponent(UUID().uuidString + ".jpg")
+        AF.download(url).responseData { response in
+            guard let data = response.value else {
+                LoadingHelper.shared.hideLoading()
+                completion(nil)
+                return
+            }
+            
+            do {
+                try data.write(to: fileURL)
+                completion(fileURL.lastPathComponent)
+            } catch {
+                completion(nil)
             }
         }
     }
     
-    // MARK: - RequestGPT
-    func requestGPT<T: Codable>(_ request: RequestGPTProtocol, success: @escaping CodableAnyClosure<T>, failure: ResponseErrorGPTClosure? = nil) {
-        createRequest(request) { [weak self] data in
-            guard let self else { return }
-            data.responseData { (response) in
-                switch response.result {
-                case .success:
-                    success(T.decode(response.value))
-                case .failure:
-                    self.handleErrorGPT(response: response, failureGPT: failure)
-                }
+    // MARK: - Delete Image
+    func deleteImage(named imageName: String) {
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
+            return
+        }
+        
+        let fileURL = documentsURL.appendingPathComponent(imageName)
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                try FileManager.default.removeItem(at: fileURL)
+                log(.success, .network, "Image deleted: \(imageName)")
+            } catch {
+                log(.info, .network, "Failed to delete image: \(error.localizedDescription)")
             }
         }
     }
+}
+
+//MARK: - Error
+extension RequestManager {
+    enum ErrorType {
+        case api, gpt
+    }
     
-    //MARK: - Error Handler
-    // TODO: -
-    private func handleError(response: AFDataResponse<Data>, failure: ResponseErrorClosure? = nil) {
+    private static func handleError(_ type: ErrorType, response: AFDataResponse<Data>, failure: ResponseErrorClosure? = nil, failureGPT: ResponseErrorGPTClosure? = nil) {
+        switch type {
+        case .api:
+            handleErrorRequest(response: response, failure: failure)
+        case .gpt:
+            handleErrorGPT(response: response, failureGPT: failureGPT)
+        }
+    }
+    
+    private static func handleErrorRequest(response: AFDataResponse<Data>, failure: ResponseErrorClosure? = nil) {
         guard let data = response.data else { return }
         if let error = ResponseError.decode(data) {
-            debugPrint("🍿 Error: \(error.message ?? "Unknown error")")
+            log(.error, .network, "Error: \(error.message ?? "Unknown error")")
             failure?(error)
             return
         }
         
-        debugPrint("🍿 Failed to decode error or no recognizable data structure")
+        log(.error, .network, "Failed to decode error or no recognizable data structure")
         failure?(ResponseError(message: "An unknown error occurred"))
     }
     
-    private func handleErrorGPT(response: AFDataResponse<Data>, failureGPT: ResponseErrorGPTClosure? = nil) {
+    private static func handleErrorGPT(response: AFDataResponse<Data>, failureGPT: ResponseErrorGPTClosure? = nil) {
         guard let data = response.data else { return }
         if let error = ResponseErrorGPT.decode(data) {
-            debugPrint("🍿 ErrorGPT: \(error.error?.message ?? "Unknown error")")
+            log(.error, .network, "ErrorGPT: \(error.error?.message ?? "Unknown error")")
             failureGPT?(error)
             return
         }
         
-        debugPrint("🍿 Failed to decode error or no recognizable data structure")
+        log(.error, .network, "Failed to decode error or no recognizable data structure")
         failureGPT?(ResponseErrorGPT(error: ResponseErrorGPT.Detail(message: "An unknown error occurred")))
     }
 }

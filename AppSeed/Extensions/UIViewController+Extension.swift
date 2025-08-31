@@ -20,4 +20,14 @@ public extension UIViewController {
         }
         return self
     }
+    
+    func totalTopBarHeight() -> CGFloat {
+        let statusBarHeight = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .first?.statusBarManager?.statusBarFrame.height ?? 0
+        
+        let navBarHeight = self.navigationController?.navigationBar.frame.height ?? 44
+        
+        return statusBarHeight + navBarHeight
+    }
 }

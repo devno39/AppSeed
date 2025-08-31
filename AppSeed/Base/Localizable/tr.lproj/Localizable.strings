@@ -15,3 +15,21 @@
 "no" = "Hayır";
 "retry" = "Tekrar Dene";
 "close" = "Kapat";
+
+// MARK: - Replicate
+"replicate_prompt_general" = "Create an artistic and visually rich image based on the following keywords:\n\n%@";
+
+// MARK: - Dalle
+"dalle_prompt_general" = "Create an artistic and visually rich image based on the following keywords:\n\n%@";
+
+// MARK: - GPT
+"gpt_prompt_language" = "Lütfen yorumunu %@ dilinde yap.";
+"gpt_prompt_finalReminder" = "Analizini tam ve anlamlı bir şekilde bitir. Lütfen eksik, yarım kalmış cümle bırakma.";
+"gpt_prompt_jsonFormat" = "Yalnızca aşağıdaki formatta saf JSON olarak yanıt ver. Açıklama, giriş veya JSON dışında herhangi bir metin ekleme:
+  
+  {
+    \"message\": String,
+    \"mainElements\": [String]
+  }
+
+";

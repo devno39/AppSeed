@@ -12,10 +12,12 @@ struct ResponseGPT: Codable {
     let model: String?
     let choices: [ChoiceGPT]?
     let usage: UsageGPT?
-    
-    var message: String? {
-        guard let content = choices?.first?.message?.content else { return nil }
-        return content
+
+    var message: String? { content?.message }
+    var mainElements: [String]? { content?.mainElements }
+    var content: Content? {
+        let cleaned = JsonClener.clean(choices?.first?.message?.content)
+        return Content.decode(cleaned)
     }
 }
 
@@ -28,6 +30,11 @@ struct ChoiceGPT: Codable {
 struct MessageGPT: Codable {
     let role: String?
     let content: String?
+}
+
+struct Content: Codable {
+    let message: String?
+    let mainElements: [String]?
 }
 
 struct UsageGPT: Codable {

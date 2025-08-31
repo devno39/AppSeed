@@ -53,7 +53,8 @@ final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     
     func requestGPT() {
         let message = "hi dude <3"
-        let request = RequestGPT(userMessage: message)
+        let role = "you are an iOS Developer"
+        let request = RequestGPT(message: message, role: role)
         gptService?.requestGPT(request: request) { response in
             debugPrint(response?.message ?? "")
         }

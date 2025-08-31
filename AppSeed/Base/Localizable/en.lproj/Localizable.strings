@@ -15,3 +15,21 @@
 "no" = "No";
 "retry" = "Retry";
 "close" = "Close";
+
+// MARK: - Replicate
+"replicate_prompt_general" = "Create an artistic and visually rich image based on the following keywords:\n\n%@";
+
+// MARK: - Dalle
+"dalle_prompt_general" = "Create an artistic and visually rich image based on the following keywords:\n\n%@";
+
+// MARK: - GPT
+"gpt_prompt_language" = "Please provide your interpretation in %@.";
+"gpt_prompt_finalReminder" = "Make sure your analysis ends with a clear and meaningful conclusion. Avoid leaving sentences incomplete or hanging.";
+"gpt_prompt_jsonFormat" = "Only respond in **pure JSON**. Do not include any explanations, introductions, or text outside the JSON object. Use this exact format:
+  
+  {
+    \"message\": String,
+    \"mainElements\": [String]
+  }
+
+";
