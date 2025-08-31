@@ -20,7 +20,7 @@ final class Renamer: NSObject {
     func run() {
         var currentPath = fileManager.currentDirectoryPath
         let scriptPath: URL = URL(fileURLWithPath: currentPath)
-        var folderPath: URL = scriptPath.deletingLastPathComponent() // Go one level up
+        let folderPath: URL = scriptPath.deletingLastPathComponent()
         
         print("Script is running in directory: \(folderPath.path)")
         
