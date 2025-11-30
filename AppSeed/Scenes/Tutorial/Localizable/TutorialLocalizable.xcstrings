@@ -44,13 +44,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "subtitle 1"
+            "value" : "Kick off new iOS projects in seconds with the AppSeed template."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "subtitle 1"
+            "value" : "AppSeed şablonu ile yeni iOS projelerine saniyeler içinde başla."
           }
         }
       }
@@ -62,13 +62,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "subtitle 2"
+            "value" : "Keep your code clean and scalable with Scenes, Network, and Helpers modules."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "subtitle 2"
+            "value" : "Scenes, Network, Helpers gibi paketlerle kodunu temiz ve ölçeklenebilir tut."
           }
         }
       }
@@ -80,13 +80,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "subtitle 3"
+            "value" : "Speed up development with ready components, theme management, and built-in utilities."
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "subtitle 3"
+            "value" : "Hazır bileşenler, tema yönetimi ve altyapı araçlarıyla geliştirme hızını katla."
           }
         }
       }
@@ -98,13 +98,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "title 1"
+            "value" : "Start Fast"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "title 1"
+            "value" : "Hızlı Başlangıç"
           }
         }
       }
@@ -116,13 +116,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "title 2"
+            "value" : "Modular Architecture"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "title 2"
+            "value" : "Modüler Yapı"
           }
         }
       }
@@ -134,13 +134,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "title 3"
+            "value" : "Boost Productivity"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "title 3"
+            "value" : "Üretkenliği Artır"
           }
         }
       }
