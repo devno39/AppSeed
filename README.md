@@ -1,6 +1,6 @@
 # ![Swift](https://github.com/devno39/AppSeed/blob/develop/AppSeed/Resources/Assets.xcassets/Logo/logo_40.imageset/1x%2040pt%201.png?raw=true) AppSeed
 
-<img align="left" src="https://raw.githubusercontent.com/devno39/AppSeed/develop/AppSeed/Resources/Assets/Readme/mock.png" width="260" alt="AppSeed Mock Screen" />
+<img align="left" src="https://raw.githubusercontent.com/devno39/AppSeed/main/AppSeed/Resources/Assets.xcassets/readme/mock.imageset/mock.pdf" width="260" />
 
 This is a seed application designed for kickstarting new projects for Swift. Pull this repository and customize the necessary components to serve as a base for new applications. It includes various extensions, base classes, helpers, and packages curated for use in our projects.
 
