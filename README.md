@@ -1,6 +1,13 @@
 # ![Swift](https://github.com/devno39/AppSeed/blob/develop/AppSeed/Resources/Assets.xcassets/Logo/logo_40.imageset/1x%2040pt%201.png?raw=true) AppSeed
+<p align="left">
+  <img src="https://img.shields.io/badge/platform-iOS-lightgrey.svg" />
+  <img src="https://img.shields.io/badge/swift-5.9-orange.svg" />
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" />
+  <img src="https://img.shields.io/badge/SPM-compatible-blue.svg" />
+  <img src="https://img.shields.io/github/stars/devno39/AppSeed?style=social" />
+</p>
 
-<img align="left" src="https://raw.githubusercontent.com/devno39/AppSeed/main/AppSeed/Resources/Assets.xcassets/readme/mock.imageset/mock.png" width="330" alt="AppSeed Mock Screen" />
+<img align="left" src="https://raw.githubusercontent.com/devno39/AppSeed/main/AppSeed/Resources/Assets.xcassets/readme/mock.imageset/mock.png" width="320" alt="AppSeed Mock Screen" />
 
 This is a seed application designed for kickstarting new projects for Swift. Pull this repository and customize the necessary components to serve as a base for new applications. It includes various extensions, base classes, helpers, and packages curated for use in our projects.
 
@@ -32,6 +39,33 @@ To install and use AppSeed, follow these steps:
    ```bash
    swift Renamer.swift AppSeed NewProjectName
    ```
+<br>
+
+
+### Overview
+
+AppSeed provides:
+- A clean MVVM-R oriented structure  
+- Modular Scenes (Splash, Tutorial, and more)  
+- A ready “Renamer” tool for cloning and renaming a new project  
+- An installer script for Xcode templates  
+- Helpers, Extensions, and UI components  
+- Assets, colors, animation structure, example screens, and more  
+
+
+### Features
+
+- ⚡ **Fast Project Initialization** 
+- 🔩 **Modular Scene Architecture**
+- 🎨 **Theme & Color System**
+- 🧱 **Base Classes**
+- 💡 **Reusable UI Components**  
+- 📦 **Helpers & Extensions**  
+- 🗂 **Organized Folder Structure**  
+- 📱 **Built-in Example Screens**
+
+
+
 
 
 ### Contributing
