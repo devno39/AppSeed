@@ -12,7 +12,5 @@ enum SplashLocalizable {
         NSLocalizedString(key, tableName: "SplashLocalizable", bundle: .main, value: "", comment: "")
     }
     
-    static var splash_title: String {
-        localized("splash_title")
-    }
+    static var splash_title: String { localized("splash_title") }
 }

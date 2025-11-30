@@ -60,6 +60,8 @@ final class RemoteConfigCacher {
             .gptKey,
             .gpt_model_free,
             .gpt_model_premium,
+            .replicateKey,
+            .falaiKey,
             .minimum_supported_version
         ]
         
