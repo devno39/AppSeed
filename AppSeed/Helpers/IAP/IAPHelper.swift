@@ -20,9 +20,9 @@ final class IAPHelper: NSObject {
     private override init() {}
 
     func configure() {
+        Purchases.configure(with: .init(withAPIKey: apiKey))
         Purchases.shared.delegate = self
         Purchases.logLevel = .debug
-        Purchases.configure(with: .init(withAPIKey: apiKey))
     }
     
     func getOfferings(completion: @escaping AnyClosure<Offerings?>) {
