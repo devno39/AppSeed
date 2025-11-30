@@ -56,6 +56,8 @@ extension RemoteConfigHelper {
         case gpt_model_premium
         // replicate
         case replicateKey
+        //falai
+        case falaiKey
         // version
         case minimum_supported_version
     }
@@ -67,7 +69,7 @@ extension RemoteConfigHelper.RemoteConfigKeys {
         switch self {
         case .bool_default:
             return Bool.self
-        case .gptKey, .gpt_model_free, .gpt_model_premium, .minimum_supported_version:
+        case .gptKey, .replicateKey, .falaiKey, .gpt_model_free, .gpt_model_premium, .minimum_supported_version:
             return String.self
         default:
             return Int.self

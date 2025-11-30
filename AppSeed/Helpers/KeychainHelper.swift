@@ -70,5 +70,6 @@ extension KeychainHelper {
     enum KeychainKeys: String {
         case gptKey
         case replicateKey
+        case falaiKey
     }
 }
