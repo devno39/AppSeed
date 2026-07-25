@@ -77,7 +77,7 @@ private extension RequestGPT {
     }
     
     func resolveModel(for plan: UserPlan) -> String {
-        let key: RemoteConfigHelper.RemoteConfigKeys = (plan == .free) ? .gpt_model_free : .gpt_model_premium
+        let key: RemoteConfigKeys = (plan == .free) ? .gpt_model_free : .gpt_model_premium
         return RemoteConfigCacher.shared.getCached(key: key, as: String.self) ?? "gpt-4o"
     }
     
