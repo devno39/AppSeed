@@ -20,12 +20,11 @@
 - [x] IQKeyboardManager söküldü (SPM + AppDelegate).
 - [x] Supabase SPM (umbrella `Supabase`, 2.53.0) + xcconfig/Info.plist placeholder'ları.
 
-**İçerik (sıradaki blok):**
-- [ ] `Imageable`/`Symbolable`/`Colorable` + `SymbolSize` mekanizması + `Symbols` enum'u (starter case seti) — CoupleOS `Resources/Images|Colors` düzeniyle.
-- [ ] Palette sistemi: `PaletteManager` (premium bağı sökülmüş) + `Palette`/`ColorBackground`/`ColorText`/`ColorAction` + Colors.xcassets semantik yapı (seed değerleriyle); AppSeed'in eski Palette/Colorable dosyaları değiştirilir.
-- [ ] `Typealias` merge (Tuple closure'lar gelir, ResponseError* GPT alias'ları korunur).
-- [ ] `PrivacyInfo.xcprivacy` (CoupleOS'unki evrensele yakın — olduğu gibi).
-- [ ] AppSeed `CLAUDE.md` taslağı (CoupleOS kontratının de-domain hali; golden file: Faz 3 sonunda Profile).
+**İçerik (TAMAM — commit'ler `b89199f..653987e`):**
+- [x] `Imageable`/`Symbolable` + `Symbols` mekanizması (8 case'lik starter set — Base/Form grep kuralıyla kırpıldı).
+- [x] Palette sistemi (WidgetKit/L10n bağları söküldü; sıfır call-site kırığı) + Colors.xcassets semantik yapı.
+- [x] `Typealias` union + `PrivacyInfo.xcprivacy` (Resources phase'e kayıtlı).
+- [x] `CLAUDE.md` taslağı (golden file: Splash→Profile geçişli).
 
 ## Faz 1 — Library yüzeyi
 - [ ] Extensions: CoupleOS-ileride 8 merge + yeni `CGFloat`/`TimeInterval`/`UIImage`/`UIViewAnimation`; `UIImageView+Extension` iyileştirilerek (Kingfisher kalır, SupabaseStorage bağı parametrize).
