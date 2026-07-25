@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IAPHelper.shared.configure()
         firebase()
         supabase()
+        WidgetSyncService.register([
+            DemoWidgetSyncHandler.self
+        ])
         return true
     }
 

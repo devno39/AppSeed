@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import WidgetKit
 
 extension Notification.Name {
     static let languageDidChange = Notification.Name("languageDidChange")
@@ -53,5 +54,6 @@ final class LanguageManager {
         }
 
         NotificationCenter.default.post(name: .languageDidChange, object: nil)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }

@@ -70,5 +70,7 @@ extension KeychainHelper {
         case gptKey
         case replicateKey
         case falaiKey
+        // Stable per-session nonce stamped into widget snapshots (survives app restarts).
+        case widgetSessionNonce
     }
 }

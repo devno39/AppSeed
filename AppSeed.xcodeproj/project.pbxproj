@@ -44,6 +44,8 @@
 		B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B6EF0E072B6AA48F0044472A /* Kingfisher */; };
 		AA00000000000000000C0003 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000C0002 /* Supabase */; };
 		AA00000000000000000F001B /* AppSeedWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000F0011 /* AppSeedWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA00000000000000000F0022 /* AppGroupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000F0020 /* AppGroupStorage.swift */; };
+		AA00000000000000000F0023 /* DemoWidgetMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000F0021 /* DemoWidgetMetadata.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +100,8 @@
 		AA00000000000000000E0001 /* AppSeedDevelop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSeedDevelop.entitlements; sourceTree = "<group>"; };
 		AA00000000000000000E0002 /* AppSeedRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSeedRelease.entitlements; sourceTree = "<group>"; };
 		AA00000000000000000F0011 /* AppSeedWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AppSeedWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA00000000000000000F0020 /* AppGroupStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppGroupStorage.swift; path = AppSeed/Helpers/AppGroup/AppGroupStorage.swift; sourceTree = SOURCE_ROOT; };
+		AA00000000000000000F0021 /* DemoWidgetMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DemoWidgetMetadata.swift; path = AppSeed/Helpers/AppGroup/DemoWidgetMetadata.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -208,8 +212,18 @@
 			children = (
 				68C7E9062A71A1AC008CD84F /* AppSeed */,
 				AA00000000000000000F0018 /* AppSeedWidgets */,
+				AA00000000000000000F0024 /* Shared (Widget) */,
 				68C7E9052A71A1AC008CD84F /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		AA00000000000000000F0024 /* Shared (Widget) */ = {
+			isa = PBXGroup;
+			children = (
+				AA00000000000000000F0020 /* AppGroupStorage.swift */,
+				AA00000000000000000F0021 /* DemoWidgetMetadata.swift */,
+			);
+			name = "Shared (Widget)";
 			sourceTree = "<group>";
 		};
 		68C7E9052A71A1AC008CD84F /* Products */ = {
@@ -427,6 +441,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA00000000000000000F0022 /* AppGroupStorage.swift in Sources */,
+				AA00000000000000000F0023 /* DemoWidgetMetadata.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
