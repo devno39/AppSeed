@@ -73,6 +73,24 @@
         }
       }
     },
+    "done" : {
+      "comment" : "",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitti"
+          }
+        }
+      }
+    },
     "edit" : {
       "comment" : "",
       "extractionState" : "manual",

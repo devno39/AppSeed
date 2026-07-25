@@ -34,6 +34,17 @@ extension UIImageView {
         kf.cancelDownloadTask()
     }
 
+    // MARK: - Retrieve
+    // Plain Kingfisher fetch — the Supabase-signed-URL resolving variant lands with the Phase 2 core.
+    static func retrieveImage(with url: URL, completion: @escaping (UIImage?) -> Void) {
+        KingfisherManager.shared.retrieveImage(with: url) { result in
+            switch result {
+            case .success(let value): completion(value.image)
+            case .failure: completion(nil)
+            }
+        }
+    }
+
     // MARK: - Cache configuration
     static func limitMemoryCacheSize(_ MB: Int) {
         imageCache.memoryStorage.config.totalCostLimit = MB * 1024 * 1024

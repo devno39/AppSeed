@@ -16,6 +16,7 @@ enum Localizable {
     static var cancel: String { localized("cancel") }
     static var save: String { localized("save") }
     static var delete: String { localized("delete") }
+    static var done: String { localized("done") }
     static var edit: String { localized("edit") }
     static var yes: String { localized("yes") }
     static var no: String { localized("no") }
