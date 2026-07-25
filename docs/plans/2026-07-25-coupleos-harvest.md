@@ -1,59 +1,78 @@
 # CoupleOS → AppSeed Hasat Planı (2026-07-25)
 
-**Amaç:** CoupleOS'un kanıtlanmış mimari birikimini (Base, Extensions, Helpers, Form kütüphanesi, auth, iskelet scene'ler) AppSeed'e taşıyıp seed'i agentic app-fabrikasının çekirdeği haline getirmek.
+**Amaç:** CoupleOS'un kanıtlanmış mimari birikimini AppSeed'e taşıyıp seed'i agentic app-fabrikasının çekirdeği haline getirmek — bir sonraki app'in ilk haftasında lazım olacak her şey seed'de hazır.
 
 **Karar seti:**
-- Apple Sign-In + Supabase = seed'in birinci sınıf auth/backend yolu; Firebase legacy raf olarak kalır.
-- CoupleOS her yerde kanonik kaynak (AppSeed'in "ileride" görünen dosyaları budanmamış eski orijinaller — diff'le doğrulandı).
-- CoupleOS'a SIFIR dokunuş — salt-okunur kaynak. Hasat sırasında bulunan CoupleOS bug/dupe'ları sadece `docs/plans/coupleos-findings.md`'ye not edilir, fix edilmez.
-- Palette sistemi (PaletteManager + PaletteUpdatable) bütün olarak taşınır — stub değil.
-- Yürütme: plan/karar/review ana oturumda (Fable), port işleri Opus subagent'larda; her fazın sonunda tek review kapısı.
-- Deployment target 17.0'a çekilir (CoupleOS ile hizalı). IQKeyboardManager kaldırılır (CoupleOS BaseViewController kendi keyboard-adjust altyapısını getiriyor; ikisi çakışır).
+- Apple Sign-In + Supabase = seed'in birinci sınıf auth/backend yolu; Firebase legacy raf.
+- CoupleOS her yerde kanonik kaynak; CoupleOS'a SIFIR dokunuş (salt-okunur). Hasatta bulunan CoupleOS bulguları `docs/plans/coupleos-findings.md`'ye not edilir, fix edilmez.
+- Palette sistemi bütün olarak taşınır; Symbols mekanizması `Imageable`/`Symbolable`/`Colorable` protokolleriyle komple gelir.
+- Yürütme: plan/karar/review ana oturum (Fable), port işleri Opus subagent; faz sonlarında review kapısı.
+- Deployment target 17.0; IQKeyboardManager kaldırıldı (CoupleOS BaseViewController kendi keyboard altyapısını getiriyor).
 - Localization: 6 dile hazır xcstrings şablonu, seed içeriği en+tr.
+- Kapsam dışı bırakılanlar bilinçli: Weather üçlüsü (domain + WeatherKit entitlement), LocationHelper (domain; izin tarafını PermissionManager karşılıyor), pair/premium domain'i, domain scene'ler, SQL geçmişi.
 
 ## Faz 0 — Zemin
-- [x] Askıdaki pbxproj dedup değişikliği incelendi → hasat branch'inin ilk commit'i (`harvest/coupleos-v1`).
-- [ ] Splash'taki duplicate `SplashLocalizable.swift` (scene kökü) + legacy `en.lproj`/`tr.lproj` sil (sync dönüşümü öncesi ZORUNLU — duplicate symbol önlemi).
-- [ ] `Base/`, `Helpers/`, `Network/`, `Scenes/`, `UIComponents/` klasörlerini `PBXFileSystemSynchronizedRootGroup`'a çevir (Extensions zaten öyle). Eski PBXGroup/FileReference/BuildFile girişleri temizlenir. `Application/`, `Configuration/`, `Resources/` şimdilik klasik kalır. Build yeşili şart.
-- [ ] Deployment target 17.0; IQKeyboardManager SPM + AppDelegate çağrıları kaldır.
-- [ ] Supabase SPM paketi ekle; `SUPABASE_URL`/`SUPABASE_ANON_KEY` xcconfig placeholder'ları.
-- [ ] Önkoşul enum'lar: `Symbols` (kırpılmış), Palette sistemi (PaletteManager + Palette/Colorable + Colors.xcassets girişleri), `Typealias` merge (ResponseError* GPT alias'ları korunur).
-- [ ] AppSeed `CLAUDE.md` taslağı (CoupleOS kontratının seed versiyonu; golden file = Faz 3'te Profile scene'i olacak).
+**Mekanik (TAMAM — commit'ler `d1c5543..d580e13`):**
+- [x] Askıdaki pbxproj dedup → ilk commit; `harvest/coupleos-v1` branch'i.
+- [x] Splash duplicate `SplashLocalizable` + legacy lproj temizliği (disk orphan'larıydı).
+- [x] `Base/Helpers/Network/Scenes/UIComponents` → `PBXFileSystemSynchronizedRootGroup` (46 grup + 77 fileRef + 77 buildFile girişi temizlendi). Bonus: Network'te 2 byte-identical duplicate silindi, orphan `RequestArrayProtocol` derlemeye alındı.
+- [x] Deployment target 17.0.
+- [x] IQKeyboardManager söküldü (SPM + AppDelegate).
+- [x] Supabase SPM (umbrella `Supabase`, 2.53.0) + xcconfig/Info.plist placeholder'ları.
+
+**İçerik (sıradaki blok):**
+- [ ] `Imageable`/`Symbolable`/`Colorable` + `SymbolSize` mekanizması + `Symbols` enum'u (starter case seti) — CoupleOS `Resources/Images|Colors` düzeniyle.
+- [ ] Palette sistemi: `PaletteManager` (premium bağı sökülmüş) + `Palette`/`ColorBackground`/`ColorText`/`ColorAction` + Colors.xcassets semantik yapı (seed değerleriyle); AppSeed'in eski Palette/Colorable dosyaları değiştirilir.
+- [ ] `Typealias` merge (Tuple closure'lar gelir, ResponseError* GPT alias'ları korunur).
+- [ ] `PrivacyInfo.xcprivacy` (CoupleOS'unki evrensele yakın — olduğu gibi).
+- [ ] AppSeed `CLAUDE.md` taslağı (CoupleOS kontratının de-domain hali; golden file: Faz 3 sonunda Profile).
 
 ## Faz 1 — Library yüzeyi
-- [ ] Extensions: CoupleOS-ileride 8 dosya merge (`UIApplication`, `Date`, `String`, `UIColor`, `UITableView`, `URL`, `UIView`, +) + yeni `CGFloat`, `TimeInterval`, `UIImage` (Palette'li), `UIViewAnimation`; `UIImageView+Extension` iyileştirilerek (Kingfisher kalır, SupabaseStorage bağı parametrize).
-- [ ] Helpers: AlertHelper (CoupleOS ver.), KeychainHelper, EmojiHelper, FormatHelper, DateHelper, PermissionManager, ReviewPromptManager, QRHelper, Toast çifti (ToastHelper+ToastView), Language ailesi, Logger, UserDefaultsWrapper (seed key seti: tutorials_seen, has_completed_setup, has_shown_permission_sheet); RemoteConfig key-refactor uyarlanır (GPT key'leri AppSeed servisleriyle uyumlu kalır), NotificationHelper yalın gövde + tek demo zamanlayıcı.
-- [ ] Base: BaseViewController (keyboard+toast+palette), BaseButton (style enum + loading), BaseTextField, BaseNavigationController, BaseTabbarController, BaseRouter (dismissPresented+ShareRoute), cell'lere PaletteUpdatable, BaseSectionHeaderView, EmptyTVCell, ZoomTransition, FloatingActionButton, CropImageView, HudView, AvatarView, ConfettiView, PalettePickerView.
-- [ ] Form kütüphanesi (12 dosya) + BottomSheet MVVM-R stack'i (8 dosya) + DatePickerViewController + PickerSheetViewController — Symbols/L10n parametrize edilerek.
-- [ ] 🔎 Review kapısı 1: build yeşil + ana oturumda dosya review.
+- [ ] Extensions: CoupleOS-ileride 8 merge + yeni `CGFloat`/`TimeInterval`/`UIImage`/`UIViewAnimation`; `UIImageView+Extension` iyileştirilerek (Kingfisher kalır, SupabaseStorage bağı parametrize).
+- [ ] Helpers: AlertHelper, KeychainHelper, EmojiHelper + `emoji_keywords_{en,tr}.json` + CLDR generator script'i, FormatHelper, DateHelper, PermissionManager, ReviewPromptManager, QRHelper, ToastHelper+ToastView, Language ailesi, Logger, UserDefaultsWrapper (seed key seti), **ThemeManager** (AppGroup bağı sökülmüş), **TelegramHelper → FeedbackHelper** (placeholder bot config); RemoteConfig key-refactor uyarlanır, NotificationHelper yalın gövde + tek demo zamanlayıcı.
+- [ ] Base: BaseViewController (keyboard+toast+palette), BaseButton (style enum + loading), BaseTextField, BaseNavigationController (+`NoMenuBarButtonItem`), BaseTabbarController, BaseRouter ilaveleri, cell'lere PaletteUpdatable, BaseSectionHeaderView, EmptyTVCell, ZoomTransition, FloatingActionButton, CropImageView, HudView, AvatarView, ConfettiView, PalettePickerView.
+- [ ] Form kütüphanesi (12) + BottomSheet MVVM-R stack (8) + DatePickerViewController + PickerSheetViewController — Symbols/L10n parametrize.
+- [ ] 🔎 Review kapısı 1: build yeşil + ana oturumda review.
 
 ## Faz 2 — Supabase çekirdeği + Auth
-- [ ] Çekirdek: SupabaseManager (timestamp decoder), SupabaseDatabaseHelper (Table: users + örnek), ListenerHandle, SupabaseDatabaseErrorMapper, SupabaseAppConfigHelper (min-version gate), SupabaseStorageHelper.
-- [ ] Auth: NonceGenerator, SupabaseAppleSignInService, SupabaseAppleAuthorizationDelegate, SupabaseAppleSignInError + Sign in with Apple capability/entitlement.
-- [ ] UserServiceProtocol → SupabaseUserService (kırpılmış User modeli) + minimal UserSessionManager (generation-counter stale-callback guard, .userDidChange, wipeCache reset hook).
-- [ ] Login scene (yapı aynen; orbit/social-proof süsü sade seed görseline iner; Terms/Privacy attributed-text kalıbı kalır).
-- [ ] 🔎 Review kapısı 2: build + akış review'u. Not: gerçek e2e auth testi bir dev Supabase projesi + provisioning ister; seed'de akış "auth çağrısına kadar" simülatörde doğrulanır.
+- [ ] Çekirdek: SupabaseManager (timestamp decoder), SupabaseDatabaseHelper (Table: users + örnek), ListenerHandle, ErrorMapper, AppConfigHelper (min-version gate), StorageHelper.
+- [ ] Auth: NonceGenerator, SupabaseAppleSignInService, AuthorizationDelegate, SignInError + Sign in with Apple capability/entitlement (dev/release entitlement çifti kalıbıyla).
+- [ ] UserServiceProtocol → SupabaseUserService (kırpılmış User) + minimal UserSessionManager (generation-counter guard, .userDidChange, wipeCache reset hook).
+- [ ] Login scene (sade seed görseli; Terms/Privacy attributed-text kalıbı kalır).
+- [ ] 🔎 Review kapısı 2. Not: gerçek e2e auth bir dev Supabase projesi ister; seed'de akış auth çağrısına kadar doğrulanır.
 
 ## Faz 3 — İskelet scene'ler
-- [ ] Splash: startWhenForeground + update-gate grace pattern; routing tutorial_seen → login → tabbar.
-- [ ] Tutorial: generic slide'lar; FloatingWidgetView Base'e terfi, demo içerik.
-- [ ] TabBar: 2 placeholder tab'lı container (BaseTabbarController nihayet kullanılır).
+- [ ] Splash: startWhenForeground + update-gate grace; routing tutorial_seen → login → tabbar.
+- [ ] Tutorial: generic slide'lar; FloatingWidgetView Base'e terfi.
+- [ ] TabBar: 2 placeholder tab.
 - [ ] Profile: section-driven tablo — EditProfile form sheet, dil, tema, sign-out, delete-account. → CLAUDE.md golden file.
-- [ ] Setup: Form kütüphanesinin canlı örneği (FormTextField + FormDatePickerField).
-- [ ] ScrollTest scene silinir (playground artığı, seed'de yeri yok).
-- [ ] 🔎 Review kapısı 3: tam akış — splash → tutorial → login → tabbar → profile → logout → login.
+- [ ] Setup: Form kütüphanesi canlı örneği.
+- [ ] **Paywall scene** (RevenueCat + PaywallPlanCard/FeatureRow; weekly→monthly→yearly funnel şablonu) + **Feedback sheet** (FeedbackHelper'a bağlı).
+- [ ] **DeepLinkRouter şablonu** (scheme-guard + host-allowlist + pending-drain, SceneDelegate'ten çıkarılıp tip olarak).
+- [ ] ScrollTest scene silinir.
+- [ ] 🔎 Review kapısı 3: tam akış — splash → tutorial → login → tabbar → profile → paywall → logout.
 
 ## Faz 4 — Terfi bileşenleri (iyileştirerek taşı)
-- [ ] `RingProgressView` — CoupleOS'ta 3 yerde copy-paste olan ring'ten tek parametrik bileşen (radius/lineWidth/renk).
-- [ ] A-sınıfı: `EmojiTextField` (CoupleEmojiTextField rename), `PhotoViewerCell` (zoom/pan image cell), `PaperBackgroundView` (+`UIColor.isLight`).
-- [ ] B-sınıfı: `TooltipBubbleView` (StatusBubbleView'dan), `ExpandableAddField` (QuickAddTaskView'dan), `LockedOverlay`, `PillSearchField` (MapSearchField'dan), `PaywallPlanCard`+`PaywallFeatureRow` (generic pricing seti), `LargeTitleSectionHeader` (TodaySectionHeader'dan).
+- [ ] `RingProgressView` — 3 copy-paste ring'ten tek parametrik bileşen.
+- [ ] A-sınıfı: `EmojiTextField`, `PhotoViewerCell`, `PaperBackgroundView` (+`UIColor.isLight`).
+- [ ] B-sınıfı: `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay`, `PillSearchField`, `LargeTitleSectionHeader`.
+- [ ] Yeni küçük ekleme: `HapticHelper` (CoupleOS'ta inline dağınık haptik'lerin dersi).
 - [ ] 🔎 Review kapısı 4.
 
-## Faz 5 — Agentic kapanış
-- [ ] CLAUDE.md finalize + Base/Helpers/Network/Scenes README'leri (docs-maintenance kuralı seed'e gelir).
-- [ ] Renamer smoke test (yeni dosya seti ile), Xcode scene template uyum kontrolü.
+## Faz 5 — İleri altyapı şablonları (widget + push + extension'lar)
+- [ ] **Widget starter kit:** widget extension target'ı + `AppGroupStorage` (generic motor: vintage-UUID atomik yazım, freshness/session doğrulama, wipe) + `WidgetSyncService`/`WidgetSyncHandler` (registry, cheap/expensive ayrımı) + `WidgetHelpers` (timeline politikaları, App-Group locale/format köprüleri, kilit view'ları) + `WidgetColorKit` şablonu + `WidgetLocalizable` kalıbı + tek demo widget (+ `StatusBubbleShape`) + widget README iskeleti.
+- [ ] **NSE iskeleti:** `NotificationService.swift` (version gate → reloadAllTimelines → pass-through, 25s emniyet) + Info.plist/entitlements şablonu.
+- [ ] **Share-extension handoff şablonu** (App-Group üzerinden ana app'e devir) — opsiyonel, yalın haliyle.
+- [ ] **supabase/ tohumları:** README (jenerikleştirilmiş 4 kanun playbook'u), starter SQL şablonları (users + RLS SECURITY DEFINER RPC örneği + outbox + `delete_my_account`), push edge-function şablonu, `PushNotificationManager` generic çekirdeği (device token kaydı). Şablon seviyesi — canlı test bir sonraki app'in Supabase projesinde.
+- [ ] **ci_scripts:** branch-adından-versiyon script'i (`ci_post_clone.sh`) + dSYM hook şablonu; `.gitignore` CoupleOS versiyonuyla güncellenir.
+- [ ] 🔎 Review kapısı 5.
+
+## Faz 6 — Agentic kapanış
+- [ ] CLAUDE.md finalize (golden file: Profile) + Base/Helpers/Network/Scenes README'leri (docs-maintenance kuralı seed'e gelir).
+- [ ] **docs/ şablonları:** dört doküman tipinin format iskeletleri (brainstorm/plan/release/review) + `docs/patterns/` reçeteleri: pendingSaves (optimistic-base + echo-kuyruğu + 3-yönlü merge), generation-counter stale-callback guard, startWhenForeground cold-launch kalıbı.
+- [ ] Xcode scene template'i güncel formata yenilenir (protokol üçlüsü, MARK sırası) + sheet template'leri eklenir; Renamer smoke test.
 - [ ] Localizable seed seti (en+tr içerik, 6 dil şablonu).
-- [ ] Final build + tam akış + anlamlı commit hikâyesi; `main`'e merge kararı Tunay'da.
+- [ ] Final build + tam akış + `main`'e merge kararı Tunay'da.
 
 ## Taşınmayanlar (bilinçli)
-Widget pipeline'ı + AppGroup katmanı, push/outbox sistemi, pair/premium domain'i, SQL migration'lar, Places/Paper/Calendar/Today/Together domain scene'leri, LocationHelper, TelegramHelper, WidgetSync. Bunlar CoupleOS'un ürünü, seed'in değil. AppSeed'in mevcut GPT/DALLE/Replicate/Falai servisleri ve RevenueCat IAP dokunulmadan kalır.
+Pair/premium domain'i, Places/Paper/Calendar/Today/Together domain scene'leri, domain widget'ları (yapıları şablon olarak öğretici, içerikleri değil), Weather üçlüsü, LocationHelper, PlaceLabelHelper, Nudge/DateReminders/MissionReminders, SQL migration geçmişi (52 dosya), GoogleService-Info değerleri. AppSeed'in mevcut GPT/DALLE/Replicate/Falai servisleri ve RevenueCat IAP dokunulmadan kalır. Network HTTP katmanı zaten AppSeed'de yaşıyor (CoupleOS 1.0.8'de silmişti — teyitli).
