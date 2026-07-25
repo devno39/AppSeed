@@ -37,7 +37,8 @@ final class ThemeManager {
 
     private init() {}
 
-    // App-Group mirroring + widget reload land in Phase 5.
+    // selected_theme is a @SharedUserDefault — the write mirrors into the App Group
+    // suite automatically, so the widget extension reads the current theme.
     func setTheme(_ theme: AppTheme) {
         guard theme != currentTheme else { return }
         UserDefaultsWrapper.selected_theme = theme.rawValue

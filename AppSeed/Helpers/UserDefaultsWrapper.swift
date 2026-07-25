@@ -24,7 +24,23 @@ struct UserDefault<T> {
     }
 }
 
-// A @SharedUserDefault wrapper (App-Group suite, widget-readable) lands with the Phase 5 widget kit.
+// MARK: - Shared (AppGroup) Wrapper
+// Values stored in the AppGroup suite so the widget extension can read them.
+@propertyWrapper
+struct SharedUserDefault<T> {
+    let key: UserDefaultsKeys
+    let defaultValue: T
+
+    init(_ key: UserDefaultsKeys, defaultValue: T) {
+        self.key = key
+        self.defaultValue = defaultValue
+    }
+
+    var wrappedValue: T {
+        get { AppGroupStorage.sharedDefaults?.object(forKey: key.rawValue) as? T ?? defaultValue }
+        set { AppGroupStorage.sharedDefaults?.set(newValue, forKey: key.rawValue) }
+    }
+}
 
 // MARK: - Wrapper Codable
 @propertyWrapper
@@ -92,13 +108,13 @@ struct UserDefaultsWrapper {
     @UserDefault(.has_shown_permission_sheet, defaultValue: false)
     static var has_shown_permission_sheet: Bool
 
-    @UserDefault(.selected_theme, defaultValue: "system")
+    @SharedUserDefault(.selected_theme, defaultValue: "system")
     static var selected_theme: String
 
-    @UserDefault(.selected_palette, defaultValue: PalettePreset.sunset.rawValue)
+    @SharedUserDefault(.selected_palette, defaultValue: PalettePreset.sunset.rawValue)
     static var selected_palette: String
 
-    @UserDefault(.custom_palette_hex, defaultValue: 0xF5987C)
+    @SharedUserDefault(.custom_palette_hex, defaultValue: 0xF5987C)
     static var custom_palette_hex: Int
 
     @UserDefault(.review_session_count, defaultValue: 0)

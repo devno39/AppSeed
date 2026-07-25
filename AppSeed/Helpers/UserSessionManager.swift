@@ -43,6 +43,9 @@ final class UserSessionManager {
             stopListening(wipeCache: false)
         }
 
+        // Scope guard for widget snapshots — writes/reads validate against this.
+        AppGroupStorage.currentScopeId = userId
+
         isFirstSnapshot = true
         sessionGeneration += 1
         let generation = sessionGeneration
@@ -67,6 +70,9 @@ final class UserSessionManager {
             // A different Apple ID must re-enter setup and permissions.
             UserDefaultsWrapper.has_completed_setup = false
             UserDefaultsWrapper.has_shown_permission_sheet = false
+            // Purge widget snapshots + drop the scope so ex-user content can't render.
+            AppGroupStorage.currentScopeId = nil
+            AppGroupStorage.wipe()
         }
         userListener?.remove()
         userListener = nil

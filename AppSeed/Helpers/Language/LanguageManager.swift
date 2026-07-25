@@ -28,7 +28,6 @@ final class LanguageManager {
     }
 
     // MARK: - Init
-    // App-Group mirroring (so the widget extension reads the language) lands in Phase 5.
     private init() {
         let code = LanguageHelper.selectedLanguage
         if let path = Bundle.main.path(forResource: code, ofType: "lproj"),
@@ -37,6 +36,7 @@ final class LanguageManager {
         } else {
             self.bundle = .main
         }
+        AppGroupStorage.selectedLanguage = code
     }
 
     // MARK: - Change
@@ -45,6 +45,7 @@ final class LanguageManager {
 
         LanguageHelper.selectedLanguage = language.rawValue
         LanguageHelper.setAppLanguage()
+        AppGroupStorage.selectedLanguage = language.rawValue
 
         if let path = Bundle.main.path(forResource: language.rawValue, ofType: "lproj"),
            let newBundle = Bundle(path: path) {
