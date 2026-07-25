@@ -12,29 +12,31 @@ import Foundation
 struct UserDefault<T> {
     let key: UserDefaultsKeys
     let defaultValue: T
-    
+
     init(_ key: UserDefaultsKeys, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
     }
-    
+
     var wrappedValue: T {
         get { UserDefaults.standard.object(forKey: key.rawValue) as? T ?? defaultValue }
         set { UserDefaults.standard.set(newValue, forKey: key.rawValue) }
     }
 }
 
+// A @SharedUserDefault wrapper (App-Group suite, widget-readable) lands with the Phase 5 widget kit.
+
 // MARK: - Wrapper Codable
 @propertyWrapper
 struct UserDefaultCodable<T: Codable> {
     let key: UserDefaultsKeys
     let defaultValue: T
-    
+
     init(_ key: UserDefaultsKeys, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
     }
-    
+
     var wrappedValue: T {
         get { UserDefaults.standard.getObject(forKey: key, type: T.self) ?? defaultValue }
         set { UserDefaults.standard.setObject(newValue, forKey: key) }
@@ -47,13 +49,13 @@ extension UserDefaults {
         guard let encoded = object.encodeToData() else { return }
         set(encoded, forKey: key.rawValue)
     }
-    
+
     func getObject<T: Codable>(forKey key: UserDefaultsKeys, type: T.Type) -> T? {
         guard let data = data(forKey: key.rawValue) else { return nil }
         let object = T.decode(data)
         return object
     }
-    
+
     func forceSave() {
         synchronize()
     }
@@ -65,9 +67,11 @@ enum UserDefaultsKeys: String {
     case selectedLanguage
     // tutorials
     case tutorials_seen
-    // gpt_model
-    case gpt_model_free
-    case gpt_model_premium
+    // setup
+    case has_completed_setup
+    case has_shown_permission_sheet
+    // theme
+    case selected_theme
     // palette
     case selected_palette
     case custom_palette_hex
@@ -79,6 +83,18 @@ enum UserDefaultsKeys: String {
 
 // MARK: - UserDefaultsWrapper
 struct UserDefaultsWrapper {
+    @UserDefault(.tutorials_seen, defaultValue: false)
+    static var tutorials_seen: Bool
+
+    @UserDefault(.has_completed_setup, defaultValue: false)
+    static var has_completed_setup: Bool
+
+    @UserDefault(.has_shown_permission_sheet, defaultValue: false)
+    static var has_shown_permission_sheet: Bool
+
+    @UserDefault(.selected_theme, defaultValue: "system")
+    static var selected_theme: String
+
     @UserDefault(.selected_palette, defaultValue: PalettePreset.sunset.rawValue)
     static var selected_palette: String
 

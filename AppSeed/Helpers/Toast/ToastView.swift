@@ -76,8 +76,7 @@ final class ToastView: UIView {
     // MARK: - Appearance
     // Self-observes palette — global toasts attach to the key window, bypassing BaseViewController's traversal.
     private func observeAppearanceChanges() {
-        // .themeDidChange joins this list once ThemeManager lands (Phase 1 commit 3)
-        [Notification.Name.paletteDidChange].forEach {
+        [Notification.Name.paletteDidChange, .themeDidChange].forEach {
             NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(updatePaletteColors),
