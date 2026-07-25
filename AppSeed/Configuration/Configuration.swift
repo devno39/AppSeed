@@ -53,6 +53,10 @@ extension Configuration {
         UIApplication.appVersion
     }
 
+    // MARK: - Legal (placeholder URLs — swap per app)
+    static var termsURL: String { "https://example.com/terms" }
+    static var privacyURL: String { "https://example.com/privacy" }
+
     // MARK: - Supabase
     static var supabaseURL: String {
         (try? value(for: "SUPABASE_URL")) ?? ""

@@ -59,8 +59,6 @@ final class LoginViewController: BaseViewController<LoginViewModel, LoginRouter>
     }()
 
     // MARK: - Constants
-    private let termsURL = "https://example.com/terms"
-    private let privacyURL = "https://example.com/privacy"
     private let logoSize: CGFloat = 120
 
     // MARK: - Life Cycle
@@ -137,9 +135,9 @@ final class LoginViewController: BaseViewController<LoginViewModel, LoginRouter>
         let index = layoutManager.characterIndex(for: tapLocation, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
 
         if NSLocationInRange(index, termsRange) {
-            open(termsURL)
+            open(Configuration.termsURL)
         } else if NSLocationInRange(index, privacyRange) {
-            open(privacyURL)
+            open(Configuration.privacyURL)
         }
     }
 

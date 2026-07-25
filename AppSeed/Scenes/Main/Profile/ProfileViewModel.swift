@@ -180,6 +180,6 @@ final class ProfileViewModel: BaseViewModel, ProfileViewModelProtocol {
 
     // MARK: - Private
     private func buildSections() -> [ProfileSection] {
-        [.header, .account, .app, .session]
+        [.header, .premium, .account, .app, .session]
     }
 }
