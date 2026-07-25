@@ -12,41 +12,52 @@ extension UIImageView {
     // MARK: - Properties
     static let imageCache = ImageCache.default
 
-    // MARK: - Functions
-    func setImage(with string: String?, placeholder: UIImage? = nil) {
-        guard let string, let url = URL(string: string) else { return }
-        
-        let options: KingfisherOptionsInfo = [
-            .scaleFactor(UIScreen.main.scale),
-            .cacheOriginalImage,
-            .processor(DefaultImageProcessor.default)
-        ]
-        
-        kf.setImage(with: url, placeholder: placeholder, options: options)
+    private static let defaultOptions: KingfisherOptionsInfo = [
+        .scaleFactor(UIScreen.main.scale),
+        .cacheOriginalImage,
+        .processor(DefaultImageProcessor.default),
+        .transition(.fade(0.25))
+    ]
+
+    // MARK: - Set
+    func setImage(with url: URL?, placeholder: UIImage? = nil) {
+        guard let url else { return }
+        kf.setImage(with: url, placeholder: placeholder, options: Self.defaultOptions)
     }
-    
-    // MARK: - Static functions
+
+    func setImage(with string: String?, placeholder: UIImage? = nil) {
+        setImage(with: string.flatMap { URL(string: $0) }, placeholder: placeholder)
+    }
+
+    // MARK: - Download lifecycle
+    func cancelImageDownload() {
+        kf.cancelDownloadTask()
+    }
+
+    // MARK: - Cache configuration
     static func limitMemoryCacheSize(_ MB: Int) {
         imageCache.memoryStorage.config.totalCostLimit = MB * 1024 * 1024
     }
-    
+
     static func limitMemoryCacheCount(_ count: Int) {
         imageCache.memoryStorage.config.totalCostLimit = count
     }
-    
+
     static func setMaxCachePeriodInSeconds(_ seconds: Int) {
         imageCache.memoryStorage.config.expiration = .seconds(TimeInterval(seconds))
     }
-    
+
     static func clearMemoryCache() {
         imageCache.clearMemoryCache()
     }
-    
+
     static func clearDiskCache() {
         imageCache.clearDiskCache()
     }
-    
+
     static func cleanExpiredDiskCache() {
         imageCache.cleanExpiredDiskCache()
     }
+
+    // Supabase storage variants land with the Phase 2 core
 }

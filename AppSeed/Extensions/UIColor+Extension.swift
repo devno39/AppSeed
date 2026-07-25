@@ -21,11 +21,28 @@ extension UIColor {
         self.init(red: (rgb >> 16) & 0xFF, green: (rgb >> 8) & 0xFF, blue: rgb & 0xFF)
     }
 
+    convenience init?(hex: String) {
+        let clean = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        guard let int = UInt64(clean, radix: 16) else { return nil }
+        self.init(rgb: Int(int))
+    }
+
+    var hexString: String {
+        String(format: "#%06X", rgbHex)
+    }
+    
     // MARK: - RGB Hex
     var rgbHex: Int {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
         getRed(&r, green: &g, blue: &b, alpha: &a)
         return (Int(r * 255) << 16) | (Int(g * 255) << 8) | Int(b * 255)
+    }
+
+    // MARK: - CSS
+    var cssRGBA: String {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        return "rgba(\(Int(r * 255)), \(Int(g * 255)), \(Int(b * 255)), \(a))"
     }
 
     // MARK: - 1 point Image

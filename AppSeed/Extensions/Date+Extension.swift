@@ -7,7 +7,6 @@
 
 import Foundation
 
-// TODO: - better
 public extension Date {
     static func currentDate() -> String {
         let formatter = DateFormatter()

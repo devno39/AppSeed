@@ -13,10 +13,13 @@ extension UIApplication {
         return UIApplication.shared.delegate as? AppDelegate
     }
     
+    // Falls back to any connected scene — background-launched flows (silent push) must
+    // still resolve the delegate or window routing is silently dropped.
     var sceneDelegate: SceneDelegate? {
-        connectedScenes
-            .first { $0.activationState == .foregroundActive }
-            .flatMap { $0.delegate as? SceneDelegate }
+        let scene = connectedScenes
+            .first { $0.activationState == .foregroundActive || $0.activationState == .foregroundInactive }
+            ?? connectedScenes.first
+        return scene?.delegate as? SceneDelegate
     }
 
     static let appVersion: String = {
@@ -66,9 +69,20 @@ extension UIApplication {
     }
     
     // MARK: - AppStore
+    private static let appStoreId = "6759197861"
+
+    static var appStoreURL: URL {
+        URL(string: "https://apps.apple.com/app/id\(appStoreId)")!
+    }
+
     func openAppStore() {
-        let appId = "6744341755"
-        let urlString = "https://apps.apple.com/app/id\(appId)"
+        let url = Self.appStoreURL
+        guard UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+
+    func openAppStoreReview() {
+        let urlString = "https://apps.apple.com/app/id\(Self.appStoreId)?action=write-review"
         guard let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) else { return }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }

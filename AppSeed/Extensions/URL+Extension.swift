@@ -7,6 +7,8 @@
 
 import Foundation
 
+// QueryParameters lives in the Network layer (Network/Protocols/QueryParameters.swift)
+
 extension URL {
     var queryParameters: QueryParameters { return QueryParameters(url: self) }
 }
