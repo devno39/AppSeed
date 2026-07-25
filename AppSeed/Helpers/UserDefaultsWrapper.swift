@@ -71,6 +71,10 @@ enum UserDefaultsKeys: String {
     // palette
     case selected_palette
     case custom_palette_hex
+    // review prompt
+    case review_session_count
+    case review_milestone_session_index
+    case review_shown_count
 }
 
 // MARK: - UserDefaultsWrapper
@@ -80,4 +84,13 @@ struct UserDefaultsWrapper {
 
     @UserDefault(.custom_palette_hex, defaultValue: 0xF5987C)
     static var custom_palette_hex: Int
+
+    @UserDefault(.review_session_count, defaultValue: 0)
+    static var review_session_count: Int
+
+    @UserDefault(.review_milestone_session_index, defaultValue: 0)
+    static var review_milestone_session_index: Int
+
+    @UserDefault(.review_shown_count, defaultValue: 0)
+    static var review_shown_count: Int
 }

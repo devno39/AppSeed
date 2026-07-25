@@ -11,25 +11,32 @@ import Security
 final class KeychainHelper {
     // MARK: - Singleton
     static let shared = KeychainHelper()
-    
+
     // MARK: - Init
     private init() {}
+
+    // MARK: - Query
+    // Class + account only — the shared match key. Accessibility is set on write (save) so delete
+    // still matches items stored under the old accessibility (clean upgrade, no duplicate-item error).
+    private func baseQuery(for account: String) -> [String: Any] {
+        [
+            kSecClass as String: kSecClassGenericPassword,
+            kSecAttrAccount as String: account
+        ]
+    }
 
     // MARK: - Save
     func save(key: KeychainKeys, value: String) {
         guard let data = value.data(using: .utf8) else { return }
 
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key.rawValue,
-            kSecValueData as String: data
-        ]
+        SecItemDelete(baseQuery(for: key.rawValue) as CFDictionary)
 
-        SecItemDelete(query as CFDictionary)
-
-        SecItemDelete(query as CFDictionary)
+        var query = baseQuery(for: key.rawValue)
+        query[kSecValueData as String] = data
+        // AfterFirstUnlock keeps it readable post-first-unlock; ThisDeviceOnly keeps it off iCloud backup.
+        query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         let status = SecItemAdd(query as CFDictionary, nil)
-        
+
         if status != errSecSuccess {
             log(.error, .keychain, "save failed for key: \(key.rawValue), status: \(status)")
         } else {
@@ -39,12 +46,9 @@ final class KeychainHelper {
 
     // MARK: - Read
     func read(key: KeychainKeys) -> String? {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key.rawValue,
-            kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne
-        ]
+        var query = baseQuery(for: key.rawValue)
+        query[kSecReturnData as String] = true
+        query[kSecMatchLimit as String] = kSecMatchLimitOne
 
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
@@ -55,12 +59,7 @@ final class KeychainHelper {
 
     // MARK: - Delete
     func delete(key: String) -> Bool {
-        let query: [String: Any] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrAccount as String: key
-        ]
-
-        let status = SecItemDelete(query as CFDictionary)
+        let status = SecItemDelete(baseQuery(for: key) as CFDictionary)
         return status == errSecSuccess
     }
 }

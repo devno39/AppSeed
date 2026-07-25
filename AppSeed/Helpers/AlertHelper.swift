@@ -18,23 +18,23 @@ final class AlertHelper {
         message: String? = nil,
         hideOnOutsideTap: Bool = true,
         primaryTitle: String = Localizable.ok,
+        primaryStyle: UIAlertAction.Style = .default,
         secondaryTitle: String? = nil,
+        secondaryStyle: UIAlertAction.Style = .default,
         primaryAction: EmptyClosure? = nil,
         secondaryAction: EmptyClosure? = nil
     ) {
         guard let topVC = topViewController() else { return }
-        
+
         let alert = UIAlertController(title: title, message: message, preferredStyle: style)
-        // TODO: - if not needed remove
-        alert.overrideUserInterfaceStyle = .dark
-        
-        let primaryButton = UIAlertAction(title: primaryTitle, style: .default) { _ in
+
+        let primaryButton = UIAlertAction(title: primaryTitle, style: primaryStyle) { _ in
             primaryAction?()
         }
         alert.addAction(primaryButton)
-        
+
         if let secondaryTitle, !secondaryTitle.isEmpty {
-            let secondaryButton = UIAlertAction(title: secondaryTitle, style: .default) { _ in
+            let secondaryButton = UIAlertAction(title: secondaryTitle, style: secondaryStyle) { _ in
                 secondaryAction?()
             }
             alert.addAction(secondaryButton)

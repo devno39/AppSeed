@@ -7,14 +7,34 @@
 
 import UIKit
 
-enum AppLanguage: String {
-    case turkish = "tr"
+// Case order = language sheet order: alphabetical by endonym (neutral, no perceived ranking)
+enum AppLanguage: String, CaseIterable {
+    case german = "de"
     case english = "en"
-    
+    case spanish = "es"
+    case french = "fr"
+    case italian = "it"
+    case turkish = "tr"
+
     var speechCode: String {
         switch self {
-        case .turkish: return "tr-TR"
+        case .german: return "de-DE"
         case .english: return "en-US"
+        case .spanish: return "es-ES"
+        case .french: return "fr-FR"
+        case .italian: return "it-IT"
+        case .turkish: return "tr-TR"
+        }
+    }
+
+    var displayTitle: String {
+        switch self {
+        case .german: return "🇩🇪  Deutsch"
+        case .english: return "🇬🇧  English"
+        case .spanish: return "🇪🇸  Español"
+        case .french: return "🇫🇷  Français"
+        case .italian: return "🇮🇹  Italiano"
+        case .turkish: return "🇹🇷  Türkçe"
         }
     }
     
@@ -30,7 +50,8 @@ final class LanguageHelper {
     
     private static var defaultLanguage: String {
         let deviceLanguage = Locale.preferredLanguages.first ?? "en"
-        return deviceLanguage.starts(with: "tr") ? "tr" : "en"
+        let supported = AppLanguage.allCases.map(\.rawValue)
+        return supported.first { deviceLanguage.starts(with: $0) } ?? "en"
     }
     
     static func setAppLanguage() {
