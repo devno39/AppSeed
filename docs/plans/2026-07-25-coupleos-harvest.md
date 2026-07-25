@@ -59,12 +59,12 @@
 - [x] 🔎 Review kapısı 4 GEÇİLDİ (RingProgressView ana oturumda okundu, leak sıfır).
 
 ## Faz 5 — İleri altyapı şablonları (widget + push + extension'lar)
-- [ ] **Widget starter kit:** widget extension target'ı + `AppGroupStorage` (generic motor: vintage-UUID atomik yazım, freshness/session doğrulama, wipe) + `WidgetSyncService`/`WidgetSyncHandler` (registry, cheap/expensive ayrımı) + `WidgetHelpers` (timeline politikaları, App-Group locale/format köprüleri, kilit view'ları) + `WidgetColorKit` şablonu + `WidgetLocalizable` kalıbı + tek demo widget (+ `StatusBubbleShape`) + widget README iskeleti.
-- [ ] **NSE iskeleti:** `NotificationService.swift` (version gate → reloadAllTimelines → pass-through, 25s emniyet) + Info.plist/entitlements şablonu.
-- [ ] **Share-extension handoff şablonu** (App-Group üzerinden ana app'e devir) — opsiyonel, yalın haliyle.
-- [ ] **supabase/ tohumları:** README (jenerikleştirilmiş 4 kanun playbook'u), starter SQL şablonları (users + RLS SECURITY DEFINER RPC örneği + outbox + `delete_my_account`), push edge-function şablonu, `PushNotificationManager` generic çekirdeği (device token kaydı). Şablon seviyesi — canlı test bir sonraki app'in Supabase projesinde.
-- [ ] **ci_scripts:** branch-adından-versiyon script'i (`ci_post_clone.sh`) + dSYM hook şablonu; `.gitignore` CoupleOS versiyonuyla güncellenir.
-- [ ] 🔎 Review kapısı 5.
+- [x] **Widget starter kit:** widget extension target'ı + `AppGroupStorage` (generic motor: vintage-UUID atomik yazım, freshness/session doğrulama, wipe) + `WidgetSyncService`/`WidgetSyncHandler` (registry, cheap/expensive ayrımı) + `WidgetHelpers` (timeline politikaları, App-Group locale/format köprüleri, kilit view'ları) + `WidgetColorKit` şablonu + `WidgetLocalizable` kalıbı + tek demo widget (+ `StatusBubbleShape`) + widget README iskeleti.
+- [x] **NSE iskeleti:** `NotificationService.swift` (version gate → reloadAllTimelines → pass-through, 25s emniyet) + Info.plist/entitlements şablonu.
+- [x] **Share-extension handoff şablonu** (App-Group üzerinden ana app'e devir) — opsiyonel, yalın haliyle.
+- [x] **supabase/ tohumları:** README (jenerikleştirilmiş 4 kanun playbook'u), starter SQL şablonları (users + RLS SECURITY DEFINER RPC örneği + outbox + `delete_my_account`), push edge-function şablonu, `PushNotificationManager` generic çekirdeği (device token kaydı). Şablon seviyesi — canlı test bir sonraki app'in Supabase projesinde.
+- [x] **ci_scripts:** branch-adından-versiyon script'i (`ci_post_clone.sh`) + dSYM hook şablonu; `.gitignore` CoupleOS versiyonuyla güncellenir.
+- [x] 🔎 Review kapısı 5 GEÇİLDİ (secret-scan temiz, 3 target build exit 0; device_tokens token-PK iyileştirmesi onaylandı).
 
 ## Faz 6 — Agentic kapanış
 - [ ] CLAUDE.md finalize (golden file: Profile) + Base/Helpers/Network/Scenes README'leri (docs-maintenance kuralı seed'e gelir).
