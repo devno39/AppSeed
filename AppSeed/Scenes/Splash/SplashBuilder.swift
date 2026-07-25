@@ -7,10 +7,9 @@
 
 import UIKit
 
-class SplashBuilder: BaseBuilder {
+final class SplashBuilder: BaseBuilder {
     func build() -> UIViewController {
-        let service = GptService()
-        let viewModel = SplashViewModel(gptService: service)
+        let viewModel = SplashViewModel(userService: SupabaseUserService())
         let router = SplashRouter()
         let viewController = SplashViewController(viewModel: viewModel, router: router)
 

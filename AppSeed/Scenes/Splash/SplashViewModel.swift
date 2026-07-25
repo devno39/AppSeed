@@ -10,16 +10,18 @@ import Foundation
 // MARK: - Source
 protocol SplashViewModelDataSource {
     var title: String { get }
+    var isUserLoggedIn: Bool { get }
 }
 
 // MARK: - Closure
 protocol SplashViewModelClosureSource {
-    var requestsClosure: EmptyClosure? { get }
+    var groupClosure: EmptyClosure? { get }
 }
 
 // MARK: - Function
 protocol SplashViewModelFunctionSource {
-    func requestGPT()
+    func checkUpdate(completion: BoolClosure?)
+    func afterCheckUpdate()
 }
 
 // MARK: - Protocol
@@ -29,42 +31,58 @@ protocol SplashViewModelProtocol: BaseViewModel, SplashViewModelDataSource, Spla
 final class SplashViewModel: BaseViewModel, SplashViewModelProtocol {
     // MARK: - Source
     var title: String = "splash"
-    
-    // MARK: - Service
-    private var gptService: GptServiceProtocol?
+
+    // MARK: - Services
+    private let userService: UserServiceProtocol
+
+    var isUserLoggedIn: Bool { userService.isLoggedIn }
 
     // MARK: - Closure
-    var requestsClosure: EmptyClosure?
-    
+    var groupClosure: EmptyClosure?
+
     // MARK: - Init
-    init(gptService: GptServiceProtocol) {
+    init(userService: UserServiceProtocol) {
+        self.userService = userService
         super.init()
-        self.gptService = gptService
     }
 
     // MARK: - Function
     func requestFake() {
-        LoadingHelper.shared.showLoading()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            LoadingHelper.shared.hideLoading()
-            self.requestsClosure?()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.groupClosure?()
         }
     }
-    
-    func requestGPT() {
-        let message = "hi dude <3"
-        let role = "you are an iOS Developer"
-        let request = RequestGPT(message: message, role: role)
-        gptService?.requestGPT(request: request) { response in
-            debugPrint(response?.message ?? "")
+
+    func checkUpdate(completion: BoolClosure?) {
+        // A slow config fetch must not hold the splash hostage — after the grace
+        // window the app proceeds unchecked and the late result is discarded.
+        var didFinish = false
+        let finish: BoolClosure = { needsUpdate in
+            guard !didFinish else { return }
+            didFinish = true
+            completion?(needsUpdate)
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            finish(false)
+        }
+
+        SupabaseAppConfigHelper.shared.fetchAll { _ in
+            guard let remoteVersion: String = SupabaseAppConfigHelper.shared.getValue(for: .minimumSupportedVersion) else {
+                finish(false)
+                return
+            }
+
+            let appVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.0"
+            finish(appVersion.compare(remoteVersion, options: .numeric) == .orderedAscending)
         }
     }
-    
-    func requestDALLE() {
-        let prompt = "a futuristic cityscape with flying cars and neon lights"
-        let request = RequestDALLE(prompt: prompt)
-        gptService?.requestDalle(request: request) { response in
-            debugPrint(response?.imageUrl ?? "")
+
+    func afterCheckUpdate() {
+        PermissionManager.shared.refreshNotificationStatus()
+        if isUserLoggedIn {
+            UserSessionManager.shared.startListening()
         }
+        requestFake()
     }
 }
