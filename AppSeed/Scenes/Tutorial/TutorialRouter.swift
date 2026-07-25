@@ -1,5 +1,5 @@
 //
-//  RouterTemplate.swift
+//  TutorialRouter.swift
 //  AppSeed
 //
 //  Created by Tunay Alver on 17.11.2024.
@@ -20,4 +20,4 @@ extension TutorialRoute where Self: BaseRouter {
 }
 
 // MARK: - Router
-final class TutorialRouter: BaseRouter, ScrollTestRoute { }
+final class TutorialRouter: BaseRouter, TutorialRoute, LoginRoute { }

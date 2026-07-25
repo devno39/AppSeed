@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TutorialBuilder: BaseBuilder {
+final class TutorialBuilder: BaseBuilder {
     func build() -> UIViewController {
         let router = TutorialRouter()
         let viewModel = TutorialViewModel()
