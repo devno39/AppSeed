@@ -24,12 +24,24 @@ final class TabBarViewController: BaseTabbarController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Properties
+    private var isFirstAppear = true
+    private var isSetupFlowPresented = false
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewControllers()
         configureTabBar()
         observeChanges()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // currentUser must be loaded before checking fields — triggered here and on userDidChange.
+        if UserSessionManager.shared.currentUser != nil {
+            presentSetupFlowIfNeeded()
+        }
     }
 
     deinit {
@@ -50,6 +62,17 @@ final class TabBarViewController: BaseTabbarController {
             name: .paletteDidChange,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleUserDidChange),
+            name: .userDidChange,
+            object: nil
+        )
+    }
+
+    @objc private func handleUserDidChange() {
+        guard !isSetupFlowPresented else { return }
+        presentSetupFlowIfNeeded()
     }
 
     @objc private func handleLanguageChange() {
@@ -85,5 +108,30 @@ extension TabBarViewController {
     private func configureTabBar() {
         tabBar.tintColor = Palette.palette1.color
         tabBar.unselectedItemTintColor = ColorText.textSecondary.color
+    }
+}
+
+// MARK: - Setup Flow
+extension TabBarViewController {
+
+    private func presentSetupFlowIfNeeded() {
+        guard isFirstAppear else { return }
+        guard let user = UserSessionManager.shared.currentUser else { return }
+        isFirstAppear = false
+
+        let hasName = !(user.displayName ?? "").isEmpty
+        let hasBirthday = user.birthDate != nil
+
+        // Both fields present — setup is already complete for this account.
+        if hasName && hasBirthday {
+            UserDefaultsWrapper.has_completed_setup = true
+        }
+
+        guard !UserDefaultsWrapper.has_completed_setup else { return }
+
+        isSetupFlowPresented = true
+        router?.presentSetupFlow(onComplete: { [weak self] in
+            self?.isSetupFlowPresented = false
+        })
     }
 }

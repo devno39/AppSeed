@@ -20,4 +20,4 @@ extension TabBarRoute where Self: BaseRouter {
     }
 }
 
-final class TabBarRouter: BaseRouter, TabBarRoute { }
+final class TabBarRouter: BaseRouter, TabBarRoute, SetupFlowRoute { }
