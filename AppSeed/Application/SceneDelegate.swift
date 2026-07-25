@@ -17,6 +17,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else { return }
         setInitialScene(with: windowScene)
+        DeepLinkRouter.shared.capture(from: connectionOptions)
+    }
+
+    // MARK: - Deep Links
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+        log(.info, .general, "Scene openURLContexts: \(url.absoluteString)")
+        DeepLinkRouter.shared.handle(url: url)
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
@@ -56,7 +64,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             with: window,
             duration: 0.5,
             options: .transitionCrossDissolve,
-            animations: { window.rootViewController = viewController }
+            animations: { window.rootViewController = viewController },
+            completion: { _ in
+                // Drain a pending deep link once the tab bar is root; splash → login
+                // swaps preserve the URL until then.
+                guard viewController is UITabBarController else { return }
+                DeepLinkRouter.shared.drainPending()
+            }
         )
         window.makeKeyAndVisible()
     }
