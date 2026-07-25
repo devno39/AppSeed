@@ -209,6 +209,8 @@ extension ProfileViewController: UITableViewDelegate {
             viewModel?.editProfileClosure?()
         case .goPremium:
             router?.presentPaywall()
+        case .feedback:
+            router?.presentFeedbackSheet()
         case .language:
             showLanguageSheet()
         case .theme:

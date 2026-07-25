@@ -46,6 +46,17 @@ enum ProfileLocalizable {
     static var theme_light: String { localized("theme_light") }
     static var theme_dark: String { localized("theme_dark") }
 
+    // MARK: - Feedback
+    static var feedback_sheet_title: String { localized("feedback_sheet_title") }
+    static var feedback_sheet_subtitle: String { localized("feedback_sheet_subtitle") }
+    static var feedback_send: String { localized("feedback_send") }
+    static var feedback_message_title: String { localized("feedback_message_title") }
+    static var feedback_message_placeholder: String { localized("feedback_message_placeholder") }
+    static var feedback_success_title: String { localized("feedback_success_title") }
+    static var feedback_success_message: String { localized("feedback_success_message") }
+    static var feedback_error_title: String { localized("feedback_error_title") }
+    static var feedback_error_message: String { localized("feedback_error_message") }
+
     // MARK: - Alerts
     static var alert_cancel: String { localized("alert_cancel") }
 

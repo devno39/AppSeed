@@ -9,7 +9,7 @@ import Foundation
 
 enum LoginLocalizable {
     private static func localized(_ key: String) -> String {
-        NSLocalizedString(key, tableName: "LoginLocalizable", bundle: .main, value: "", comment: "")
+        NSLocalizedString(key, tableName: "LoginLocalizable", bundle: LanguageManager.shared.bundle, value: "", comment: "")
     }
 
     static var title: String { localized("title") }
