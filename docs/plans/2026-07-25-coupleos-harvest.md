@@ -26,12 +26,12 @@
 - [x] `Typealias` union + `PrivacyInfo.xcprivacy` (Resources phase'e kayıtlı).
 - [x] `CLAUDE.md` taslağı (golden file: Splash→Profile geçişli).
 
-## Faz 1 — Library yüzeyi
-- [ ] Extensions: CoupleOS-ileride 8 merge + yeni `CGFloat`/`TimeInterval`/`UIImage`/`UIViewAnimation`; `UIImageView+Extension` iyileştirilerek (Kingfisher kalır, SupabaseStorage bağı parametrize).
-- [ ] Helpers: AlertHelper, KeychainHelper, EmojiHelper + `emoji_keywords_{en,tr}.json` + CLDR generator script'i, FormatHelper, DateHelper, PermissionManager, ReviewPromptManager, QRHelper, ToastHelper+ToastView, Language ailesi, Logger, UserDefaultsWrapper (seed key seti), **ThemeManager** (AppGroup bağı sökülmüş), **TelegramHelper → FeedbackHelper** (placeholder bot config); RemoteConfig key-refactor uyarlanır, NotificationHelper yalın gövde + tek demo zamanlayıcı.
-- [ ] Base: BaseViewController (keyboard+toast+palette), BaseButton (style enum + loading), BaseTextField, BaseNavigationController (+`NoMenuBarButtonItem`), BaseTabbarController, BaseRouter ilaveleri, cell'lere PaletteUpdatable, BaseSectionHeaderView, EmptyTVCell, ZoomTransition, FloatingActionButton, CropImageView, HudView, AvatarView, ConfettiView, PalettePickerView.
-- [ ] Form kütüphanesi (12) + BottomSheet MVVM-R stack (8) + DatePickerViewController + PickerSheetViewController — Symbols/L10n parametrize.
-- [ ] 🔎 Review kapısı 1: build yeşil + ana oturumda review.
+## Faz 1 — Library yüzeyi (TAMAM — commit'ler `ceaf65a..6b11710`)
+- [x] Extensions: 7 drifted overwrite + 4 yeni; `UIImageView+Extension` Kingfisher-saf (Supabase varyantları Faz 2 notlu).
+- [x] Helpers: temiz set + tam UserDefaultsWrapper (`@SharedUserDefault` Faz 5'e) + ThemeManager + FeedbackHelper (Telegram'dan generic) + RemoteConfig key-refactor + slim NotificationHelper + EmojiHelper (+JSON'lar pbxproj kayıtlı, generator Scripts/'te).
+- [x] Base: MVVM-R core (klasör `Scenes/`'e hizalandı), controllers (+NoMenuBarButtonItem), UI core, UIView bileşenleri (Hud uzlaştırması: Lottie HudView silindi, UIComponents kaldırıldı), PalettePickerView premium'suz.
+- [x] Form kütüphanesi (12) + BottomSheet stack (8) — L10n global `Localizable`'a rewire (`done` key'i eklendi).
+- [x] 🔎 Review kapısı 1 GEÇİLDİ: port sadakati birebir (BVC/BaseButton diff temiz), domain sızıntısı sıfır, hayalet UIComponents sync-group referansı yakalandı+temizlendi (`6b11710`), final build exit 0.
 
 ## Faz 2 — Supabase çekirdeği + Auth
 - [ ] Çekirdek: SupabaseManager (timestamp decoder), SupabaseDatabaseHelper (Table: users + örnek), ListenerHandle, ErrorMapper, AppConfigHelper (min-version gate), StorageHelper.
