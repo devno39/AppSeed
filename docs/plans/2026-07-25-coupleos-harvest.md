@@ -33,12 +33,12 @@
 - [x] Form kütüphanesi (12) + BottomSheet stack (8) — L10n global `Localizable`'a rewire (`done` key'i eklendi).
 - [x] 🔎 Review kapısı 1 GEÇİLDİ: port sadakati birebir (BVC/BaseButton diff temiz), domain sızıntısı sıfır, hayalet UIComponents sync-group referansı yakalandı+temizlendi (`6b11710`), final build exit 0.
 
-## Faz 2 — Supabase çekirdeği + Auth
-- [ ] Çekirdek: SupabaseManager (timestamp decoder), SupabaseDatabaseHelper (Table: users + örnek), ListenerHandle, ErrorMapper, AppConfigHelper (min-version gate), StorageHelper.
-- [ ] Auth: NonceGenerator, SupabaseAppleSignInService, AuthorizationDelegate, SignInError + Sign in with Apple capability/entitlement (dev/release entitlement çifti kalıbıyla).
-- [ ] UserServiceProtocol → SupabaseUserService (kırpılmış User) + minimal UserSessionManager (generation-counter guard, .userDidChange, wipeCache reset hook).
-- [ ] Login scene (sade seed görseli; Terms/Privacy attributed-text kalıbı kalır).
-- [ ] 🔎 Review kapısı 2. Not: gerçek e2e auth bir dev Supabase projesi ister; seed'de akış auth çağrısına kadar doğrulanır.
+## Faz 2 — Supabase çekirdeği + Auth (TAMAM — commit'ler `afe72ee..473beab`)
+- [x] Çekirdek: SupabaseManager + DatabaseHelper (Table→users) + ErrorMapper + AppConfigHelper (min-version; magic-code/telegram key'leri kırpıldı) + StorageHelper (`avatars` bucket) + UIImageView Supabase varyantları geri takıldı.
+- [x] Auth dörtlüsü `Helpers/Supabase/Auth/`'ta (NonceGenerator temiz evine taşındı) + dev/release entitlement çifti (`applesignin`) — sim build kabul etti.
+- [x] Kırpılmış User (`avatarURL` rename'iyle) + SupabaseUserService + minimal UserSessionManager (generation guard doğrulandı) — klasör adı temiz `Network/Services/Supabase/`.
+- [x] Login scene sade görselle + en/tr LoginLocalizable; Splash bağlantısı Faz 3'te (onaylı geçici istisna).
+- [x] 🔎 Review kapısı 2 GEÇİLDİ: auth zinciri birebir (header-only diff), domain sızıntısı sıfır, build exit 0.
 
 ## Faz 3 — İskelet scene'ler
 - [ ] Splash: startWhenForeground + update-gate grace; routing tutorial_seen → login → tabbar.
