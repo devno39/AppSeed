@@ -24,6 +24,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func supabase() {
         _ = SupabaseManager.shared
         configureDatabaseErrorHandling()
+        monitorRealtimeStatus()
+    }
+
+    private func monitorRealtimeStatus() {
+        let status = SupabaseManager.shared.client.realtimeV2.status
+        log(.info, .supabase, "Realtime socket current status: \(status)")
+
+        Task {
+            var wasDisconnected = false
+            for await status in SupabaseManager.shared.client.realtimeV2.statusChange {
+                log(.info, .supabase, "Realtime socket changed: \(status)")
+                switch status {
+                case .disconnected:
+                    wasDisconnected = true
+                case .connected where wasDisconnected:
+                    wasDisconnected = false
+                    await MainActor.run {
+                        UserSessionManager.shared.reconcileAfterReconnect()
+                    }
+                default:
+                    break
+                }
+            }
+        }
     }
 
     private func configureDatabaseErrorHandling() {
