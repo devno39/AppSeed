@@ -205,13 +205,6 @@ extension FormEmojiField: UITextFieldDelegate {
     }
 }
 
-// MARK: - EmojiTextField
-private final class EmojiTextField: UITextField {
-    override var textInputMode: UITextInputMode? {
-        UITextInputMode.activeInputModes.first { $0.primaryLanguage == "emoji" }
-    }
-}
-
 // MARK: - Draw
 extension FormEmojiField {
     private func draw() {

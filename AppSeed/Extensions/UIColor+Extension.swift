@@ -45,6 +45,13 @@ extension UIColor {
         return "rgba(\(Int(r * 255)), \(Int(g * 255)), \(Int(b * 255)), \(a))"
     }
 
+    // MARK: - Luminance
+    var isLight: Bool {
+        var white: CGFloat = 0
+        getWhite(&white, alpha: nil)
+        return white > 0.5
+    }
+
     // MARK: - 1 point Image
     func as1ptImage() -> UIImage {
         UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))
