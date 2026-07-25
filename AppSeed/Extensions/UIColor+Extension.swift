@@ -20,7 +20,14 @@ extension UIColor {
     convenience init(rgb: Int) {
         self.init(red: (rgb >> 16) & 0xFF, green: (rgb >> 8) & 0xFF, blue: rgb & 0xFF)
     }
-    
+
+    // MARK: - RGB Hex
+    var rgbHex: Int {
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        return (Int(r * 255) << 16) | (Int(g * 255) << 8) | Int(b * 255)
+    }
+
     // MARK: - 1 point Image
     func as1ptImage() -> UIImage {
         UIGraphicsBeginImageContext(CGSize(width: 1, height: 1))

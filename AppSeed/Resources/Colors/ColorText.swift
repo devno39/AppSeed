@@ -10,13 +10,13 @@ import UIKit
 enum ColorText: Colorable {
     case textPrimary
     case textSecondary
-    
+
     var hex: Int {
         switch self {
         case .textPrimary:
-            return 0x000000
+            return 0x1A1A1A
         case .textSecondary:
-            return 0xEBEBEB
+            return 0x808080
         }
     }
 }

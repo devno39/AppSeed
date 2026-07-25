@@ -68,4 +68,16 @@ enum UserDefaultsKeys: String {
     // gpt_model
     case gpt_model_free
     case gpt_model_premium
+    // palette
+    case selected_palette
+    case custom_palette_hex
+}
+
+// MARK: - UserDefaultsWrapper
+struct UserDefaultsWrapper {
+    @UserDefault(.selected_palette, defaultValue: PalettePreset.sunset.rawValue)
+    static var selected_palette: String
+
+    @UserDefault(.custom_palette_hex, defaultValue: 0xF5987C)
+    static var custom_palette_hex: Int
 }

@@ -7,16 +7,28 @@
 
 import UIKit
 
-enum Palette: Colorable {
+enum Palette {
     case palette1
     case palette2
-    
-    var hex: Int {
-        switch self {
-        case .palette1:
-            return 0xFFFFFF
-        case .palette2:
-            return 0x000000
-        }
+    case palette3
+
+    var color: UIColor {
+        PaletteManager.shared.color(for: self)
+    }
+
+    // MARK: - Gradient Colors
+    static var sunsetGradient: [CGColor] {
+        [
+            Palette.palette1.color.cgColor,
+            Palette.palette3.color.cgColor
+        ]
+    }
+
+    static var softGlowGradient: [CGColor] {
+        [
+            Palette.palette1.color.withAlphaComponent(0.25).cgColor,
+            Palette.palette3.color.withAlphaComponent(0.08).cgColor,
+            UIColor.clear.cgColor
+        ]
     }
 }
