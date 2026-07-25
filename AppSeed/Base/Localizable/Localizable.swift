@@ -22,7 +22,13 @@ enum Localizable {
     static var no: String { localized("no") }
     static var retry: String { localized("retry") }
     static var close: String { localized("close") }
-    
+
+    // MARK: - Database Errors
+    static var db_error_title: String { localized("db_error_title") }
+    static var db_error_network: String { localized("db_error_network") }
+    static var db_error_permission: String { localized("db_error_permission") }
+    static var db_error_unknown: String { localized("db_error_unknown") }
+
     // MARK: - Replicate
     static var replicate_prompt_general: String { localized("replicate_prompt_general") }
     

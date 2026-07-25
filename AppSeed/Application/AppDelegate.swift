@@ -16,9 +16,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LanguageHelper.setAppLanguage()
         IAPHelper.shared.configure()
         firebase()
+        supabase()
         return true
     }
-    
+
+    // MARK: - Supabase
+    private func supabase() {
+        _ = SupabaseManager.shared
+        configureDatabaseErrorHandling()
+    }
+
+    private func configureDatabaseErrorHandling() {
+        SupabaseDatabaseHelper.errorHandler = { error in
+            if let message = SupabaseDatabaseErrorMapper.userMessage(for: error) {
+                AlertHelper.showAlert(title: message.title, message: message.message)
+            }
+        }
+    }
+
     private func firebase() {
         let fileName = (Bundle.main.object(forInfoDictionaryKey: "Configuration") as? String == "Debug")
         ? "GoogleService-Info-develop"

@@ -52,4 +52,13 @@ extension Configuration {
     static var appVersion: String {
         UIApplication.appVersion
     }
+
+    // MARK: - Supabase
+    static var supabaseURL: String {
+        (try? value(for: "SUPABASE_URL")) ?? ""
+    }
+
+    static var supabaseAnonKey: String {
+        (try? value(for: "SUPABASE_ANON_KEY")) ?? ""
+    }
 }

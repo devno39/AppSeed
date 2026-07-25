@@ -19,14 +19,56 @@ extension UIImageView {
         .transition(.fade(0.25))
     ]
 
-    // MARK: - Set
-    func setImage(with url: URL?, placeholder: UIImage? = nil) {
-        guard let url else { return }
-        kf.setImage(with: url, placeholder: placeholder, options: Self.defaultOptions)
+    private enum AssociatedKeys {
+        static var pendingImageSource: UInt8 = 0
     }
 
+    // Guards the async resolve hop against cell reuse — a late resolve for a recycled
+    // view must not overwrite the newer request's image.
+    private var pendingImageSource: String? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.pendingImageSource) as? String }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.pendingImageSource, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    // MARK: - Set
+    // Storage URLs are re-signed at read time so stored 365-day tokens never expire on
+    // screen; cacheKey stays the storage path so token rotation keeps the cache warm.
     func setImage(with string: String?, placeholder: UIImage? = nil) {
-        setImage(with: string.flatMap { URL(string: $0) }, placeholder: placeholder)
+        guard let string else { return }
+        pendingImageSource = string
+        SupabaseStorageHelper.resolveImageURL(string) { [weak self] resolved in
+            guard let self, self.pendingImageSource == string, let resolved else { return }
+            self.kf.setImage(
+                with: KF.ImageResource(downloadURL: resolved.url, cacheKey: resolved.cacheKey),
+                placeholder: placeholder,
+                options: Self.defaultOptions
+            )
+        }
+    }
+
+    func setImage(with url: URL?, placeholder: UIImage? = nil) {
+        setImage(with: url?.absoluteString, placeholder: placeholder)
+    }
+
+    // Thumbnail-size targets (list cards): decode at target point size instead of
+    // the full-size original; the original still lands in the disk cache for detail views.
+    func setImage(with string: String?, downsampledTo size: CGSize, placeholder: UIImage? = nil) {
+        guard let string else { return }
+        pendingImageSource = string
+        SupabaseStorageHelper.resolveImageURL(string) { [weak self] resolved in
+            guard let self, self.pendingImageSource == string, let resolved else { return }
+            let options: KingfisherOptionsInfo = [
+                .processor(DownsamplingImageProcessor(size: size)),
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage,
+                .transition(.fade(0.25))
+            ]
+            self.kf.setImage(
+                with: KF.ImageResource(downloadURL: resolved.url, cacheKey: resolved.cacheKey),
+                placeholder: placeholder,
+                options: options
+            )
+        }
     }
 
     // MARK: - Download lifecycle
@@ -35,12 +77,19 @@ extension UIImageView {
     }
 
     // MARK: - Retrieve
-    // Plain Kingfisher fetch — the Supabase-signed-URL resolving variant lands with the Phase 2 core.
     static func retrieveImage(with url: URL, completion: @escaping (UIImage?) -> Void) {
-        KingfisherManager.shared.retrieveImage(with: url) { result in
-            switch result {
-            case .success(let value): completion(value.image)
-            case .failure: completion(nil)
+        SupabaseStorageHelper.resolveImageURL(url.absoluteString) { resolved in
+            guard let resolved else {
+                completion(nil)
+                return
+            }
+            KingfisherManager.shared.retrieveImage(
+                with: KF.ImageResource(downloadURL: resolved.url, cacheKey: resolved.cacheKey)
+            ) { result in
+                switch result {
+                case .success(let value): completion(value.image)
+                case .failure: completion(nil)
+                }
             }
         }
     }
@@ -69,6 +118,4 @@ extension UIImageView {
     static func cleanExpiredDiskCache() {
         imageCache.cleanExpiredDiskCache()
     }
-
-    // Supabase storage variants land with the Phase 2 core
 }
