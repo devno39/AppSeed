@@ -70,6 +70,8 @@
 		68F1E2202B4AF04500AE3E6D /* lottie-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "lottie-loading.json"; sourceTree = "<group>"; };
 		68EA000000000002AAAA0002 /* emoji_keywords_en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji_keywords_en.json; sourceTree = "<group>"; };
 		68EA000000000003AAAA0003 /* emoji_keywords_tr.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji_keywords_tr.json; sourceTree = "<group>"; };
+		AA00000000000000000E0001 /* AppSeedDevelop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSeedDevelop.entitlements; sourceTree = "<group>"; };
+		AA00000000000000000E0002 /* AppSeedRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSeedRelease.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -183,6 +185,8 @@
 				6881A45C2E631FF90033F951 /* Extensions */,
 				68C7E92A2A71A20B008CD84F /* Resources */,
 				689888022AA3824E00A2D55D /* Configuration */,
+				AA00000000000000000E0001 /* AppSeedDevelop.entitlements */,
+				AA00000000000000000E0002 /* AppSeedRelease.entitlements */,
 			);
 			path = AppSeed;
 			sourceTree = "<group>";
@@ -422,6 +426,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AppSeed/AppSeedDevelop.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 69V5T68KT9;
@@ -508,6 +513,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AppSeed/AppSeedRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 69V5T68KT9;
