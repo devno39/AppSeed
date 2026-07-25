@@ -42,6 +42,10 @@ final class ProfileViewController: BaseViewController<ProfileViewModel, ProfileR
             self?.tableView.reloadData()
         }
 
+        viewModel?.editProfileClosure = { [weak self] in
+            self?.showEditProfileSheet()
+        }
+
         viewModel?.logoutSuccessClosure = { [weak self] in
             self?.router?.showLogin()
         }
@@ -67,6 +71,19 @@ final class ProfileViewController: BaseViewController<ProfileViewModel, ProfileR
     }
 
     // MARK: - Actions
+    private func showEditProfileSheet() {
+        let user = viewModel?.currentUser
+        let sheet = EditProfileSheetBuilder(
+            displayName: user?.displayName,
+            imageURL: user?.avatarURL,
+            birthDate: user?.birthDate,
+            onSave: { [weak self] model in
+                self?.viewModel?.updateProfile(with: model)
+            }
+        ).build()
+        router?.presentFormSheet(sheet)
+    }
+
     private func showLanguageSheet() {
         let current = LanguageManager.shared.currentLanguage
         let actions: [BottomSheetAction] = AppLanguage.allCases.map { language in
@@ -188,6 +205,8 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let item = viewModel?.item(at: indexPath) else { return }
         switch item {
+        case .editProfile:
+            viewModel?.editProfileClosure?()
         case .language:
             showLanguageSheet()
         case .theme:

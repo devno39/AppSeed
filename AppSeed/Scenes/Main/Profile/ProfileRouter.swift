@@ -21,4 +21,4 @@ extension ProfileRoute where Self: BaseRouter {
 }
 
 // MARK: - Router
-final class ProfileRouter: BaseRouter, LoginRoute, BottomSheetRoute { }
+final class ProfileRouter: BaseRouter, LoginRoute, BottomSheetRoute, FormBottomSheetRoute { }

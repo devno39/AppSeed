@@ -31,6 +31,7 @@ protocol ProfileViewModelFunctionSource {
     func item(at indexPath: IndexPath) -> ProfileCellType?
     func logout()
     func deleteAccount()
+    func updateProfile(with model: EditProfileModel)
 }
 
 // MARK: - Protocol
@@ -96,6 +97,49 @@ final class ProfileViewModel: BaseViewModel, ProfileViewModelProtocol {
         return cells[indexPath.row]
     }
 
+    // MARK: - Update
+    func updateProfile(with model: EditProfileModel) {
+        guard let userId = userService.currentUserId else { return }
+
+        if let image = model.image {
+            SupabaseStorageHelper.uploadImage(image, path: .profileImages, fileName: userId) { [weak self] avatarURL in
+                self?.saveProfileData(userId: userId, model: model, avatarURL: avatarURL)
+            }
+        } else {
+            saveProfileData(userId: userId, model: model, avatarURL: nil)
+        }
+    }
+
+    private func saveProfileData(userId: String, model: EditProfileModel, avatarURL: String?) {
+        var data: [String: Any] = ["display_name": model.displayName]
+        if let birthDate = model.birthDate {
+            data["birth_date"] = birthDate
+        }
+        let finalAvatarURL = avatarURL ?? currentUser?.avatarURL
+        if let avatarURL {
+            data["avatar_url"] = avatarURL
+        }
+
+        userService.updateProfile(userId: userId, fields: data, completion: nil)
+
+        headerModel = ProfileHeaderModel(
+            userName: model.displayName,
+            email: currentUser?.email,
+            avatarURL: finalAvatarURL
+        )
+        currentUser = User(
+            userId: userId,
+            displayName: model.displayName,
+            email: currentUser?.email,
+            avatarURL: finalAvatarURL,
+            birthDate: model.birthDate,
+            createdAt: currentUser?.createdAt,
+            lastLoginAt: currentUser?.lastLoginAt,
+            lastSeenAt: currentUser?.lastSeenAt
+        )
+        dataDidChange?()
+    }
+
     // MARK: - Logout
     func logout() {
         Task { @MainActor [weak self] in
@@ -136,6 +180,6 @@ final class ProfileViewModel: BaseViewModel, ProfileViewModelProtocol {
 
     // MARK: - Private
     private func buildSections() -> [ProfileSection] {
-        [.header, .app, .session]
+        [.header, .account, .app, .session]
     }
 }

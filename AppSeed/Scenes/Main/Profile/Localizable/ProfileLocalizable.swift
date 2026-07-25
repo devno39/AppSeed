@@ -32,6 +32,15 @@ enum ProfileLocalizable {
     static var item_logout: String { localized("item_logout") }
     static var item_delete_account: String { localized("item_delete_account") }
 
+    // MARK: - Edit Profile
+    static var edit_title: String { localized("edit_title") }
+    static var edit_save: String { localized("edit_save") }
+    static var edit_photo: String { localized("edit_photo") }
+    static var edit_name: String { localized("edit_name") }
+    static var edit_name_placeholder: String { localized("edit_name_placeholder") }
+    static var edit_birth_date: String { localized("edit_birth_date") }
+    static var edit_birth_date_placeholder: String { localized("edit_birth_date_placeholder") }
+
     // MARK: - Theme
     static var theme_system: String { localized("theme_system") }
     static var theme_light: String { localized("theme_light") }
