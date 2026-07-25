@@ -26,8 +26,6 @@ class BaseTableView: UITableView {
         showsVerticalScrollIndicator = false
         showsHorizontalScrollIndicator = false
         separatorStyle = .none
-        if #available(iOS 15.0, *) {
-            sectionHeaderTopPadding = 0
-        }
+        sectionHeaderTopPadding = 0
     }
 }

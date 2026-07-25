@@ -7,18 +7,21 @@
 
 import UIKit
 
-class BaseCollectionViewCell: UICollectionViewCell, ReusableView {
+class BaseCollectionViewCell: UICollectionViewCell, ReusableView, PaletteUpdatable {
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         prepare()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         prepare()
     }
-    
+
     // MARK: - Prepare
-    private func prepare() {}
+    func prepare() {}
+
+    // MARK: - PaletteUpdatable
+    @objc dynamic func updatePaletteColors() {}
 }

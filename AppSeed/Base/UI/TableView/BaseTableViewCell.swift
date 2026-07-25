@@ -7,22 +7,25 @@
 
 import UIKit
 
-class BaseTVCell: UITableViewCell, ReusableView {
+class BaseTVCell: UITableViewCell, ReusableView, PaletteUpdatable {
     // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         prepare()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
+
         prepare()
     }
-    
+
     // MARK: - Prepare
-    private func prepare() {
+    func prepare() {
         selectionStyle = .none
     }
+
+    // MARK: - PaletteUpdatable
+    @objc dynamic func updatePaletteColors() {}
 }
