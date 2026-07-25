@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 import Firebase
 import FirebaseCore
 import RevenueCat
@@ -21,7 +22,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         WidgetSyncService.register([
             DemoWidgetSyncHandler.self
         ])
+        // APNs registration runs from UserSessionManager once auth.uid() is available
+        // for the device_tokens upsert; here we only claim the delegate.
+        UNUserNotificationCenter.current().delegate = PushNotificationManager.shared
         return true
+    }
+
+    // MARK: - APNs (Push Notifications)
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        PushNotificationManager.shared.handleDidRegister(deviceToken: deviceToken)
+    }
+
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+        PushNotificationManager.shared.handleDidFailToRegister(error: error)
+    }
+
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        PushNotificationManager.shared.handleSilentPush(userInfo: userInfo, completion: completionHandler)
     }
 
     // MARK: - Supabase

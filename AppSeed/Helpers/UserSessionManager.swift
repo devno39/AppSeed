@@ -57,6 +57,8 @@ final class UserSessionManager {
             if self.isFirstSnapshot {
                 self.isFirstSnapshot = false
                 self.updateLastSeen()
+                // APNs register runs post-auth so the device_tokens upsert has a valid auth.uid().
+                PushNotificationManager.shared.requestAuthorizationAndRegister()
             }
 
             NotificationCenter.default.post(name: .userDidChange, object: nil)
@@ -67,6 +69,11 @@ final class UserSessionManager {
     func stopListening(wipeCache: Bool) {
         sessionGeneration += 1
         if wipeCache {
+            // Drop this account's device tokens before the session clears so the
+            // signed-out device stops receiving pushes (RLS delete needs auth.uid()).
+            if let userId = currentUser?.userId {
+                PushNotificationManager.shared.handleSignOut(userId: userId)
+            }
             // A different Apple ID must re-enter setup and permissions.
             UserDefaultsWrapper.has_completed_setup = false
             UserDefaultsWrapper.has_shown_permission_sheet = false

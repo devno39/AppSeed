@@ -21,6 +21,7 @@ struct SupabaseDatabaseHelper {
     // MARK: - Tables
     enum Table: String {
         case users
+        case deviceTokens = "device_tokens"
     }
 
     // MARK: - Insert / Upsert (Encodable)
