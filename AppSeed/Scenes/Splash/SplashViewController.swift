@@ -29,7 +29,9 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
         let label = UILabel()
         label.text = SplashLocalizable.splash_title
         label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textColor = ColorText.textPrimary.color
+        // Sits on the fixed dark launch art in both themes — a fixed light color, not an
+        // adaptive semantic one, is the only value readable in both light and dark.
+        label.textColor = .white
         label.textAlignment = .center
         return label
     }()

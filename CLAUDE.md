@@ -2,7 +2,7 @@
 
 UIKit seed project (UIKit + SnapKit, MVVM-R, Supabase) — the starting point for new apps, carrying CoupleOS-proven patterns so the next app has its first week already built. This file is the contract for how code is written here. **Do not deviate from these standards.** When in doubt, read the golden file.
 
-**Golden file:** `AppSeed/Scenes/Main/Profile/` — lands in Phase 3 of the harvest; until then `Scenes/Splash/` is the reference shape. New scenes copy its shape.
+**Golden file:** `AppSeed/Scenes/Main/Profile/` — a complete, current scene: section-driven table, a nested EditProfile form sheet, language/theme switches, sign-out and delete-account. New scenes copy its shape.
 
 ## Architecture — MVVM-R + Builder
 
@@ -80,18 +80,27 @@ private lazy var tableView: BaseTableView = {
 
 ## Cross-cutting invariants
 
-Placeholder — the seed's widget and push invariants (App-Group snapshot mirroring, silent-push cold-launch races, one-event-one-outbox-row) arrive with the Phase 5 widget/push templates. Until those land, no cross-cutting push/widget rules apply.
+- **Widgets can't do realtime.** The app writes App-Group snapshots (`AppGroupStorage` + `*WidgetMetadata` Codable structs), then calls `WidgetCenter.shared.reloadTimelines(ofKind:)`. Feature writes route through the `WidgetSync` registry: new widget = new `WidgetSyncKind` + a `WidgetSyncHandler`. Widgets read snapshots — they never fetch. See `AppSeedWidgets/README.md`.
+- **Push pipeline has 4 hard rules** (no hybrid `alert`+`content-available` payloads, one event = one `push_outbox` row, loc-key deploy order, silent-push cold-launch race) — read `supabase/README.md` before touching anything push-related.
+- **Silent-push cold-launch race.** A silent push can launch the app in the background and race the splash. The defense is `SplashViewController.startWhenForeground()` (hold the flow until foregrounded) plus a SceneDelegate fallback; `handleSilentPush` must guard `currentUser == nil` and do no heavy work on background launches.
 
 ## Docs map + maintenance
 
 | Doc | Content |
 |---|---|
-| `README.md` | Project overview |
+| `README.md` | Shop-window overview: stack, target layout, quickstart, docs map |
+| `AppSeed/Base/README.md` | Base classes, sheet bases, Form field library, base UI |
+| `AppSeed/Helpers/README.md` | Helpers, managers, App Group bridge, push, widget sync |
+| `AppSeed/Network/README.md` | Domain service layer + the GPT/DALLE/Replicate/Falai HTTP shelf |
+| `AppSeed/Scenes/README.md` | Scene flow map (Splash routing, tabs, sheets, deep-link hosts) |
+| `AppSeed/Resources/README.md` | Asset/color/localization conventions |
+| `AppSeedWidgets/README.md` | Widget extension: kind table, snapshot reads, lock-screen rules |
+| `supabase/README.md` | Edge functions + push pipeline 4 hard rules + SQL templates |
+| `docs/templates/` | Process-doc skeletons (brainstorm, plan, release, review) |
+| `docs/patterns/` | Reusable recipe write-ups (optimistic sync, listener guards, cold-launch defer) |
 | `docs/plans/` | Requirements and implementation plans (dated) |
 
-Per-area READMEs (`Base/`, `Helpers/`, `Network/`, `Scenes/`, `Resources/`) and the `docs/` process templates land in Phase 6 of the harvest.
-
-**Maintenance rule:** docs update in the same commit as the change that invalidates them — new service → the Network README; new base component or form field → the Base README; new scene or navigation change → the Scenes README; new helper → the Helpers README. A doc that lists code the repo doesn't have (or misses code it does) is a bug.
+**Maintenance rule:** docs update in the same commit as the change that invalidates them — new service → the Network README; new base component or form field → the Base README; new scene or navigation change → the Scenes README; new helper → the Helpers README; new widget kind → the AppSeedWidgets README; push/edge-function change → the supabase README. A doc that lists code the repo doesn't have (or misses code it does) is a bug.
 
 ## Working agreements
 
