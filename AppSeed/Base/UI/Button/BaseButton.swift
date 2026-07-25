@@ -48,10 +48,14 @@ class BaseButton: UIButton {
     
     // MARK: - Prepare
     private func prepare() {
+        applyStyle()
+    }
+
+    // MARK: - Style
+    func applyStyle() {
         titleLabel?.font = style?.font
         setTitleColor(style?.textColor, for: .normal)
         backgroundColor = style?.backgroundColor
-        
     }
 }
 

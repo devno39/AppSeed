@@ -7,22 +7,44 @@
 
 import UIKit
 
-// TODO: - Update when needed
 class BaseTabbarController: UITabBarController, UITabBarControllerDelegate {
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         prepare()
+        delegate = self
     }
-    
-    //MARK: - Prepare
+
+    // MARK: - Prepare
     func prepare() {
+        let appearance = UITabBarAppearance()
+
+        // iOS 26 Liquid Glass auto-applies on transparent; pre-26 needs the default backdrop blur for legibility.
+        if #available(iOS 26, *) {
+            appearance.configureWithTransparentBackground()
+            appearance.backgroundColor = .clear
+        } else {
+            appearance.configureWithDefaultBackground()
+        }
+
+        appearance.shadowColor = .clear
+        appearance.shadowImage = nil
+
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+
+        tabBar.isTranslucent = true
+        if #available(iOS 26, *) {
+            tabBar.backgroundColor = .clear
+            tabBar.backgroundImage = UIImage()
+        }
         tabBar.shadowImage = UIImage()
-        tabBar.backgroundImage = UIImage()
-        tabBar.clipsToBounds = false
-        tabBar.backgroundColor = ColorBackground.backgroundPrimary.color
-        tabBar.tintColor = ColorText.textPrimary.color
-        tabBar.unselectedItemTintColor = ColorText.textPrimary.color
-        definesPresentationContext = true
+    }
+}
+
+// MARK: - Delegate
+extension BaseTabbarController {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
     }
 }
