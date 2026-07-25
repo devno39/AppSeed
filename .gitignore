@@ -89,3 +89,13 @@ fastlane/test_output
 
 iOSInjectionProject/
 .DS_Store
+
+# APNs key
+*.p8
+
+# Supabase CLI artifacts
+supabase/.temp/
+.env.local
+
+# Xcode project manual backup files
+project.pbxproj.backup*
