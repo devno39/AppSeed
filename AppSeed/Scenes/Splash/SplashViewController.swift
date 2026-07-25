@@ -143,7 +143,7 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
         if !UserDefaultsWrapper.tutorials_seen {
             router?.showTutorial()
         } else if viewModel?.isUserLoggedIn ?? false {
-            router?.showLogin() // commit 3 wires TabBarRoute → showTabBar()
+            router?.showTabBar()
         } else {
             router?.showLogin()
         }

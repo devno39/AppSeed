@@ -199,24 +199,6 @@
         }
       }
     },
-    "login_success": {
-      "comment": "",
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Signed in successfully"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Giriş başarılı"
-          }
-        }
-      }
-    },
     "subtitle": {
       "comment": "",
       "extractionState": "manual",

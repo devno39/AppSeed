@@ -104,11 +104,10 @@ final class LoginViewController: BaseViewController<LoginViewModel, LoginRouter>
     // MARK: - Bind
     override func bindViewModel() {
         super.bindViewModel()
-        viewModel?.loginSuccessClosure = { userId in
+        viewModel?.loginSuccessClosure = { [weak self] userId in
             log(.success, .supabase, "Login Success - User ID: \(userId)")
             UserSessionManager.shared.startListening()
-            // Phase 3 wires showTabBar() here
-            ToastHelper.show(icon: Symbols.checkmark.symbolName, title: LoginLocalizable.login_success)
+            self?.router?.showTabBar()
         }
     }
 

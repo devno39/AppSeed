@@ -7,4 +7,4 @@
 
 import UIKit
 
-final class SplashRouter: BaseRouter, TutorialRoute, LoginRoute { }
+final class SplashRouter: BaseRouter, TutorialRoute, LoginRoute, TabBarRoute { }

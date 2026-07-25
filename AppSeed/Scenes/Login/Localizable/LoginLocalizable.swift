@@ -14,7 +14,6 @@ enum LoginLocalizable {
 
     static var title: String { localized("title") }
     static var subtitle: String { localized("subtitle") }
-    static var login_success: String { localized("login_success") }
 
     // MARK: - Agreement
     static var agreement: String { localized("agreement") }

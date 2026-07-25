@@ -19,4 +19,4 @@ extension LoginRoute where Self: BaseRouter {
     }
 }
 
-final class LoginRouter: BaseRouter, LoginRoute { }
+final class LoginRouter: BaseRouter, LoginRoute, TabBarRoute { }
