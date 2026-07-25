@@ -54,7 +54,7 @@ final class TabBarViewController: BaseTabbarController {
 
     @objc private func handleLanguageChange() {
         guard let vcs = viewControllers else { return }
-        let titles = [TabBarLocalizable.home]
+        let titles = [TabBarLocalizable.home, TabBarLocalizable.profile]
         for (index, vc) in vcs.enumerated() where index < titles.count {
             vc.tabBarItem.title = titles[index]
         }
@@ -74,8 +74,12 @@ extension TabBarViewController {
 
         let homeNav = BaseNavigationController(rootViewController: homeVC)
 
-        // Phase 3B adds Profile tab
-        viewControllers = [homeNav]
+        let profileVC = ProfileBuilder().build()
+        profileVC.tabBarItem = UITabBarItem(title: TabBarLocalizable.profile, image: Symbols.person_crop_circle.symbolMedium(), tag: 1)
+
+        let profileNav = BaseNavigationController(rootViewController: profileVC)
+
+        viewControllers = [homeNav, profileNav]
     }
 
     private func configureTabBar() {

@@ -13,6 +13,7 @@ enum Symbols: String, Symbolable {
     case chevron_right
     case chevron_up_chevron_down
     case house
+    case person_crop_circle
 
     // MARK: - Actions
     case plus
