@@ -52,11 +52,11 @@
 - [x] 🔎 Review kapısı 3 GEÇİLDİ (sim görsel test).
 
 ## Faz 4 — Terfi bileşenleri (iyileştirerek taşı)
-- [ ] `RingProgressView` — 3 copy-paste ring'ten tek parametrik bileşen.
-- [ ] A-sınıfı: `EmojiTextField`, `PhotoViewerCell`, `PaperBackgroundView` (+`UIColor.isLight`).
-- [ ] B-sınıfı: `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay`, `PillSearchField`, `LargeTitleSectionHeader`.
-- [ ] Yeni küçük ekleme: `HapticHelper` (CoupleOS'ta inline dağınık haptik'lerin dersi).
-- [ ] 🔎 Review kapısı 4.
+- [x] `RingProgressView` — 3 copy-paste ring'ten tek parametrik bileşen.
+- [x] A-sınıfı: `EmojiTextField`, `PhotoViewerCell`, `PaperBackgroundView` (+`UIColor.isLight`).
+- [x] B-sınıfı: `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay`, `PillSearchField`, `LargeTitleSectionHeader`.
+- [x] Yeni küçük ekleme: `HapticHelper` (CoupleOS'ta inline dağınık haptik'lerin dersi).
+- [x] 🔎 Review kapısı 4 GEÇİLDİ (RingProgressView ana oturumda okundu, leak sıfır).
 
 ## Faz 5 — İleri altyapı şablonları (widget + push + extension'lar)
 - [ ] **Widget starter kit:** widget extension target'ı + `AppGroupStorage` (generic motor: vintage-UUID atomik yazım, freshness/session doğrulama, wipe) + `WidgetSyncService`/`WidgetSyncHandler` (registry, cheap/expensive ayrımı) + `WidgetHelpers` (timeline politikaları, App-Group locale/format köprüleri, kilit view'ları) + `WidgetColorKit` şablonu + `WidgetLocalizable` kalıbı + tek demo widget (+ `StatusBubbleShape`) + widget README iskeleti.
