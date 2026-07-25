@@ -38,6 +38,7 @@
 		68C7E92E2A71A23E008CD84F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E92D2A71A23E008CD84F /* Colors.xcassets */; };
 		68F1E2212B4AF04500AE3E6D /* lottie-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 68F1E2202B4AF04500AE3E6D /* lottie-loading.json */; };
 		B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B6EF0E072B6AA48F0044472A /* Kingfisher */; };
+		AA00000000000000000C0003 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000C0002 /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +87,7 @@
 				6895974C2E23F45000770DF8 /* RevenueCat in Frameworks */,
 				6895974E2E23F45000770DF8 /* RevenueCatUI in Frameworks */,
 				B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */,
+				AA00000000000000000C0003 /* Supabase in Frameworks */,
 				6826C8442AE2A55700ABB6D9 /* SnapKit in Frameworks */,
 				68AF25D22E23FDDA003937D1 /* FirebaseCrashlytics in Frameworks */,
 				685319E42B4620B700633D64 /* Lottie in Frameworks */,
@@ -220,6 +222,7 @@
 				6826C8432AE2A55700ABB6D9 /* SnapKit */,
 				685319E32B4620B700633D64 /* Lottie */,
 				B6EF0E072B6AA48F0044472A /* Kingfisher */,
+				AA00000000000000000C0002 /* Supabase */,
 				6856CFE52D32ADB900F4BA86 /* Alamofire */,
 				6856CFFA2D331A2100F4BA86 /* JsonFellow */,
 				6895974B2E23F45000770DF8 /* RevenueCat */,
@@ -264,6 +267,7 @@
 				6826C8422AE2A55700ABB6D9 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				685319E22B4620B700633D64 /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				B6EF0E062B6AA48F0044472A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				AA00000000000000000C0001 /* XCRemoteSwiftPackageReference "supabase-swift" */,
 				6856CFE42D32ADB900F4BA86 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				6856CFF92D331A2100F4BA86 /* XCRemoteSwiftPackageReference "JsonFellow" */,
 				6895974A2E23F45000770DF8 /* XCRemoteSwiftPackageReference "purchases-ios" */,
@@ -586,6 +590,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		AA00000000000000000C0001 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -653,6 +665,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B6EF0E062B6AA48F0044472A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		AA00000000000000000C0002 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AA00000000000000000C0001 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

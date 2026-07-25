@@ -11,3 +11,5 @@
 PRODUCT_BUNDLE_IDENTIFIER = com.devno39.AppSeed.develop
 PRODUCT_APP_NAME = AppSeed-develop
 API_BASE_PATH = https:/$()/
+SUPABASE_URL = https:/$()/YOUR_PROJECT.supabase.co
+SUPABASE_ANON_KEY = YOUR_SUPABASE_ANON_KEY
