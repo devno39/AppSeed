@@ -39,6 +39,8 @@
 		68C7E92E2A71A23E008CD84F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E92D2A71A23E008CD84F /* Colors.xcassets */; };
 		68F0000D2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 68F0000C2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy */; };
 		68F1E2212B4AF04500AE3E6D /* lottie-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 68F1E2202B4AF04500AE3E6D /* lottie-loading.json */; };
+		68EA000000000004AAAA0004 /* emoji_keywords_en.json in Resources */ = {isa = PBXBuildFile; fileRef = 68EA000000000002AAAA0002 /* emoji_keywords_en.json */; };
+		68EA000000000005AAAA0005 /* emoji_keywords_tr.json in Resources */ = {isa = PBXBuildFile; fileRef = 68EA000000000003AAAA0003 /* emoji_keywords_tr.json */; };
 		B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B6EF0E072B6AA48F0044472A /* Kingfisher */; };
 		AA00000000000000000C0003 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000C0002 /* Supabase */; };
 /* End PBXBuildFile section */
@@ -66,6 +68,8 @@
 		68C7E92D2A71A23E008CD84F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		68F0000C2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		68F1E2202B4AF04500AE3E6D /* lottie-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "lottie-loading.json"; sourceTree = "<group>"; };
+		68EA000000000002AAAA0002 /* emoji_keywords_en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji_keywords_en.json; sourceTree = "<group>"; };
+		68EA000000000003AAAA0003 /* emoji_keywords_tr.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji_keywords_tr.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -108,6 +112,15 @@
 				68F1E2202B4AF04500AE3E6D /* lottie-loading.json */,
 			);
 			path = Animations;
+			sourceTree = "<group>";
+		};
+		68EA000000000001AAAA0001 /* EmojiKeywords */ = {
+			isa = PBXGroup;
+			children = (
+				68EA000000000002AAAA0002 /* emoji_keywords_en.json */,
+				68EA000000000003AAAA0003 /* emoji_keywords_tr.json */,
+			);
+			path = EmojiKeywords;
 			sourceTree = "<group>";
 		};
 		685319DA2B461C6500633D64 /* Images */ = {
@@ -180,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				685319D72B461BD900633D64 /* Animations */,
+				68EA000000000001AAAA0001 /* EmojiKeywords */,
 				6898880F2AA3835200A2D55D /* Colors */,
 				685319DA2B461C6500633D64 /* Images */,
 				68C7E9102A71A1AE008CD84F /* Assets.xcassets */,
@@ -300,6 +314,8 @@
 				68F0000D2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy in Resources */,
 				68C7E9112A71A1AE008CD84F /* Assets.xcassets in Resources */,
 				68F1E2212B4AF04500AE3E6D /* lottie-loading.json in Resources */,
+				68EA000000000004AAAA0004 /* emoji_keywords_en.json in Resources */,
+				68EA000000000005AAAA0005 /* emoji_keywords_tr.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
