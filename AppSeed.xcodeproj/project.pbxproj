@@ -78,7 +78,6 @@
 		AA00000000000000000B0002 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
 		AA00000000000000000B0003 /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
 		AA00000000000000000B0004 /* Scenes */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Scenes; sourceTree = "<group>"; };
-		AA00000000000000000B0005 /* UIComponents */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UIComponents; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,7 +180,6 @@
 				AA00000000000000000B0002 /* Helpers */,
 				AA00000000000000000B0001 /* Base */,
 				AA00000000000000000B0004 /* Scenes */,
-				AA00000000000000000B0005 /* UIComponents */,
 				6881A45C2E631FF90033F951 /* Extensions */,
 				68C7E92A2A71A20B008CD84F /* Resources */,
 				689888022AA3824E00A2D55D /* Configuration */,
@@ -235,7 +233,6 @@
 				AA00000000000000000B0002 /* Helpers */,
 				AA00000000000000000B0003 /* Network */,
 				AA00000000000000000B0004 /* Scenes */,
-				AA00000000000000000B0005 /* UIComponents */,
 			);
 			name = AppSeed;
 			packageProductDependencies = (
