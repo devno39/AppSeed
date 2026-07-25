@@ -46,6 +46,7 @@
 		AA00000000000000000F001B /* AppSeedWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA00000000000000000F0011 /* AppSeedWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AA00000000000000000F0022 /* AppGroupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000F0020 /* AppGroupStorage.swift */; };
 		AA00000000000000000F0023 /* DemoWidgetMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000000000000000F0021 /* DemoWidgetMetadata.swift */; };
+		AA000000000000000010001B /* AppSeedNotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AA0000000000000000100011 /* AppSeedNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = AA00000000000000000F0010;
 			remoteInfo = AppSeedWidgetsExtension;
+		};
+		AA000000000000000010001C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68C7E8FC2A71A1AC008CD84F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA0000000000000000100010;
+			remoteInfo = AppSeedNotificationService;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -66,6 +74,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				AA00000000000000000F001B /* AppSeedWidgetsExtension.appex in Embed Foundation Extensions */,
+				AA000000000000000010001B /* AppSeedNotificationService.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -100,6 +109,7 @@
 		AA00000000000000000E0001 /* AppSeedDevelop.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSeedDevelop.entitlements; sourceTree = "<group>"; };
 		AA00000000000000000E0002 /* AppSeedRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AppSeedRelease.entitlements; sourceTree = "<group>"; };
 		AA00000000000000000F0011 /* AppSeedWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AppSeedWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0000000000000000100011 /* AppSeedNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = AppSeedNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA00000000000000000F0020 /* AppGroupStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppGroupStorage.swift; path = AppSeed/Helpers/AppGroup/AppGroupStorage.swift; sourceTree = SOURCE_ROOT; };
 		AA00000000000000000F0021 /* DemoWidgetMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DemoWidgetMetadata.swift; path = AppSeed/Helpers/AppGroup/DemoWidgetMetadata.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -113,10 +123,18 @@
 			);
 			target = AA00000000000000000F0010 /* AppSeedWidgetsExtension */;
 		};
+		AA0000000000000000100019 /* Exceptions for "AppSeedNotificationService" folder in "AppSeedNotificationService" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = AA0000000000000000100010 /* AppSeedNotificationService */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA00000000000000000F0018 /* AppSeedWidgets */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA00000000000000000F0019 /* Exceptions for "AppSeedWidgets" folder in "AppSeedWidgetsExtension" target */, ); explicitFileTypes = {}; explicitFolders = (); path = AppSeedWidgets; sourceTree = "<group>"; };
+		AA0000000000000000100018 /* AppSeedNotificationService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA0000000000000000100019 /* Exceptions for "AppSeedNotificationService" folder in "AppSeedNotificationService" target */, ); explicitFileTypes = {}; explicitFolders = (); path = AppSeedNotificationService; sourceTree = "<group>"; };
 		6881A45C2E631FF90033F951 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
 		AA00000000000000000B0001 /* Base */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Base; sourceTree = "<group>"; };
 		AA00000000000000000B0002 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
@@ -147,6 +165,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AA00000000000000000F0013 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000100013 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -212,6 +237,7 @@
 			children = (
 				68C7E9062A71A1AC008CD84F /* AppSeed */,
 				AA00000000000000000F0018 /* AppSeedWidgets */,
+				AA0000000000000000100018 /* AppSeedNotificationService */,
 				AA00000000000000000F0024 /* Shared (Widget) */,
 				68C7E9052A71A1AC008CD84F /* Products */,
 			);
@@ -231,6 +257,7 @@
 			children = (
 				68C7E9042A71A1AC008CD84F /* AppSeed-develop.app */,
 				AA00000000000000000F0011 /* AppSeedWidgetsExtension.appex */,
+				AA0000000000000000100011 /* AppSeedNotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -293,6 +320,7 @@
 			);
 			dependencies = (
 				AA00000000000000000F001D /* PBXTargetDependency */,
+				AA000000000000000010001D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				6881A45C2E631FF90033F951 /* Extensions */,
@@ -342,6 +370,26 @@
 			productReference = AA00000000000000000F0011 /* AppSeedWidgetsExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		AA0000000000000000100010 /* AppSeedNotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA0000000000000000100015 /* Build configuration list for PBXNativeTarget "AppSeedNotificationService" */;
+			buildPhases = (
+				AA0000000000000000100012 /* Sources */,
+				AA0000000000000000100013 /* Frameworks */,
+				AA0000000000000000100014 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				AA0000000000000000100018 /* AppSeedNotificationService */,
+			);
+			name = AppSeedNotificationService;
+			productName = AppSeedNotificationService;
+			productReference = AA0000000000000000100011 /* AppSeedNotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -356,6 +404,9 @@
 						CreatedOnToolsVersion = 14.3.1;
 					};
 					AA00000000000000000F0010 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					AA0000000000000000100010 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
@@ -386,6 +437,7 @@
 			targets = (
 				68C7E9032A71A1AC008CD84F /* AppSeed */,
 				AA00000000000000000F0010 /* AppSeedWidgetsExtension */,
+				AA0000000000000000100010 /* AppSeedNotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -408,6 +460,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		AA00000000000000000F0014 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA0000000000000000100014 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -446,6 +505,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA0000000000000000100012 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -453,6 +519,11 @@
 			isa = PBXTargetDependency;
 			target = AA00000000000000000F0010 /* AppSeedWidgetsExtension */;
 			targetProxy = AA00000000000000000F001C /* PBXContainerItemProxy */;
+		};
+		AA000000000000000010001D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA0000000000000000100010 /* AppSeedNotificationService */;
+			targetProxy = AA000000000000000010001C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -730,6 +801,80 @@
 			};
 			name = Release;
 		};
+		AA0000000000000000100016 /* Develop */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = AppSeedNotificationService/AppSeedNotificationService.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 69V5T68KT9;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppSeedNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AppSeedNotificationService;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).nse";
+				PRODUCT_MODULE_NAME = AppSeedNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Develop;
+		};
+		AA0000000000000000100017 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = AppSeedNotificationService/AppSeedNotificationService.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 69V5T68KT9;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AppSeedNotificationService/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AppSeedNotificationService;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).nse";
+				PRODUCT_MODULE_NAME = AppSeedNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -756,6 +901,15 @@
 			buildConfigurations = (
 				AA00000000000000000F0016 /* Develop */,
 				AA00000000000000000F0017 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA0000000000000000100015 /* Build configuration list for PBXNativeTarget "AppSeedNotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA0000000000000000100016 /* Develop */,
+				AA0000000000000000100017 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
