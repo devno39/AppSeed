@@ -67,11 +67,11 @@
 - [x] 🔎 Review kapısı 5 GEÇİLDİ (secret-scan temiz, 3 target build exit 0; device_tokens token-PK iyileştirmesi onaylandı).
 
 ## Faz 6 — Agentic kapanış
-- [ ] CLAUDE.md finalize (golden file: Profile) + Base/Helpers/Network/Scenes README'leri (docs-maintenance kuralı seed'e gelir).
-- [ ] **docs/ şablonları:** dört doküman tipinin format iskeletleri (brainstorm/plan/release/review) + `docs/patterns/` reçeteleri: pendingSaves (optimistic-base + echo-kuyruğu + 3-yönlü merge), generation-counter stale-callback guard, startWhenForeground cold-launch kalıbı.
-- [ ] Xcode scene template'i güncel formata yenilenir (protokol üçlüsü, MARK sırası) + sheet template'leri eklenir; Renamer smoke test.
-- [ ] Localizable seed seti (en+tr içerik, 6 dil şablonu).
-- [ ] Final build + tam akış + `main`'e merge kararı Tunay'da.
+- [x] CLAUDE.md finalize (golden file: Profile) + Base/Helpers/Network/Scenes README'leri (docs-maintenance kuralı seed'e gelir).
+- [x] **docs/ şablonları:** dört doküman tipinin format iskeletleri (brainstorm/plan/release/review) + `docs/patterns/` reçeteleri: pendingSaves (optimistic-base + echo-kuyruğu + 3-yönlü merge), generation-counter stale-callback guard, startWhenForeground cold-launch kalıbı.
+- [x] Xcode scene template'i güncel formata yenilenir (protokol üçlüsü, MARK sırası) + sheet template'leri eklenir; Renamer smoke test.
+- [x] Localizable seed seti (en+tr içerik, 6 dil şablonu).
+- [x] Final build exit 0 (2026-07-26); Renamer smoke: AppSeed→TestSeed tam rename + scratch build exit 0, fix gerekmedi. `main`'e merge kararı Tunay'da.
 
 ## Taşınmayanlar (bilinçli)
 Pair/premium domain'i, Places/Paper/Calendar/Today/Together domain scene'leri, domain widget'ları (yapıları şablon olarak öğretici, içerikleri değil), Weather üçlüsü, LocationHelper, PlaceLabelHelper, Nudge/DateReminders/MissionReminders, SQL migration geçmişi (52 dosya), GoogleService-Info değerleri. AppSeed'in mevcut GPT/DALLE/Replicate/Falai servisleri ve RevenueCat IAP dokunulmadan kalır. Network HTTP katmanı zaten AppSeed'de yaşıyor (CoupleOS 1.0.8'de silmişti — teyitli).
