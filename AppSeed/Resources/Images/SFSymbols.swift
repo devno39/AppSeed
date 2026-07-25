@@ -21,6 +21,7 @@ enum Symbols: String, Symbolable {
 
     // MARK: - Misc
     case calendar
+    case info_circle
 
     // Case names map mechanically to SF Symbol names (_ → .).
     var symbolName: String {

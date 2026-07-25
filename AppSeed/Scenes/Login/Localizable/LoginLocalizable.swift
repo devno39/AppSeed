@@ -12,6 +12,15 @@ enum LoginLocalizable {
         NSLocalizedString(key, tableName: "LoginLocalizable", bundle: .main, value: "", comment: "")
     }
 
+    static var title: String { localized("title") }
+    static var subtitle: String { localized("subtitle") }
+    static var login_success: String { localized("login_success") }
+
+    // MARK: - Agreement
+    static var agreement: String { localized("agreement") }
+    static var agreement_terms: String { localized("agreement_terms") }
+    static var agreement_privacy: String { localized("agreement_privacy") }
+
     // MARK: - Apple Sign In Errors
     static var apple_signin_error_cancelled: String { localized("apple_signin_error_cancelled") }
     static var apple_signin_error_network: String { localized("apple_signin_error_network") }
