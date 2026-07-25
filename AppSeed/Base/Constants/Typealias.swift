@@ -11,8 +11,11 @@ public typealias EmptyClosure = () -> Void
 public typealias AnyClosure<T> = (T) -> Void
 public typealias OptionalAnyClosure<T> = (T?) -> Void
 public typealias BoolClosure = (Bool) -> Void
+public typealias TupleClosure<T, U> = ((T, U) -> Void)
+public typealias OptionalTupleClosure<T, U> = ((T?, U?) -> Void)
 
 public typealias CodableAnyClosure<T: Codable> = ((T?) -> Void)
 public typealias CodableArrayClosure<T: Codable> = (([T?]?) -> Void)
+
 public typealias ResponseErrorClosure = ((ResponseError?) -> Void)
 public typealias ResponseErrorGPTClosure = ((ResponseErrorGPT?) -> Void)

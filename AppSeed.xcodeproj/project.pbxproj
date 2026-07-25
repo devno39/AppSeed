@@ -37,6 +37,7 @@
 		68C7E9112A71A1AE008CD84F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E9102A71A1AE008CD84F /* Assets.xcassets */; };
 		68C7E9142A71A1AE008CD84F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E9122A71A1AE008CD84F /* LaunchScreen.storyboard */; };
 		68C7E92E2A71A23E008CD84F /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C7E92D2A71A23E008CD84F /* Colors.xcassets */; };
+		68F0000D2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 68F0000C2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy */; };
 		68F1E2212B4AF04500AE3E6D /* lottie-loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 68F1E2202B4AF04500AE3E6D /* lottie-loading.json */; };
 		B6EF0E082B6AA48F0044472A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B6EF0E072B6AA48F0044472A /* Kingfisher */; };
 		AA00000000000000000C0003 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = AA00000000000000000C0002 /* Supabase */; };
@@ -63,6 +64,7 @@
 		68C7E9132A71A1AE008CD84F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68C7E9152A71A1AE008CD84F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68C7E92D2A71A23E008CD84F /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		68F0000C2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		68F1E2202B4AF04500AE3E6D /* lottie-loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "lottie-loading.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,6 +184,7 @@
 				685319DA2B461C6500633D64 /* Images */,
 				68C7E9102A71A1AE008CD84F /* Assets.xcassets */,
 				68C7E92D2A71A23E008CD84F /* Colors.xcassets */,
+				68F0000C2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy */,
 				68C7E9152A71A1AE008CD84F /* Info.plist */,
 			);
 			path = Resources;
@@ -294,6 +297,7 @@
 				6898880A2AA3826800A2D55D /* Release.xcconfig in Resources */,
 				68C7E9142A71A1AE008CD84F /* LaunchScreen.storyboard in Resources */,
 				68C7E92E2A71A23E008CD84F /* Colors.xcassets in Resources */,
+				68F0000D2D3C0FC300F4BA86 /* PrivacyInfo.xcprivacy in Resources */,
 				68C7E9112A71A1AE008CD84F /* Assets.xcassets in Resources */,
 				68F1E2212B4AF04500AE3E6D /* lottie-loading.json in Resources */,
 			);
