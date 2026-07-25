@@ -15,10 +15,10 @@ protocol ___VARIABLE_name___ViewModelClosureSource { }
 protocol ___VARIABLE_name___ViewModelFunctionSource { }
 
 // MARK: - Protocol
-protocol ___VARIABLE_name___ViewModelProtocol: BaseViewModel, ___VARIABLE_name___ViewModelDataSource, ___VARIABLE_name___ViewModelClosureSource, ___VARIABLE_name___ViewModelFunctionSource { }
+protocol ___VARIABLE_name___ViewModelProtocol: BottomSheetViewModelProtocol, ___VARIABLE_name___ViewModelDataSource, ___VARIABLE_name___ViewModelClosureSource, ___VARIABLE_name___ViewModelFunctionSource { }
 
 // MARK: - ViewModel
-final class ___VARIABLE_name___ViewModel: BaseViewModel, ___VARIABLE_name___ViewModelProtocol {
+final class ___VARIABLE_name___ViewModel: BottomSheetViewModel, ___VARIABLE_name___ViewModelProtocol {
     // MARK: - Source
 
     // MARK: - Closure

@@ -7,13 +7,14 @@ import UIKit
 
 // MARK: - Route Protocol
 protocol ___VARIABLE_name___Route {
-    func push___VARIABLE_name___()
+    func present___VARIABLE_name___()
 }
 
 extension ___VARIABLE_name___Route where Self: BaseRouter {
-    func push___VARIABLE_name___() {
+    func present___VARIABLE_name___() {
         let vc = ___VARIABLE_name___Builder().build()
-        viewController?.navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .overFullScreen
+        viewController?.present(vc, animated: false)
     }
 }
 

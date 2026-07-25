@@ -1,14 +1,15 @@
 //
-//  ViewControllerTemplate.swift
+//  ___VARIABLE_name___ViewController.swift
 //  AppSeed
-//
-//  Created by Tunay Alver on 17.11.2024.
 //
 
 import UIKit
 import SnapKit
 
 final class ___VARIABLE_name___ViewController: BaseViewController<___VARIABLE_name___ViewModel, ___VARIABLE_name___Router> {
+
+    // MARK: - UI
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,6 @@ final class ___VARIABLE_name___ViewController: BaseViewController<___VARIABLE_na
 }
 
 // MARK: - Draw
-private extension ___VARIABLE_name___ViewController {
-    private func draw() {}
+extension ___VARIABLE_name___ViewController {
+    private func draw() { }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Name</key>
+    <string>AppSeed Form Sheet Scene</string>
+    <key>Kind</key>
+    <string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+    <key>Description</key>
+    <string>Form sheet on the FormBottomSheet base — ViewController, ViewModel, Router, Builder</string>
+    <key>Summary</key>
+    <string>Creates a FormBottomSheet scene (VC, ViewModel, Router, Builder)</string>
+    <key>Platforms</key>
+    <array>
+        <string>com.apple.platform.iphoneos</string>
+    </array>
+    <key>Options</key>
+    <array>
+        <dict>
+            <key>Identifier</key>
+            <string>name</string>
+            <key>Name</key>
+            <string>Sheet Name (include the Sheet suffix, e.g. EditProfileSheet)</string>
+            <key>Type</key>
+            <string>text</string>
+            <key>Default</key>
+            <string>MySheet</string>
+        </dict>
+    </array>
+    <key>RequiredOptions</key>
+    <array>
+        <string>name</string>
+    </array>
+    <key>Nodes</key>
+    <array>
+        <dict>
+            <key>Group</key>
+            <string>ViewController</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___ViewController.swift</string>
+        </dict>
+        <dict>
+            <key>Group</key>
+            <string>ViewModel</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___ViewModel.swift</string>
+        </dict>
+        <dict>
+            <key>Group</key>
+            <string>Router</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___Router.swift</string>
+        </dict>
+        <dict>
+            <key>Group</key>
+            <string>Builder</string>
+            <key>Path</key>
+            <string>___VARIABLE_name___Builder.swift</string>
+        </dict>
+    </array>
+    <key>Version</key>
+    <string>1.0</string>
+</dict>
+</plist>
