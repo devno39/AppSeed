@@ -130,16 +130,44 @@
 			);
 			target = AA0000000000000000100010 /* AppSeedNotificationService */;
 		};
+		AA00000000000000000B0011 /* Exceptions for "Base" folder in "AppSeed" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = 68C7E9032A71A1AC008CD84F /* AppSeed */;
+		};
+		AA00000000000000000B0012 /* Exceptions for "Helpers" folder in "AppSeed" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = 68C7E9032A71A1AC008CD84F /* AppSeed */;
+		};
+		AA00000000000000000B0013 /* Exceptions for "Network" folder in "AppSeed" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = 68C7E9032A71A1AC008CD84F /* AppSeed */;
+		};
+		AA00000000000000000B0014 /* Exceptions for "Scenes" folder in "AppSeed" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				README.md,
+			);
+			target = 68C7E9032A71A1AC008CD84F /* AppSeed */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		AA00000000000000000F0018 /* AppSeedWidgets */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA00000000000000000F0019 /* Exceptions for "AppSeedWidgets" folder in "AppSeedWidgetsExtension" target */, ); explicitFileTypes = {}; explicitFolders = (); path = AppSeedWidgets; sourceTree = "<group>"; };
 		AA0000000000000000100018 /* AppSeedNotificationService */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA0000000000000000100019 /* Exceptions for "AppSeedNotificationService" folder in "AppSeedNotificationService" target */, ); explicitFileTypes = {}; explicitFolders = (); path = AppSeedNotificationService; sourceTree = "<group>"; };
 		6881A45C2E631FF90033F951 /* Extensions */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Extensions; sourceTree = "<group>"; };
-		AA00000000000000000B0001 /* Base */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Base; sourceTree = "<group>"; };
-		AA00000000000000000B0002 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
-		AA00000000000000000B0003 /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
-		AA00000000000000000B0004 /* Scenes */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Scenes; sourceTree = "<group>"; };
+		AA00000000000000000B0001 /* Base */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA00000000000000000B0011 /* Exceptions for "Base" folder in "AppSeed" target */, ); explicitFileTypes = {}; explicitFolders = (); path = Base; sourceTree = "<group>"; };
+		AA00000000000000000B0002 /* Helpers */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA00000000000000000B0012 /* Exceptions for "Helpers" folder in "AppSeed" target */, ); explicitFileTypes = {}; explicitFolders = (); path = Helpers; sourceTree = "<group>"; };
+		AA00000000000000000B0003 /* Network */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA00000000000000000B0013 /* Exceptions for "Network" folder in "AppSeed" target */, ); explicitFileTypes = {}; explicitFolders = (); path = Network; sourceTree = "<group>"; };
+		AA00000000000000000B0004 /* Scenes */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (AA00000000000000000B0014 /* Exceptions for "Scenes" folder in "AppSeed" target */, ); explicitFileTypes = {}; explicitFolders = (); path = Scenes; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
