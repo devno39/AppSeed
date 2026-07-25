@@ -40,16 +40,16 @@
 - [x] Login scene sade görselle + en/tr LoginLocalizable; Splash bağlantısı Faz 3'te (onaylı geçici istisna).
 - [x] 🔎 Review kapısı 2 GEÇİLDİ: auth zinciri birebir (header-only diff), domain sızıntısı sıfır, build exit 0.
 
-## Faz 3 — İskelet scene'ler
-- [ ] Splash: startWhenForeground + update-gate grace; routing tutorial_seen → login → tabbar.
-- [ ] Tutorial: generic slide'lar; FloatingWidgetView Base'e terfi.
-- [ ] TabBar: 2 placeholder tab.
-- [ ] Profile: section-driven tablo — EditProfile form sheet, dil, tema, sign-out, delete-account. → CLAUDE.md golden file.
-- [ ] Setup: Form kütüphanesi canlı örneği.
-- [ ] **Paywall scene** (RevenueCat + PaywallPlanCard/FeatureRow; weekly→monthly→yearly funnel şablonu) + **Feedback sheet** (FeedbackHelper'a bağlı).
-- [ ] **DeepLinkRouter şablonu** (scheme-guard + host-allowlist + pending-drain, SceneDelegate'ten çıkarılıp tip olarak).
-- [ ] ScrollTest scene silinir.
-- [ ] 🔎 Review kapısı 3: tam akış — splash → tutorial → login → tabbar → profile → paywall → logout.
+## Faz 3 — İskelet scene'ler (TAMAM — commit'ler `92b5fee..ae93976`; kapı 3 sim'de görsel akış testiyle geçildi: splash→tutorial→login rotaları doğrulandı. Polish notu: splash başlığı koyu temada düşük kontrast)
+- [x] Splash: startWhenForeground + update-gate grace; routing tutorial_seen → login → tabbar.
+- [x] Tutorial: generic slide'lar; FloatingWidgetView Base'e terfi.
+- [x] TabBar: 2 placeholder tab.
+- [x] Profile: section-driven tablo — EditProfile form sheet, dil, tema, sign-out, delete-account. → CLAUDE.md golden file.
+- [x] Setup: Form kütüphanesi canlı örneği.
+- [x] **Paywall scene** (RevenueCat + PaywallPlanCard/FeatureRow; weekly→monthly→yearly funnel şablonu) + **Feedback sheet** (FeedbackHelper'a bağlı).
+- [x] **DeepLinkRouter şablonu** (scheme-guard + host-allowlist + pending-drain, SceneDelegate'ten çıkarılıp tip olarak).
+- [x] ScrollTest scene silinir.
+- [x] 🔎 Review kapısı 3 GEÇİLDİ (sim görsel test).
 
 ## Faz 4 — Terfi bileşenleri (iyileştirerek taşı)
 - [ ] `RingProgressView` — 3 copy-paste ring'ten tek parametrik bileşen.
