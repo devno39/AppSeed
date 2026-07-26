@@ -49,12 +49,12 @@ compile into both the app and the widget target — the app writes snapshots, wi
 
 2. **Install the Xcode file templates** (New File → adds AppSeed Scene / Bottom Sheet / Form Sheet generators):
    ```bash
-   cd AppSeed/Templates && swift install.swift
+   cd Templates && swift install.swift
    ```
 
 3. **Rename** to your project (renames folders, targets, entitlements, Info.plist, bundle IDs):
    ```bash
-   cd AppSeed/Renamer && swift Renamer.swift AppSeed NewProjectName
+   cd Renamer && swift Renamer.swift AppSeed NewProjectName
    ```
 
 4. **Fill the xcconfig keys** in `AppSeed/Configuration/Develop.xcconfig` and `Release.xcconfig`:
