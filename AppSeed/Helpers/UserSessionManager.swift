@@ -69,11 +69,8 @@ final class UserSessionManager {
     func stopListening(wipeCache: Bool) {
         sessionGeneration += 1
         if wipeCache {
-            // Drop this account's device tokens before the session clears so the
-            // signed-out device stops receiving pushes (RLS delete needs auth.uid()).
-            if let userId = currentUser?.userId {
-                PushNotificationManager.shared.handleSignOut(userId: userId)
-            }
+            // Device-token cleanup runs in the caller BEFORE auth.signOut() — the
+            // RLS delete-own policy needs auth.uid(), which signOut clears.
             // A different Apple ID must re-enter setup and permissions.
             UserDefaultsWrapper.has_completed_setup = false
             UserDefaultsWrapper.has_shown_permission_sheet = false
