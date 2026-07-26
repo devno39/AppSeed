@@ -10,6 +10,8 @@ import UIKit
 final class CopyableLabel: BaseLabel {
     override var canBecomeFirstResponder: Bool { true }
 
+    private lazy var editMenuInteraction = UIEditMenuInteraction(delegate: self)
+
     override init(fontSize: CGFloat = 16, fontWeight: UIFont.Weight = .regular, textColor: UIColor = ColorText.textPrimary.color) {
         super.init(fontSize: fontSize, fontWeight: fontWeight, textColor: textColor)
         enableCopyGesture()
@@ -22,16 +24,15 @@ final class CopyableLabel: BaseLabel {
 
     private func enableCopyGesture() {
         isUserInteractionEnabled = true
+        addInteraction(editMenuInteraction)
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(showMenu))
         addGestureRecognizer(longPress)
     }
 
     @objc private func showMenu(_ sender: UILongPressGestureRecognizer) {
         becomeFirstResponder()
-        let menu = UIMenuController.shared
-        if !menu.isMenuVisible {
-            menu.showMenu(from: self, rect: bounds)
-        }
+        let configuration = UIEditMenuConfiguration(identifier: nil, sourcePoint: sender.location(in: self))
+        editMenuInteraction.presentEditMenu(with: configuration)
     }
 
     override func copy(_ sender: Any?) {
@@ -42,3 +43,6 @@ final class CopyableLabel: BaseLabel {
         return action == #selector(copy(_:))
     }
 }
+
+// MARK: - UIEditMenuInteractionDelegate
+extension CopyableLabel: UIEditMenuInteractionDelegate { }
