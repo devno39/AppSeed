@@ -19,4 +19,4 @@ extension ___VARIABLE_name___Route where Self: BaseRouter {
 }
 
 // MARK: - Router
-final class ___VARIABLE_name___Router: BaseRouter { }
+final class ___VARIABLE_name___Router: FormBottomSheetRouter { }
