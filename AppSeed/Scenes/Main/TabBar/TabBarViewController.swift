@@ -97,12 +97,17 @@ extension TabBarViewController {
 
         let homeNav = BaseNavigationController(rootViewController: homeVC)
 
+        let itemsVC = ItemsBuilder().build()
+        itemsVC.tabBarItem = UITabBarItem(title: TabBarLocalizable.items, image: Symbols.checkmark_circle_fill.symbolMedium(), tag: 1)
+
+        let itemsNav = BaseNavigationController(rootViewController: itemsVC)
+
         let profileVC = ProfileBuilder().build()
-        profileVC.tabBarItem = UITabBarItem(title: TabBarLocalizable.profile, image: Symbols.person_crop_circle.symbolMedium(), tag: 1)
+        profileVC.tabBarItem = UITabBarItem(title: TabBarLocalizable.profile, image: Symbols.person_crop_circle.symbolMedium(), tag: 2)
 
         let profileNav = BaseNavigationController(rootViewController: profileVC)
 
-        viewControllers = [homeNav, profileNav]
+        viewControllers = [homeNav, itemsNav, profileNav]
     }
 
     private func configureTabBar() {

@@ -26,10 +26,12 @@ final class DeepLinkRouter {
     // Allowlist — unknown hosts are logged + dropped (defense in depth).
     private enum DeepLinkHost: String {
         case home
+        case items
 
         var tabIndex: Int {
             switch self {
-            case .home: return 0
+            case .home:  return 0
+            case .items: return 1
             }
         }
     }

@@ -13,5 +13,6 @@ enum TabBarLocalizable {
     }
 
     static var home: String { localized("home") }
+    static var items: String { localized("items") }
     static var profile: String { localized("profile") }
 }

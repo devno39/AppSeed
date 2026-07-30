@@ -21,6 +21,7 @@ struct SupabaseDatabaseHelper {
     // MARK: - Tables
     enum Table: String {
         case users
+        case items
         case deviceTokens = "device_tokens"
     }
 
