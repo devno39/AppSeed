@@ -1,6 +1,6 @@
 # Harvest Review — CoupleOS → AppSeed (2026-07-26)
 
-Kapsam: `docs/plans/2026-07-25-coupleos-harvest.md` planının tamamı (Faz 0-6) + 3 kalite pass'i. Yürütme: Opus subagent portları, Fable ana-oturum review kapıları. Tüm commit'ler build-yeşili; tarama yöntemleri: gerçek diff (satır-sayısı yön tayini YASAK — bir kez yanılttı), domain-leak grep, secret-scan, sim görsel test, scratch-copy smoke.
+Kapsam: `docs/harvest/2026-07-25-coupleos-harvest.md` planının tamamı (Faz 0-6) + 3 kalite pass'i. Yürütme: Opus subagent portları, Fable ana-oturum review kapıları. Tüm commit'ler build-yeşili; tarama yöntemleri: gerçek diff (satır-sayısı yön tayini YASAK — bir kez yanılttı), domain-leak grep, secret-scan, sim görsel test, scratch-copy smoke.
 
 ## Kapı sonuçları
 

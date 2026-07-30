@@ -91,11 +91,14 @@ compile into both the app and the widget target — the app writes snapshots, wi
 | [`AppSeed/Resources/README.md`](AppSeed/Resources/README.md) | Asset/color/localization conventions |
 | [`AppSeedWidgets/README.md`](AppSeedWidgets/README.md) | Widget kinds, snapshot reads, lock-screen rules |
 | [`supabase/README.md`](supabase/README.md) | Edge functions, push pipeline rules, SQL templates |
-| `docs/templates/` | Process-doc skeletons (brainstorm / plan / release / review) |
-| `docs/patterns/` | Reusable recipe write-ups |
+| `docs/templates/` | Process-doc skeletons (brainstorm, plan, release, review) |
+| `docs/patterns/` | Reusable recipe write-ups (optimistic sync, listener guards, cold-launch defer) |
+| `docs/brainstorms/` | Your app's requirements docs (empty on a fresh clone) |
+| `docs/plans/` | Your app's implementation plans (empty on a fresh clone) |
+| `docs/reviews/` | Your app's review reports (empty on a fresh clone) |
+| `docs/releases/` | Your app's shipped notes, one per version (empty on a fresh clone) |
+| `docs/harvest/` | Where the seed came from: what was left behind, what is unverified |
 | `supabase/tests/` | SQL regression-suite pattern (impersonate → assert → rollback) |
-| `docs/plans/` | Requirements and implementation plans (dated) |
-| `docs/reviews/` | Review reports with gate results and known placeholders |
 | `.swiftlint.yml` | The machine-checkable half of the contract — `Scripts/lint.sh` |
 | `AppSeedTests/` | Pure-logic unit tests — `Scripts/test.sh` |
 

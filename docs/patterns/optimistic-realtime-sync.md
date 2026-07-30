@@ -1,5 +1,12 @@
 # Pattern: Optimistic realtime sync (optimistic base + capped echo queue + 3-way merge)
 
+> **Reach for this only for a document-shaped row** — one row holding a collection
+> that two people co-edit. Ordinary independent rows do not need it, and the seed
+> ships the simpler correct answer for those in `Scenes/Main/Items/`: mutate
+> locally, let the listener's refetch reconcile, roll back in the completion when
+> the write fails. Adopting the merge below for row-per-item data is
+> over-engineering, and it teaches the wrong default.
+
 ## Problem
 
 Two devices co-edit the same row in real time. A naive listener that overwrites
@@ -81,8 +88,13 @@ Models must be `Equatable` (synthesized is fine) for the echo compare and the
 
 ## Where it lives
 
-Reference implementation: CoupleOS `Scenes/Main/Together/Scenes/ListDetail/ListDetailViewModel.swift`
-(`save()` / `startListening()` / `mergeList`). The seed ships a single-owner
-listener (`UserSessionManager`) — adopt this recipe when you add the first
-co-edited collection: put `serverBase` + `pendingSaves` + a static `merge` on that
-feature's ViewModel, behind its `{X}ServiceProtocol` listener.
+Reference implementation: CoupleOS
+`Scenes/Main/Together/Scenes/ListDetail/ListDetailViewModel.swift`
+(`save()` / `startListening()` / `mergeList`).
+
+The seed ships two listener shapes, neither of which needs this yet:
+`UserSessionManager` (single owner, single row) and `ItemsViewModel` (one row per
+item, optimistic write + rollback). Adopt this recipe the first time a single row
+holds a collection two people edit at once — put `serverBase` + `pendingSaves` +
+a static `merge` on that feature's ViewModel, behind its `{X}ServiceProtocol`
+listener.

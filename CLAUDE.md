@@ -103,11 +103,14 @@ private lazy var tableView: BaseTableView = {
 | `supabase/README.md` | Edge functions + push pipeline 4 hard rules + SQL templates |
 | `docs/templates/` | Process-doc skeletons (brainstorm, plan, release, review) |
 | `docs/patterns/` | Reusable recipe write-ups (optimistic sync, listener guards, cold-launch defer) |
-| `docs/plans/` | Requirements and implementation plans (dated) |
-| `docs/reviews/` | Review reports with gate results and known placeholders |
+| `docs/brainstorms/` | Your app's requirements docs (empty on a fresh clone) |
+| `docs/plans/` | Your app's implementation plans (empty on a fresh clone) |
+| `docs/reviews/` | Your app's review reports (empty on a fresh clone) |
+| `docs/releases/` | Your app's shipped notes, one per version (empty on a fresh clone) |
+| `docs/harvest/` | Where the seed came from: what was left behind, what is unverified |
 | `AppSeedTests/` | Pure-logic suite — `Scripts/test.sh` |
 
-**Maintenance rule:** docs update in the same commit as the change that invalidates them — new service → the Network README; new base component or form field → the Base README; new scene or navigation change → the Scenes README; new helper → the Helpers README; new widget kind → the AppSeedWidgets README; push/edge-function change → the supabase README. A doc that lists code the repo doesn't have (or misses code it does) is a bug.
+**Maintenance rule:** docs update in the same commit as the change that invalidates them — new service → the Network README; new base component or form field → the Base README; new scene or navigation change → the Scenes README; new helper → the Helpers README; new widget kind → the AppSeedWidgets README; push/edge-function change → the supabase README; a trap that cost you an afternoon → a new `docs/patterns/` write-up, so the next app pays for it once. A doc that lists code the repo doesn't have (or misses code it does) is a bug.
 
 ## Working agreements
 

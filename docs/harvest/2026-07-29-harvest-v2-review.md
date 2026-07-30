@@ -1,6 +1,6 @@
 # Harvest v2 Review — CoupleOS → AppSeed (2026-07-29)
 
-Kapsam: `docs/plans/2026-07-28-harvest-v2.md` F1–F5 + doküman turu. F6 (agentic katman)
+Kapsam: `docs/harvest/2026-07-28-harvest-v2.md` F1–F5 + doküman turu. F6 (agentic katman)
 Tunay'ın kararıyla ayrı işe bırakıldı.
 
 Yürütme: plan → taşı → review → build, faz başına. CoupleOS'a sıfır dokunuş (salt-okunur).
