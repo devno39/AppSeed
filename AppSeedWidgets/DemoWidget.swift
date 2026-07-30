@@ -57,20 +57,75 @@ struct DemoWidgetView: View {
     let entry: DemoEntry
     @Environment(\.widgetFamily) var family
 
+    private var isAccessory: Bool {
+        family == .accessoryCircular || family == .accessoryRectangular
+    }
+
     var body: some View {
         Group {
             switch entry.state {
             case .fresh(let metadata):
                 switch family {
-                case .systemSmall: smallView(metadata)
-                default:           mediumView(metadata)
+                case .accessoryCircular, .accessoryRectangular: accessoryView(metadata)
+                case .systemSmall:                              smallView(metadata)
+                default:                                        mediumView(metadata)
                 }
             case .empty:
-                emptyView
+                if isAccessory {
+                    accessoryEmptyView
+                } else {
+                    emptyView
+                }
             }
         }
-        .containerBackground(for: .widget) { WidgetColors.backgroundSecondary }
+        .containerBackground(for: .widget) {
+            // Lock screen renders in a vibrant mode that flattens colour — anything but a
+            // clear background reads as a grey block there.
+            isAccessory ? AnyView(Color.clear) : AnyView(WidgetColors.backgroundSecondary)
+        }
         .widgetURL(URL(string: "appseed://home"))
+    }
+
+    // MARK: - Accessory (Lock Screen)
+
+    // Vibrant rendering ignores tint, so accessory views carry shape and text only.
+    // Premium-gated widgets render LockedAccessoryWidgetView here instead.
+    private func accessoryView(_ m: DemoWidgetMetadata) -> some View {
+        Group {
+            if family == .accessoryRectangular {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(WidgetLocalizable.demoTitle)
+                        .font(.system(size: 13, weight: .semibold))
+                    Text(m.message)
+                        .font(.system(size: 12))
+                        .lineLimit(1)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Image(systemName: "square.grid.2x2.fill")
+                        .font(.system(size: 18, weight: .medium))
+                }
+            }
+        }
+    }
+
+    private var accessoryEmptyView: some View {
+        Group {
+            if family == .accessoryRectangular {
+                Text(WidgetLocalizable.demoEmpty)
+                    .font(.system(size: 12))
+                    .lineLimit(2)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Image(systemName: "square.grid.2x2")
+                        .font(.system(size: 18, weight: .medium))
+                }
+            }
+        }
     }
 
     // MARK: - Empty
@@ -184,6 +239,6 @@ struct DemoWidget: Widget {
         }
         .configurationDisplayName(WidgetLocalizable.demoTitle)
         .description(WidgetLocalizable.demoEmpty)
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular])
     }
 }
