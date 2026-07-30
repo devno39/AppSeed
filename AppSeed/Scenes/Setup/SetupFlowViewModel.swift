@@ -61,5 +61,6 @@ final class SetupFlowViewModel: FormBottomSheetViewModel, SetupFlowViewModelProt
             fields["birth_date"] = birthDate
         }
         userService.updateProfile(userId: userId, fields: fields, completion: nil)
+        ReviewPromptManager.recordMilestone()
     }
 }

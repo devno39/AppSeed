@@ -14,4 +14,5 @@ enum HomeLocalizable {
 
     static var title: String { localized("title") }
     static var subtitle: String { localized("subtitle") }
+    static var shared_item_title: String { localized("shared_item_title") }
 }

@@ -26,9 +26,11 @@ enum ProfileLocalizable {
     static var item_edit_profile: String { localized("item_edit_profile") }
     static var item_language: String { localized("item_language") }
     static var item_theme: String { localized("item_theme") }
+    static var item_permissions: String { localized("item_permissions") }
     static var item_go_premium: String { localized("item_go_premium") }
     static var item_go_premium_subtitle: String { localized("item_go_premium_subtitle") }
     static var item_feedback: String { localized("item_feedback") }
+    static var item_rate_app: String { localized("item_rate_app") }
     static var item_logout: String { localized("item_logout") }
     static var item_delete_account: String { localized("item_delete_account") }
 
@@ -56,6 +58,12 @@ enum ProfileLocalizable {
     static var feedback_success_message: String { localized("feedback_success_message") }
     static var feedback_error_title: String { localized("feedback_error_title") }
     static var feedback_error_message: String { localized("feedback_error_message") }
+
+    // MARK: - Review Prompt
+    static var review_prompt_title: String { localized("review_prompt_title") }
+    static var review_prompt_subtitle: String { localized("review_prompt_subtitle") }
+    static var review_prompt_yes: String { localized("review_prompt_yes") }
+    static var review_prompt_later: String { localized("review_prompt_later") }
 
     // MARK: - Alerts
     static var alert_cancel: String { localized("alert_cancel") }

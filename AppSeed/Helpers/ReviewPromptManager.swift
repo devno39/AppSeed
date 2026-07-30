@@ -20,21 +20,19 @@ enum ReviewPromptManager {
         UserDefaultsWrapper.review_milestone_session_index = UserDefaultsWrapper.review_session_count
     }
 
+    // The shown flag survives this reset — re-reaching the milestone must not re-ask.
     static func clearMilestoneTracking() {
         UserDefaultsWrapper.review_milestone_session_index = 0
-        UserDefaultsWrapper.review_shown_count = 0
     }
 
     // MARK: - Gate
+    private static let sessionsAfterMilestone = 2
+
     static func shouldShow() -> Bool {
         let milestoneSession = UserDefaultsWrapper.review_milestone_session_index
         guard milestoneSession > 0 else { return false }
-        let shown = UserDefaultsWrapper.review_shown_count
-        guard shown < 2 else { return false }
-        let sinceMilestone = UserDefaultsWrapper.review_session_count - milestoneSession
-        if shown == 0 { return sinceMilestone >= 1 }
-        if shown == 1 { return sinceMilestone >= 5 }
-        return false
+        guard UserDefaultsWrapper.review_shown_count == 0 else { return false }
+        return UserDefaultsWrapper.review_session_count - milestoneSession >= sessionsAfterMilestone
     }
 
     static func markShown() {

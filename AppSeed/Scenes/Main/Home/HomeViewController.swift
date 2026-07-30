@@ -44,6 +44,51 @@ final class HomeViewController: BaseViewController<HomeViewModel, HomeRouter> {
         draw()
     }
 
+    // MARK: - Life Cycle
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // AlertHelper presents asynchronously, so the review gate can't see it coming.
+        let hadSharedItem = PendingSharedItem.exists
+        handleSharedItem()
+        guard !hadSharedItem else { return }
+        presentReviewPromptIfReady()
+    }
+
+    // MARK: - Bind
+    override func bindViewModel() {
+        super.bindViewModel()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleSharedItem),
+            name: .sharedItemReceived,
+            object: nil
+        )
+    }
+
+    // MARK: - Share Extension
+    // Replace the alert with wherever shared content belongs in the real app.
+    @objc private func handleSharedItem() {
+        guard let item = PendingSharedItem.consume() else { return }
+        AlertHelper.showAlert(
+            title: HomeLocalizable.shared_item_title,
+            message: item.url ?? item.text
+        )
+    }
+
+    // MARK: - Review Prompt
+    private func presentReviewPromptIfReady() {
+        guard ReviewPromptManager.shouldShow(), presentedViewController == nil else { return }
+        ReviewPromptManager.markShown()
+        router?.presentReviewPromptSheet(
+            onYes: {
+                ReviewPromptManager.requestAppleReview()
+            },
+            onLater: { [weak self] in
+                self?.router?.presentFeedbackSheet()
+            }
+        )
+    }
+
     // MARK: - Localization
     override func configureLocalization() {
         title = HomeLocalizable.title

@@ -211,6 +211,10 @@ extension ProfileViewController: UITableViewDelegate {
             router?.presentPaywall()
         case .feedback:
             router?.presentFeedbackSheet()
+        case .rateApp:
+            ReviewPromptManager.requestAppleReview()
+        case .permissions:
+            router?.presentPermissionSheet()
         case .language:
             showLanguageSheet()
         case .theme:

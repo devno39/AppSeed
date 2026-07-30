@@ -20,8 +20,10 @@ enum ProfileCellType {
     case editProfile
     case language
     case theme
+    case permissions
     case goPremium
     case feedback
+    case rateApp
     case logout
     case deleteAccount
 
@@ -33,10 +35,14 @@ enum ProfileCellType {
             ProfileLocalizable.item_language
         case .theme:
             ProfileLocalizable.item_theme
+        case .permissions:
+            ProfileLocalizable.item_permissions
         case .goPremium:
             ProfileLocalizable.item_go_premium
         case .feedback:
             ProfileLocalizable.item_feedback
+        case .rateApp:
+            ProfileLocalizable.item_rate_app
         case .logout:
             ProfileLocalizable.item_logout
         case .deleteAccount:
@@ -63,10 +69,14 @@ enum ProfileCellType {
             "globe"
         case .theme:
             "paintbrush"
+        case .permissions:
+            "checkmark.shield"
         case .goPremium:
             "crown"
         case .feedback:
             "message"
+        case .rateApp:
+            Symbols.star_fill.symbolName
         case .logout:
             "rectangle.portrait.and.arrow.right"
         case .deleteAccount:
@@ -124,11 +134,11 @@ enum ProfileSection {
         case .account:
             [.editProfile]
         case .app:
-            [.language, .theme]
+            [.language, .theme, .permissions]
         case .premium:
             [.goPremium]
         case .support:
-            [.feedback]
+            [.feedback, .rateApp]
         case .session:
             [.logout, .deleteAccount]
         }

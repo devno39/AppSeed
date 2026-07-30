@@ -7,4 +7,4 @@
 
 import UIKit
 
-final class HomeRouter: BaseRouter { }
+final class HomeRouter: BaseRouter, ReviewPromptSheetRoute, FeedbackSheetRoute { }

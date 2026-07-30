@@ -1,57 +1,74 @@
 {
   "sourceLanguage" : "en",
+  "version" : "1.0",
   "strings" : {
-    "subtitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This is your home tab — replace it with the first screen of your app."
-          }
-        },
-        "tr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bu senin ana sekmen — uygulamanın ilk ekranıyla değiştir."
-          }
-        }
-      }
-    },
     "title" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Home"
+            "value" : "Scan QR Code"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ana Sayfa"
+            "value" : "QR Kodu Tara"
           }
         }
       }
     },
-    "shared_item_title" : {
+    "camera_permission_title" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared with the app"
+            "value" : "Camera Access Needed"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Uygulamaya paylaşıldı"
+            "value" : "Kamera Erişimi Gerekli"
+          }
+        }
+      }
+    },
+    "camera_permission_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow camera access to scan a QR code."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QR kod taramak için kamera erişimine izin ver."
+          }
+        }
+      }
+    },
+    "camera_permission_open_settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayarları Aç"
           }
         }
       }
     }
-  },
-  "version" : "1.0"
+  }
 }
