@@ -30,9 +30,10 @@ final class SupabaseAppConfigHelper {
     func fetchAll(completion: BoolClosure? = nil) {
         Task {
             do {
+                // Selecting * breaks decoding as soon as the table grows a non-text column.
                 let configs: [[String: String]] = try await SupabaseManager.shared.client
                     .from("app_config")
-                    .select()
+                    .select("key,value")
                     .execute()
                     .value
 

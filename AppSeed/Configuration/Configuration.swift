@@ -11,23 +11,21 @@ final class Configuration {
     enum Error: Swift.Error {
         case missingKey, invalidValue
     }
-    
+
+    // Configuration names are not compilation conditions — `#if Release` is silently
+    // false in a release build. Only DEBUG is defined, by the Develop configuration.
     static var isRelease: Bool {
-        #if Release
-        return true
-        #else
+        #if DEBUG
         return false
+        #else
+        return true
         #endif
     }
 
     static var isDevelop: Bool {
-        #if Develop
-        return true
-        #else
-        return false
-        #endif
+        !isRelease
     }
-    
+
     static func value<T>(for key: String) throws -> T where T: LosslessStringConvertible {
         guard let object = Bundle.main.object(forInfoDictionaryKey: key) else {
             throw Error.missingKey

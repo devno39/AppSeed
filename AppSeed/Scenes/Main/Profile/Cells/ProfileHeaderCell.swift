@@ -12,8 +12,8 @@ final class ProfileHeaderCell: BaseTVCell {
     // MARK: - Constants
     private let avatarSize: CGFloat = 88
     private let editSize: CGFloat = 30
-    // AvatarView egg renders at 72% of container; (88-72%)/2 keeps the pen on the bbox corner.
-    private let eggPadding: CGFloat = 12
+    // AvatarView placeholder renders at 72% of container; (88-72%)/2 keeps the pen on the bbox corner.
+    private let placeholderPadding: CGFloat = 12
 
     // MARK: - Closures
     var editUserClosure: EmptyClosure?
@@ -39,7 +39,7 @@ final class ProfileHeaderCell: BaseTVCell {
     }()
 
     private lazy var avatarView: AvatarView = {
-        AvatarView(egg: Logo.logo_1024, showBorder: false)
+        AvatarView(placeholder: Logo.logo_1024, showBorder: false)
     }()
 
     private lazy var nameLabel: BaseLabel = {
@@ -153,8 +153,8 @@ extension ProfileHeaderCell {
 
         editButton.snp.makeConstraints {
             $0.width.height.equalTo(editSize)
-            $0.centerX.equalTo(avatarView.snp.trailing).offset(-eggPadding)
-            $0.centerY.equalTo(avatarView.snp.bottom).offset(-eggPadding)
+            $0.centerX.equalTo(avatarView.snp.trailing).offset(-placeholderPadding)
+            $0.centerY.equalTo(avatarView.snp.bottom).offset(-placeholderPadding)
         }
 
         textStack.snp.makeConstraints {

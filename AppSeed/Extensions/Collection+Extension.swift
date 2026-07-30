@@ -7,10 +7,14 @@
 
 public extension Collection {
     var isNotEmpty: Bool { !isEmpty }
+
+    subscript(safe index: Index) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
 }
 
 // MARK: - Optional koleksiyonlar için
 public extension Optional where Wrapped: Collection {
     var isEmpty: Bool { self?.isEmpty ?? true }
-    var isNotEmpty: Bool { !(self?.isEmpty ?? false) }
+    var isNotEmpty: Bool { !isEmpty }
 }

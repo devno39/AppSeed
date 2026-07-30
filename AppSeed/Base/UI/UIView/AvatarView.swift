@@ -19,14 +19,14 @@ final class AvatarView: UIView, PaletteUpdatable {
         return view
     }()
 
-    private lazy var eggImageView: BaseImageView = {
+    private lazy var placeholderImageView: BaseImageView = {
         let view = BaseImageView(frame: .zero)
         view.contentMode = .scaleAspectFit
         return view
     }()
 
     // MARK: - Properties
-    private let egg: Logo
+    private let placeholder: Logo
     private let showBorder: Bool
 
     // MARK: - Closure
@@ -42,19 +42,19 @@ final class AvatarView: UIView, PaletteUpdatable {
     private lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
 
     // MARK: - Init
-    init(egg: Logo, showBorder: Bool = true) {
-        self.egg = egg
+    init(placeholder: Logo, showBorder: Bool = true) {
+        self.placeholder = placeholder
         self.showBorder = showBorder
         super.init(frame: .zero)
         draw()
-        updateEggImage()
+        updatePlaceholderImage()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Layout
+    // MARK: - Life Cycle
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView.layer.cornerRadius = bounds.width / 2
@@ -80,21 +80,21 @@ final class AvatarView: UIView, PaletteUpdatable {
     func configure(imageUrl: String?) {
         if let urlString = imageUrl, !urlString.isEmpty {
             imageView.setImage(with: urlString)
-            eggImageView.isHidden = true
+            placeholderImageView.isHidden = true
         } else {
             imageView.image = nil
-            eggImageView.isHidden = false
+            placeholderImageView.isHidden = false
         }
     }
 
     // MARK: - PaletteUpdatable
     @objc dynamic func updatePaletteColors() {
-        updateEggImage()
+        updatePlaceholderImage()
     }
 
     // MARK: - Private
-    private func updateEggImage() {
-        eggImageView.image = egg.image.withPaletteGradient()
+    private func updatePlaceholderImage() {
+        placeholderImageView.image = placeholder.image.withPaletteGradient()
     }
 }
 
@@ -102,13 +102,13 @@ final class AvatarView: UIView, PaletteUpdatable {
 extension AvatarView {
     private func draw() {
         addSubview(imageView)
-        addSubview(eggImageView)
+        addSubview(placeholderImageView)
 
         imageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
 
-        eggImageView.snp.makeConstraints {
+        placeholderImageView.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalToSuperview().multipliedBy(0.72)
             $0.height.equalToSuperview().multipliedBy(0.72)

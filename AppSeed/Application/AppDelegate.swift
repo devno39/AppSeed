@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         AppGroupStorage.migrateThemePaletteToSharedDefaultsIfNeeded()
         LanguageHelper.setAppLanguage()
+        ReviewPromptManager.incrementSession()
         IAPHelper.shared.configure()
         firebase()
         supabase()
@@ -90,13 +91,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func firebase() {
-        let fileName = (Bundle.main.object(forInfoDictionaryKey: "Configuration") as? String == "Debug")
+        let fileName = Configuration.isDevelop
         ? "GoogleService-Info-develop"
         : "GoogleService-Info-release"
-        
-        if let filePath = Bundle.main.path(forResource: fileName, ofType: "plist"),
-           let options = FirebaseOptions(contentsOfFile: filePath) {
-            FirebaseApp.configure(options: options)
+
+        guard let filePath = Bundle.main.path(forResource: fileName, ofType: "plist"),
+              let options = FirebaseOptions(contentsOfFile: filePath) else {
+            log(.info, .general, "Firebase not configured — \(fileName).plist missing (shelf module, wire only if needed)")
+            return
+        }
+        FirebaseApp.configure(options: options)
+
+        // A plist from the wrong Firebase project configures cleanly and drops events server-side.
+        if options.bundleID != Bundle.main.bundleIdentifier {
+            log(
+                .warning,
+                .general,
+                "Firebase bundle ID mismatch — plist=\(options.bundleID) app=\(Bundle.main.bundleIdentifier ?? "nil")"
+            )
         }
     }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Build CLDR emoji keyword JSON files for CoupleOS.
+Build CLDR emoji keyword JSON files for EmojiHelper.
 Merges annotations + annotationsDerived into inverted index.
 Uses TTS (primary name) priority for better emoji selection.
 """

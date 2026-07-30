@@ -16,7 +16,7 @@ extension UIView {
         layer.shadowOffset = offset
 //        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
     }
-    
+
     func roundCorners(_ corners: UIRectCorner = .allCorners,
                       radius: CGFloat,
                       borderColor: UIColor? = nil,
@@ -24,7 +24,7 @@ extension UIView {
         clipsToBounds = true
         layer.cornerRadius = radius
         layer.maskedCorners = CACornerMask(rawValue: corners.rawValue)
-        
+
         if let borderColor = borderColor {
             layer.borderColor = borderColor.cgColor
         }
@@ -32,7 +32,7 @@ extension UIView {
             layer.borderWidth = borderWidth
         }
     }
-    
+
     func roundCornersWithShadow(radius: CGFloat,
                                 corners: UIRectCorner = .allCorners,
                                 color: UIColor? = ColorBackground.shadowPrimary.color,
@@ -40,11 +40,11 @@ extension UIView {
                                 offset: CGSize = .zero,
                                 borderColor: UIColor? = nil,
                                 borderWidth: CGFloat? = nil) {
-        roundCorners(corners ,radius: radius, borderColor: borderColor, borderWidth: borderWidth)
+        roundCorners(corners, radius: radius, borderColor: borderColor, borderWidth: borderWidth)
         drawShadow(radius: radius, color: color, opacity: opacity, offset: offset)
         layer.masksToBounds = false
     }
-    
+
     func roundCornersWithShadow(radius: CGFloat,
                                 shadowRadius: CGFloat,
                                 corners: UIRectCorner = .allCorners,
@@ -53,21 +53,21 @@ extension UIView {
                                 offset: CGSize = .zero,
                                 borderColor: UIColor? = nil,
                                 borderWidth: CGFloat? = nil) {
-        roundCorners(corners ,radius: radius, borderColor: borderColor, borderWidth: borderWidth)
+        roundCorners(corners, radius: radius, borderColor: borderColor, borderWidth: borderWidth)
         drawShadow(radius: shadowRadius, color: color, opacity: opacity, offset: offset)
         layer.masksToBounds = false
     }
-    
+
     func roundCornersTop(radius: CGFloat) {
         roundCorners([.topLeft, .topRight], radius: radius)
     }
-    
+
     func roundCornersBottom(radius: CGFloat) {
         roundCorners([.bottomLeft, .bottomRight], radius: radius)
     }
 
-    // MARK: - Egg Animations
-    func startEggGlowAnimation(shadowColor: CGColor) {
+    // MARK: - Pulse Animations
+    func startPulseGlowAnimation(shadowColor: CGColor) {
         layer.shadowColor = shadowColor
 
         let opacity = CAKeyframeAnimation(keyPath: "shadowOpacity")
@@ -90,24 +90,24 @@ extension UIView {
         radius.repeatCount = .infinity
         radius.timingFunctions = opacity.timingFunctions
 
-        layer.add(opacity, forKey: "eggGlowOpacity")
-        layer.add(radius, forKey: "eggGlowRadius")
+        layer.add(opacity, forKey: "pulseGlowOpacity")
+        layer.add(radius, forKey: "pulseGlowRadius")
     }
 
-    func startEggBreathingAnimation() {
+    func startBreathingAnimation() {
         let breathing = CAKeyframeAnimation(keyPath: "transform.scale")
         breathing.values = [1.0, 0.992, 0.985, 0.992, 1.0]
         breathing.keyTimes = [0, 0.25, 0.5, 0.75, 1]
         breathing.duration = 1.4
         breathing.repeatCount = .infinity
         breathing.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        layer.add(breathing, forKey: "eggBreathing")
+        layer.add(breathing, forKey: "pulseBreathing")
     }
 
-    func stopEggAnimations() {
-        layer.removeAnimation(forKey: "eggGlowOpacity")
-        layer.removeAnimation(forKey: "eggGlowRadius")
-        layer.removeAnimation(forKey: "eggBreathing")
+    func stopPulseAnimations() {
+        layer.removeAnimation(forKey: "pulseGlowOpacity")
+        layer.removeAnimation(forKey: "pulseGlowRadius")
+        layer.removeAnimation(forKey: "pulseBreathing")
     }
 
     // MARK: - Cross Dissolve
@@ -151,7 +151,7 @@ extension UIView {
     func stopShimmer() {
         layer.sublayers?.removeAll { $0.name == "shimmer" }
     }
-    
+
     func wrapped(with insets: UIEdgeInsets = .zero) -> UIView {
         let view = UIView()
         view.addSubview(self)

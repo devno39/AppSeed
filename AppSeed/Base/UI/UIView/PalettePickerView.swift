@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-// Seed: all palettes are free — CoupleOS premium/paywall gating (isLocked/onLockedTap) stripped.
 final class PalettePickerView: UIView {
 
     // MARK: - Constants
