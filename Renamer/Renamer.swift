@@ -133,17 +133,38 @@ final class Renamer: NSObject {
     private func updateContentsOfFile(atPath path: String) {
         do {
             let oldContent = try String(contentsOfFile: path, encoding: .utf8)
+            var newContent = oldContent
+
             if oldContent.contains(oldName) {
-                var newContent = oldContent.replacingOccurrences(of: oldName, with: newName)
+                newContent = newContent.replacingOccurrences(of: oldName, with: newName)
                 if oldContent.contains("\(oldName)Tests") || oldContent.contains("\(oldName)UITests") {
                     let testClassOldName = oldName.replacingOccurrences(of: "-", with: "_")
                     newContent = newContent.replacingOccurrences(of: testClassOldName, with: newName)
                 }
+            }
+
+            newContent = renamedAppGroups(in: newContent)
+
+            if newContent != oldContent {
                 try newContent.write(toFile: path, atomically: true, encoding: .utf8)
             }
         } catch {
             print("Error updating file: \(error.localizedDescription)")
         }
+    }
+
+    // App Group ids are lowercase, so the plain rename above misses them — and a stale id
+    // fails silently: the widget and the share extension read an empty container instead of
+    // crashing. Rewrites `group.<anything>.<oldname>` in entitlements and in Swift literals.
+    private func renamedAppGroups(in content: String) -> String {
+        let pattern = "group\\.([A-Za-z0-9.\\-]+)\\.\(oldName.lowercased())\\b"
+        guard let regex = try? NSRegularExpression(pattern: pattern) else { return content }
+
+        return regex.stringByReplacingMatches(
+            in: content,
+            range: NSRange(content.startIndex..., in: content),
+            withTemplate: "group.$1.\(newName.lowercased())"
+        )
     }
     
     private func renameItem(atPath path: String) {
