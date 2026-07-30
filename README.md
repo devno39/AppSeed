@@ -45,9 +45,9 @@ compile into both the app and the widget target — the app writes snapshots, wi
 
 ## Quickstart
 
-1. **Clone** the `develop` branch:
+1. **Clone** — `main` is the branch to start from:
    ```bash
-   git clone -b develop https://github.com/devno39/AppSeed.git
+   git clone https://github.com/devno39/AppSeed.git
    ```
 
 2. **Install the Xcode file templates** (New File → adds AppSeed Scene / Bottom Sheet / Form Sheet generators):
