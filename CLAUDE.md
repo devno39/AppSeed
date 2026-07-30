@@ -2,7 +2,9 @@
 
 UIKit seed project (UIKit + SnapKit, MVVM-R, Supabase) — the starting point for new apps, carrying CoupleOS-proven patterns so the next app has its first week already built. This file is the contract for how code is written here. **Do not deviate from these standards.** When in doubt, read the golden file.
 
-**Golden file:** `AppSeed/Scenes/Main/Profile/` — a complete, current scene: section-driven table, a nested EditProfile form sheet, language/theme switches, sign-out and delete-account. New scenes copy its shape.
+**Golden files — two, one per shape:**
+- `AppSeed/Scenes/Main/Items/` — a **feature**: Supabase-backed collection, realtime listener, optimistic writes, empty state, swipe delete, nested `AddItem` form sheet. Copy this for anything the user creates, edits or deletes.
+- `AppSeed/Scenes/Main/Profile/` — a **settings screen**: section-driven table, nested EditProfile form sheet, language/theme switches, sign-out and delete-account.
 
 ## Architecture — MVVM-R + Builder
 
@@ -73,15 +75,18 @@ private lazy var tableView: BaseTableView = {
 ## Clean code
 
 - Comments: minimal — a single line only for traps not visible in the code itself. No "what the next line does" comments, no history notes. Names carry the meaning.
-- No dead code in APP code: unused scenes, routes, view models, and helpers are removed, not kept "just in case" (exception: Firebase helpers and the GPT/DALLE/Replicate/Falai shelf modules, kept as optional infrastructure). **`Extensions/` and `Base/UI` are library surface** — unused members stay; they exist to be reached for. Only remove a library member when it is actively harmful (e.g. shadowing a system API).
+- No dead code in APP code: scenes, routes, view models, and helpers you wrote for this app and no longer call are removed, not kept "just in case".
+- **Seed inventory is not dead code.** This is a base: uncalled members are stock, not rot. That covers `Extensions/`, `Helpers/`, `Base/UI` (including `UI/Map/`, `PagedCarouselView`, `StatusBubbleView`), the ready-to-use scenes (`QRScanner/`, `PhotoViewer/`), the `AppSeedShareExtension` target, and the optional infrastructure shelves (Firebase helpers, the GPT/DALLE/Replicate/Falai modules). Judge a piece by whether it carries knowledge that is painful to re-derive — platform traps, layout maths, ordering rules — not by whether it looks like the app it came from. Delete only when the app will provably never want the capability, or when the member is actively harmful (e.g. shadowing a system API).
 - No over-engineering: no speculative abstractions, no generic frameworks for one call site. Solve today's problem.
 - Reusable behavior lives in its natural home, never inline in scenes: system-type behavior as extensions (`Extensions/`), domain utilities as helpers (`Helpers/`), UI building blocks in `Base/UI`. This is a seed — write generic pieces clean enough to carry into the next app.
+- **SwiftLint enforces the machine-checkable half of this file** (`.swiftlint.yml`): `make*` view factories, forbidden MARK names, `print(` instead of `log(`, hardcoded user-facing strings. The repo is kept at zero violations — run `Scripts/lint.sh` (or `Scripts/lint.sh --fix`) before finishing a change, so anything reported is yours.
 - Localization: per-scene `XxxLocalizable` enum + `.xcstrings` (6-language template: en, tr, es, de, fr, it; seed content en+tr). Every user-facing string goes through it.
 
 ## Cross-cutting invariants
 
 - **Widgets can't do realtime.** The app writes App-Group snapshots (`AppGroupStorage` + `*WidgetMetadata` Codable structs), then calls `WidgetCenter.shared.reloadTimelines(ofKind:)`. Feature writes route through the `WidgetSync` registry: new widget = new `WidgetSyncKind` + a `WidgetSyncHandler`. Widgets read snapshots — they never fetch. See `AppSeedWidgets/README.md`.
 - **Push pipeline has 4 hard rules** (no hybrid `alert`+`content-available` payloads, one event = one `push_outbox` row, loc-key deploy order, silent-push cold-launch race) — read `supabase/README.md` before touching anything push-related.
+- **Storage RLS policies OR together.** A single bucket-wide `authenticated` policy cancels every narrow policy beside it — audit `pg_policy` before trusting one. Object paths carry the owner id from day one (`profile_images/{user_id}.ext`, `user_files/{user_id}/…`); retrofitting that later means moving every file. Deleting a row that names a file? Queue the path *before* the delete — afterwards nobody can ask whose file it was. See `supabase/README.md`.
 - **Silent-push cold-launch race.** A silent push can launch the app in the background and race the splash. The defense is `SplashViewController.startWhenForeground()` (hold the flow until foregrounded) plus a SceneDelegate fallback; `handleSilentPush` must guard `currentUser == nil` and do no heavy work on background launches.
 
 ## Docs map + maintenance
@@ -99,6 +104,8 @@ private lazy var tableView: BaseTableView = {
 | `docs/templates/` | Process-doc skeletons (brainstorm, plan, release, review) |
 | `docs/patterns/` | Reusable recipe write-ups (optimistic sync, listener guards, cold-launch defer) |
 | `docs/plans/` | Requirements and implementation plans (dated) |
+| `docs/reviews/` | Review reports with gate results and known placeholders |
+| `AppSeedTests/` | Pure-logic suite — `Scripts/test.sh` |
 
 **Maintenance rule:** docs update in the same commit as the change that invalidates them — new service → the Network README; new base component or form field → the Base README; new scene or navigation change → the Scenes README; new helper → the Helpers README; new widget kind → the AppSeedWidgets README; push/edge-function change → the supabase README. A doc that lists code the repo doesn't have (or misses code it does) is a bug.
 

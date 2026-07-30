@@ -16,6 +16,7 @@ Base/
 ├── Controllers/         # BaseNavigationController, BaseTabbarController
 ├── Transitions/         # ZoomTransition
 ├── UI/                  # Base UI components + Form field library
+│   └── Map/             # MapKit annotation kit
 ├── Constants/           # Typealias
 └── Localizable/         # Localizable protocol + global Localizable.xcstrings
 ```
@@ -86,9 +87,25 @@ Building blocks for form sheets — all titled, pre-fill aware:
 - **TextField:** `BaseTextField` (palette-colored cursor), `EmojiTextField` (emoji-only input), `PillSearchField`
 - **ImageView:** `BaseImageView`, `CircleImageView`, `CorneredImageView`, `CropImageView`
 - **TableView:** `BaseTableView`, `BaseTableViewCell`, `BaseSectionHeaderView`, `EmptyTVCell`, `LargeTitleSectionHeader`
-- **CollectionView:** `BaseCollectionView`, `BaseCollectionViewCell`, `PhotoViewerCell`
-- **UIView:** `AvatarView` (placeholder + photo, tappable), `PalettePickerView` (horizontal accent picker), `ConfettiView`, `HudView` (LoadingHelper overlay), `RingProgressView` (parametric progress ring), `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay` (premium gate), `PaperBackgroundView`, `FloatingWidgetView`
+- **CollectionView:** `BaseCollectionView`, `BaseCollectionViewCell`, `PhotoViewerCell`, `PagedCarouselView` + `CarouselPageCell` (paged carousel with page control; pages come from a provider closure and are cached, so page state survives scrolling)
+- **UIView:** `AvatarView` (placeholder + photo, tappable), `PalettePickerView` (horizontal accent picker), `ConfettiView`, `HudView` (LoadingHelper overlay), `RingProgressView` (parametric progress ring), `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay` (premium gate), `PaperBackgroundView`, `FloatingWidgetView`, `StatusBubbleView` (pill + tail pointing at any anchor view)
 - `ReusableView` protocol — reuse by `static identifier` (file `ReuseableView.swift`)
+
+### Map kit (`UI/Map/`)
+
+Annotation types and their views, all domain-free: each annotation carries the
+caller's own `id` plus what to draw.
+
+| Annotation | View | Renders |
+|---|---|---|
+| `PhotoStackAnnotation` | `PhotoStackAnnotationView` | Up to 3 stacked photos, count badge, optional corner badge |
+| `LabelPinAnnotation` | `LabelPinAnnotationView` | Text chip above a dot on the coordinate (`animateTap()`) |
+| `AvatarAnnotation` | `AvatarAnnotationView` | Avatar with breathing glow + optional caption bubble |
+| `MKClusterAnnotation` | `ClusterCountAnnotationView` | Member count badge |
+
+Register by `reuseID`; `PhotoStackAnnotationView.clusteringIdentifier` opts pins
+into MapKit clustering. Frames are set manually — MKAnnotationView is sized
+before the map lays it out, so constraints resolve too late.
 
 ## Constants & Localizable
 

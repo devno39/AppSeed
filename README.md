@@ -34,11 +34,14 @@ AppSeed/                         # Main app
 
 AppSeedWidgets/                  # WidgetKit extension — reads App Group snapshots        → AppSeedWidgets/README.md
 AppSeedNotificationService/      # NSE — version-gate → reload widget timelines → passthrough
+AppSeedShareExtension/           # Share sheet — writes the shared URL/text to the App Group
+AppSeedTests/                    # Pure-logic unit tests (no network, no UI)                → Scripts/test.sh
 supabase/                        # Edge functions + SQL templates + push pipeline rules  → supabase/README.md
 ```
 
 `AppGroupStorage.swift` and the `*WidgetMetadata` structs (`AppSeed/Helpers/AppGroup/`)
 compile into both the app and the widget target — the app writes snapshots, widgets read them.
+`PendingSharedItem.swift` does the same for the share extension.
 
 ## Quickstart
 
@@ -60,9 +63,15 @@ compile into both the app and the widget target — the app writes snapshots, wi
 4. **Fill the xcconfig keys** in `AppSeed/Configuration/Develop.xcconfig` and `Release.xcconfig`:
    - `PRODUCT_BUNDLE_IDENTIFIER`, `PRODUCT_APP_NAME`
    - `SUPABASE_URL`, `SUPABASE_ANON_KEY`
-   - Set your App Group + Sign in with Apple capability, and drop in your `GoogleService-Info` / RevenueCat key if you wire those shelves.
+   - Turn on the **App Group** and **Sign in with Apple** capabilities for every target that has an
+     entitlements file (app, widgets, NSE, share extension). The Renamer already rewrote the group id
+     to `group.<prefix>.<yourapp>` in the four entitlements files and the three Swift literals that
+     duplicate it — create that exact group in your developer account. A mismatch here fails silently:
+     widgets and the share extension read an empty container instead of crashing.
+   - Drop in your `GoogleService-Info-develop/release.plist` and RevenueCat key if you wire those shelves.
+     Without the plist, Firebase (and Crashlytics) stay off by design — the launch log says so.
 
-5. **Stand up the backend** — run the SQL templates under `supabase/templates/sql/` (users, RLS RPCs, device tokens + push outbox, `delete_my_account`) in your Supabase project's SQL editor, then deploy `supabase/functions/send-push/`. See [`supabase/README.md`](supabase/README.md) — the 4 push pipeline hard rules are mandatory reading before touching push.
+5. **Stand up the backend** — run the SQL templates under `supabase/templates/sql/` in order (users + `delete_my_account`, device tokens + push outbox, remote config + admin, storage RLS, storage purge, premium guard) in your Supabase project's SQL editor, then deploy the edge functions you need from `supabase/functions/` (`send-push`, `feedback`, `revenuecat-webhook`, `purge-storage`). Verify with `supabase/tests/000_rls_baseline_test.sql`. See [`supabase/README.md`](supabase/README.md) — the 4 push pipeline hard rules and the two storage rules are mandatory reading.
 
 6. **Build:**
    ```bash
@@ -84,7 +93,11 @@ compile into both the app and the widget target — the app writes snapshots, wi
 | [`supabase/README.md`](supabase/README.md) | Edge functions, push pipeline rules, SQL templates |
 | `docs/templates/` | Process-doc skeletons (brainstorm / plan / release / review) |
 | `docs/patterns/` | Reusable recipe write-ups |
+| `supabase/tests/` | SQL regression-suite pattern (impersonate → assert → rollback) |
 | `docs/plans/` | Requirements and implementation plans (dated) |
+| `docs/reviews/` | Review reports with gate results and known placeholders |
+| `.swiftlint.yml` | The machine-checkable half of the contract — `Scripts/lint.sh` |
+| `AppSeedTests/` | Pure-logic unit tests — `Scripts/test.sh` |
 
 ## License
 

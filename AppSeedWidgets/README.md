@@ -10,7 +10,13 @@ Bundle order in `AppSeedWidgetsBundle.swift` = Apple gallery order. New app appe
 
 | Kind | Family | Gating | Snapshot |
 |---|---|---|---|
-| `DemoWidget` | small/medium home | free | demo |
+| `DemoWidget` | small/medium home + circular/rectangular lock screen | free | demo |
+
+One kind serving both surfaces is the cheapest way to keep the accessory path proven:
+the same provider and snapshot feed a separate `accessoryView`, the container background
+goes clear (vibrant rendering turns any fill into a grey block), and the circular family
+uses `AccessoryWidgetBackground()`. Split into its own kind only when the lock screen
+needs different data or a different reload cadence.
 
 ## Rules
 

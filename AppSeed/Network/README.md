@@ -20,17 +20,23 @@ Network/
     ├── Models/          # GPTModels
     ├── Services/        # GptService (concrete AI service)
     └── Supabase/        # ACTIVE domain layer
-        ├── Protocols/   # UserServiceProtocol, ListenerHandle
-        ├── Models/      # User (Codable, optional fields)
-        └── User/        # SupabaseUserService
+        ├── Protocols/   # UserServiceProtocol, ItemServiceProtocol, ListenerHandle
+        ├── Models/      # User, ItemModel (Codable, snake_case CodingKeys)
+        ├── User/        # SupabaseUserService  — single-row listener
+        └── Item/        # SupabaseItemService  — collection listener
 ```
 
 ## Supabase domain services (`Services/Supabase/`)
 
 ViewModels depend on protocols, not concrete types — swapping backend = swapping the
-implementation. The seed ships one domain: **User**.
+implementation. The seed ships two domains, one per listener shape: **User** (a single row)
+and **Item** (a collection).
 
 - `UserServiceProtocol` — user CRUD + the row listener.
+- `ItemServiceProtocol` — collection CRUD + the list listener. Copy this pair for a new table.
+- `SupabaseRealtimeDecoder` (in `Helpers/Supabase/Database/`) — decodes a change event's
+  record so a single-row listener can skip the REST round trip. Postgres sends microsecond
+  fractions that `ISO8601DateFormatter` cannot read, which is the whole reason it exists.
 - `ListenerHandle` — backend-agnostic listener wrapper; the owner stores the handle and cancels on teardown.
 - `SupabaseUserService` — the active implementation, injected in each feature's Builder:
 

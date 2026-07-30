@@ -10,6 +10,9 @@ into the next app's own Supabase project, fill the env placeholders, and deploy.
 | Function | Role |
 |---|---|
 | `send-push/` | Push pipeline worker. Invoked by pg_cron with a batch of `push_outbox` row IDs: loads outbox rows + recipient device tokens, mints an APNs ES256 JWT (cached), builds channel-specific APNs payloads, fans out to APNs per token environment, prunes dead tokens. |
+| `feedback/` | The only path between the app and the support channel. Holds the destination's credentials in env secrets, caps the body at 4KB and rate-limits per IP. Deploy with `--no-verify-jwt`: sign-in failures are worth receiving and happen before a session exists. |
+| `revenuecat-webhook/` | Subscription state → `users.is_premium` / `premium_until`. Connects with the service-role key, which is what `006_premium.sql`'s guard trigger lets through. Shared secret in `REVENUECAT_AUTH_HEADER`. |
+| `purge-storage/` | Deletes storage objects the database marked as garbage (orphan scan + purge queue). SQL cannot delete storage objects; this function is that half. Scheduled by pg_cron, supports `{"dry_run": true}`. |
 
 Deploying an edge function change is mandatory before testing from iOS — local edits
 do nothing until deployed.
@@ -66,3 +69,40 @@ fallback) holds the UI until the app is actually foregrounded:
   append-only log, and the highest number wins.
 - Templates live under `templates/sql/`. Copy them into the app's real migration
   sequence and renumber as needed.
+
+| Template | Contents |
+|---|---|
+| `001_users.sql` | `public.users` mirror of `auth.users`, own-row RLS, `delete_my_account()` |
+| `002_device_tokens_outbox.sql` | Device tokens + push outbox |
+| `003_app_config.sql` | Remote config table, `admins` registry, `is_admin()`, admin-only writes |
+| `004_storage.sql` | Private bucket + owner-scoped storage RLS |
+| `005_storage_purge.sql` | Purge queue, orphan scan, cron wiring |
+| `006_premium.sql` | Premium columns + guard trigger (service-role writes only) |
+| `007_items.sql` | Per-user collection: owner RLS, server-stamped `updated_at`, realtime publication |
+
+## Two rules the templates encode
+
+**Storage policies OR together.** One bucket-wide `authenticated` policy cancels every
+narrow policy beside it — any signed-in user can then read, overwrite and delete every
+object in the bucket. Audit `pg_policy` for leftovers before trusting a narrow policy,
+and put the owner id in the object path from day one (`004_storage.sql`). Retrofitting
+an owner segment later means moving every existing file.
+
+**Capture file paths before the rows that name them are deleted.** After the delete
+there is no way to ask who a file belonged to. `enqueue_storage_paths()` runs inside
+the delete path; the orphan scan alone can only catch files whose path carries an owner
+(`005_storage_purge.sql`).
+
+## Realtime
+
+A table the app listens to must be in the `supabase_realtime` publication — without it
+the channel subscribes happily and never fires. `007_items.sql` shows the idempotent
+`alter publication` block to copy.
+
+## Tests
+
+`tests/000_rls_baseline_test.sql` is the regression pattern: one transaction, a temp
+`t(no, name, expected, actual)` table, `set_config('request.jwt.claims', …)` to
+impersonate users, a final PASS/FAIL render, then `ROLLBACK`. Write the assertions
+before a policy migration goes live — "looks right" and "denies the right rows" are
+different claims.

@@ -22,7 +22,8 @@ Helpers/
 │   └── RemoteConfig/                # RemoteConfigHelper, RemoteConfigCacher, RemoteConfigKeys
 ├── AppGroup/                # Widget ↔ app shared state
 │   ├── AppGroupStorage.swift        # atomic vintage-UUID writes, freshness/session guards, wipe
-│   └── DemoWidgetMetadata.swift     # example snapshot struct
+│   ├── DemoWidgetMetadata.swift     # example snapshot struct
+│   └── PendingSharedItem.swift      # share-extension → app handoff (compiled into both targets)
 ├── WidgetSync/             # App → widget snapshot pipeline
 │   ├── WidgetSyncService.swift, WidgetSyncHandler.swift, WidgetSyncKind.swift, WidgetSyncContext.swift
 │   └── Handlers/DemoWidgetSyncHandler.swift
@@ -30,14 +31,15 @@ Helpers/
 ├── IAP/                    # IAPHelper (RevenueCat), UserPlan, StoreKitConfig.storekit
 ├── Language/              # LanguageHelper + LanguageManager
 ├── Toast/                # ToastHelper + ToastView (global, palette-aware)
-├── UserSessionManager.swift    # Supabase user listener + .userDidChange (generation-guarded)
+├── UserSessionManager.swift    # Supabase user listener, sign-out, Apple credential state
 ├── PaletteManager.swift        # accent selection + .paletteDidChange
 ├── ThemeManager.swift          # light/dark + .themeDidChange
 ├── PermissionManager.swift     # notification / location / photos permission flows
 ├── ReviewPromptManager.swift   # App Store review-prompt eligibility
 ├── DeepLinkRouter.swift        # scheme guard + host allowlist + cold-launch drain
 ├── PushNotificationManager  (under Push/)
-├── NotificationHelper.swift    # local notification scheduling
+├── NotificationHelper.swift    # notification authorization
+├── LocalReminderHelper.swift   # prefix-scoped local reminder scheduling
 ├── FeedbackHelper.swift        # support-channel handoff (generic)
 ├── AlertHelper.swift, LoadingHelper.swift, KeychainHelper.swift
 ├── UserDefaultsWrapper.swift   # type-safe UserDefaults (tutorials_seen, has_completed_setup, …)
@@ -54,6 +56,21 @@ post-auth) / `stopListening()` (logout + delete). Publishes `.userDidChange`. Al
 models read the current user from `UserSessionManager.shared` rather than fetching directly.
 Callbacks are guarded by a session generation counter — a stale listener callback after
 sign-out is dropped (see `docs/patterns/listener-generation-guard.md`).
+
+### Sign-out and revoked credentials
+
+`signOut()` is the one sign-out sequence — device tokens go first (the RLS delete-own
+policy needs `auth.uid()`, which `signOut` clears), the server call must succeed before
+anything local is wiped, then the listener stops and review tracking resets. Scenes call
+it and handle their own UI.
+
+Apple can revoke a Sign in with Apple credential from iOS Settings while the app is
+closed; the Supabase session stays valid on its own, so nothing else notices. Two paths
+cover it: `ASAuthorizationAppleIDProvider.credentialRevokedNotification` while running,
+and `verifyAppleCredential()` on every activation (`SceneDelegate`) for the closed case —
+which needs Apple's own user identifier, stored in the Keychain at sign-in
+(`KeychainKeys.appleUserId`). Either path signs out and posts `.sessionRevoked`;
+`SceneDelegate` routes back to Login.
 
 ## Supabase
 
@@ -82,7 +99,22 @@ Widgets can't subscribe to realtime — they read snapshots the app writes.
 
 `PushNotificationManager` — APNs token registration + device-token upsert. Silent-push
 handling must guard cold launches (see the push rules in `supabase/README.md`).
-`NotificationHelper` schedules local notifications.
+`NotificationHelper` only asks for authorization.
+
+`LocalReminderHelper` schedules the app's own reminders. `sync(prefix:reminders:)`
+drops every pending notification whose identifier starts with `prefix` and rebuilds
+the set from the given `[LocalReminder]` — so a change anywhere in the model list
+needs no per-item bookkeeping between launches. `ReminderRepeatRule` covers
+none/daily/weekly/monthly/yearly, and `minutesIntoDay` sets the fire time.
+
+## Share extension handoff
+
+`PendingSharedItem` compiles into both the app and `AppSeedShareExtension`. The
+extension writes the shared URL/text into the App Group and exits; `SceneDelegate`
+posts `.sharedItemReceived` on the next activation and the observing scene calls
+`PendingSharedItem.consume()`. The App Group suite name is repeated in the struct
+because the extension target cannot see app-target code — keep it in sync with
+`AppGroupStorage.groupIdentifier`.
 
 ## IAP (RevenueCat)
 
