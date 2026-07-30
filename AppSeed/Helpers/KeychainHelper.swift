@@ -58,9 +58,15 @@ final class KeychainHelper {
     }
 
     // MARK: - Delete
+    @discardableResult
     func delete(key: String) -> Bool {
         let status = SecItemDelete(baseQuery(for: key) as CFDictionary)
         return status == errSecSuccess
+    }
+
+    @discardableResult
+    func delete(key: KeychainKeys) -> Bool {
+        delete(key: key.rawValue)
     }
 }
 
@@ -72,5 +78,7 @@ extension KeychainHelper {
         case falaiKey
         // Stable per-session nonce stamped into widget snapshots (survives app restarts).
         case widgetSessionNonce
+        // Apple's own user identifier — the only key getCredentialState accepts.
+        case appleUserId
     }
 }

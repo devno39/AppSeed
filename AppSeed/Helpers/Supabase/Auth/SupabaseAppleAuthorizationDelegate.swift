@@ -56,6 +56,8 @@ extension SupabaseAppleAuthorizationDelegate: ASAuthorizationControllerDelegate 
             return
         }
 
+        KeychainHelper.shared.save(key: .appleUserId, value: appleIDCredential.user)
+
         let givenName = appleIDCredential.fullName?.givenName?.trimmingCharacters(in: .whitespaces) ?? ""
         let familyName = appleIDCredential.fullName?.familyName?.trimmingCharacters(in: .whitespaces) ?? ""
         let composed = [givenName, familyName].filter { !$0.isEmpty }.joined(separator: " ")

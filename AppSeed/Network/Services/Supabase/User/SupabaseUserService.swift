@@ -51,7 +51,7 @@ final class SupabaseUserService: UserServiceProtocol {
             self?.getUserSkippingFailure(id: id, completion: completion)
 
             for await action in onChange {
-                if let user = Self.decodeUser(from: action) {
+                if let user = SupabaseRealtimeDecoder.decode(User.self, from: action) {
                     await MainActor.run { completion(user) }
                 } else {
                     self?.getUserSkippingFailure(id: id, completion: completion)
@@ -69,49 +69,6 @@ final class SupabaseUserService: UserServiceProtocol {
     private func getUserSkippingFailure(id: String, completion: @escaping AnyClosure<User?>) {
         SupabaseDatabaseHelper.getResult(.users, id: id, idColumn: "user_id", as: User.self) { result in
             if case .success(let user) = result { completion(user) }
-        }
-    }
-
-    // MARK: - Realtime Decode
-    // The change event already carries the full row — decoding it saves a REST round trip
-    // per event (root of the .userDidChange amplification). Any failure falls back to REST.
-    private static let realtimeDecoder: JSONDecoder = {
-        let fractional = ISO8601DateFormatter()
-        fractional.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        let plain = ISO8601DateFormatter()
-        plain.formatOptions = [.withInternetDateTime]
-        let dateOnly = DateFormatter()
-        dateOnly.dateFormat = "yyyy-MM-dd"
-        dateOnly.timeZone = TimeZone(identifier: "UTC")
-        dateOnly.locale = Locale(identifier: "en_US_POSIX")
-
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .custom { d in
-            let raw = try d.singleValueContainer().decode(String.self)
-            // Postgres sends microsecond fractions; ISO8601DateFormatter reads at most 3 digits.
-            let trimmed = raw.replacingOccurrences(of: #"(\.\d{3})\d+"#, with: "$1", options: .regularExpression)
-            if let date = fractional.date(from: trimmed) ?? plain.date(from: trimmed) ?? dateOnly.date(from: raw) {
-                return date
-            }
-            throw DecodingError.dataCorrupted(.init(codingPath: d.codingPath, debugDescription: "Unrecognized date: \(raw)"))
-        }
-        return decoder
-    }()
-
-    private static func decodeUser(from action: AnyAction) -> User? {
-        let record: [String: AnyJSON]?
-        switch action {
-        case .insert(let insert): record = insert.record
-        case .update(let update): record = update.record
-        case .delete: record = nil   // delete ships the key only — REST confirms the absence
-        }
-        guard let record else { return nil }
-        do {
-            let data = try JSONEncoder().encode(record)
-            return try realtimeDecoder.decode(User.self, from: data)
-        } catch {
-            log(.warning, .supabase, "Realtime user decode fell back to REST: \(error)")
-            return nil
         }
     }
 

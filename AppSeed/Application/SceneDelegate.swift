@@ -18,6 +18,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         setInitialScene(with: windowScene)
         DeepLinkRouter.shared.capture(from: connectionOptions)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleSessionRevoked),
+            name: .sessionRevoked,
+            object: nil
+        )
+    }
+
+    // MARK: - Session
+    @objc private func handleSessionRevoked() {
+        Self.setToWindow(LoginBuilder().build())
     }
 
     // MARK: - Deep Links
@@ -33,6 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let session = UserSessionManager.shared
         session.updateLastSeen()
+        session.verifyAppleCredential()
 
         if let last = Self.lastReconcileAt, Date().timeIntervalSince(last) < Self.reconcileWindow {
             return
@@ -41,6 +53,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Catches background changes the realtime channel may have missed.
         session.refreshUser()
+
+        drainPendingSharedItem()
+    }
+
+    // MARK: - Share Extension
+    // The extension writes into the App Group and dies before the app can be told.
+    private func drainPendingSharedItem() {
+        guard PendingSharedItem.exists else { return }
+        NotificationCenter.default.post(name: .sharedItemReceived, object: nil)
     }
 
     // MARK: - Initial Scene

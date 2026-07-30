@@ -21,6 +21,12 @@ enum DateFormat: String {
     case monthDay = "MMMM d"
 }
 
+enum RecurrencePeriod: String, Codable {
+    case none
+    case yearly
+    case monthly
+}
+
 final class DateHelper {
 
     static let shared = DateHelper()
@@ -178,5 +184,100 @@ final class DateHelper {
     func yearMonthDay(from start: Date, to end: Date) -> (years: Int, months: Int, days: Int) {
         let components = calendar.dateComponents([.year, .month, .day], from: start, to: end)
         return (components.year ?? 0, components.month ?? 0, components.day ?? 0)
+    }
+
+    // MARK: - Recurring Events
+
+    func daysRemaining(from date: Date, period: RecurrencePeriod) -> Int {
+        let today = startOfDay(Date())
+
+        switch period {
+        case .none:
+            return calendar.dateComponents([.day], from: today, to: startOfDay(date)).day ?? 0
+
+        case .yearly, .monthly:
+            let nextDate = nextOccurrence(of: date, period: period, from: today)
+            return calendar.dateComponents([.day], from: today, to: nextDate).day ?? 0
+        }
+    }
+
+    func nextOccurrence(of date: Date, period: RecurrencePeriod, from today: Date) -> Date {
+        let components = calendar.dateComponents([.month, .day], from: date)
+        let currentYear = calendar.component(.year, from: today)
+        let currentMonth = calendar.component(.month, from: today)
+
+        switch period {
+        case .none:
+            return startOfDay(date)
+
+        case .yearly:
+            var thisYearComponents = DateComponents()
+            thisYearComponents.year = currentYear
+            thisYearComponents.month = components.month
+            thisYearComponents.day = components.day
+
+            guard let thisYearDate = calendar.date(from: thisYearComponents) else { return today }
+            let thisYearStart = startOfDay(thisYearDate)
+            guard thisYearStart < today else { return thisYearStart }
+
+            var nextYearComponents = DateComponents()
+            nextYearComponents.year = currentYear + 1
+            nextYearComponents.month = components.month
+            nextYearComponents.day = components.day
+            return calendar.date(from: nextYearComponents).map(startOfDay) ?? today
+
+        case .monthly:
+            var thisMonthComponents = DateComponents()
+            thisMonthComponents.year = currentYear
+            thisMonthComponents.month = currentMonth
+            thisMonthComponents.day = components.day
+
+            guard let thisMonthDate = calendar.date(from: thisMonthComponents) else { return today }
+            let thisMonthStart = startOfDay(thisMonthDate)
+            guard thisMonthStart < today else { return thisMonthStart }
+
+            guard let nextMonthDate = calendar.date(byAdding: .month, value: 1, to: thisMonthDate) else { return today }
+            return startOfDay(nextMonthDate)
+        }
+    }
+
+    // Resolves overflow the same way nextOccurrence does (Feb 29 → Mar 1), so a grid and
+    // a list can never disagree on where an occurrence lands.
+    func occurrenceDays(of date: Date, period: RecurrencePeriod, in month: Date) -> [Int] {
+        let original = startOfDay(date)
+        let displayed = calendar.dateComponents([.year, .month], from: month)
+        guard let displayedYear = displayed.year, let displayedMonth = displayed.month else { return [] }
+        let originalComponents = calendar.dateComponents([.month, .day], from: date)
+
+        func dayIfInDisplayedMonth(year: Int, month: Int, day: Int?) -> Int? {
+            var components = DateComponents()
+            components.year = year
+            components.month = month
+            components.day = day
+            guard let resolved = calendar.date(from: components), startOfDay(resolved) >= original else { return nil }
+            let resolvedComponents = calendar.dateComponents([.year, .month, .day], from: resolved)
+            guard resolvedComponents.year == displayedYear, resolvedComponents.month == displayedMonth else { return nil }
+            return resolvedComponents.day
+        }
+
+        switch period {
+        case .none:
+            guard isDate(date, inSameMonthAs: month) else { return [] }
+            return [day(of: date)]
+
+        case .yearly:
+            return dayIfInDisplayedMonth(
+                year: displayedYear,
+                month: originalComponents.month ?? 1,
+                day: originalComponents.day
+            ).map { [$0] } ?? []
+
+        case .monthly:
+            let candidates = [
+                dayIfInDisplayedMonth(year: displayedYear, month: displayedMonth, day: originalComponents.day),
+                dayIfInDisplayedMonth(year: displayedYear, month: displayedMonth - 1, day: originalComponents.day)
+            ]
+            return Array(Set(candidates.compactMap { $0 })).sorted()
+        }
     }
 }

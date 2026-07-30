@@ -145,14 +145,7 @@ final class ProfileViewModel: BaseViewModel, ProfileViewModelProtocol {
         Task { @MainActor [weak self] in
             guard let self else { return }
             do {
-                // Drop this device's push tokens while still authenticated — the RLS
-                // delete-own policy needs auth.uid(), which signOut clears.
-                if let userId = UserSessionManager.shared.currentUser?.userId {
-                    PushNotificationManager.shared.handleSignOut(userId: userId)
-                }
-                // Server first — a failed signOut must not leave a half-wiped signed-in state.
-                try await self.userService.signOut()
-                UserSessionManager.shared.stopListening(wipeCache: true)
+                try await UserSessionManager.shared.signOut()
                 self.logoutSuccessClosure?()
             } catch {
                 log(.error, .supabase, "Logout failed: \(error.localizedDescription)")

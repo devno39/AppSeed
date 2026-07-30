@@ -6,11 +6,13 @@
 //
 
 import Foundation
+import AuthenticationServices
 import Supabase
 
 // MARK: - Notifications
 extension Notification.Name {
     static let userDidChange = Notification.Name("userDidChange")
+    static let sessionRevoked = Notification.Name("sessionRevoked")
 }
 
 // MARK: - UserSessionManager
@@ -34,6 +36,12 @@ final class UserSessionManager {
     // MARK: - Init
     private init() {
         self.userService = SupabaseUserService()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleCredentialRevoked),
+            name: ASAuthorizationAppleIDProvider.credentialRevokedNotification,
+            object: nil
+        )
     }
 
     // MARK: - Start / Stop
@@ -69,9 +77,8 @@ final class UserSessionManager {
     func stopListening(wipeCache: Bool) {
         sessionGeneration += 1
         if wipeCache {
-            // Device-token cleanup runs in the caller BEFORE auth.signOut() — the
-            // RLS delete-own policy needs auth.uid(), which signOut clears.
-            // A different Apple ID must re-enter setup and permissions.
+            // Device tokens are already gone — signOut() drops them while auth.uid() still
+            // resolves. A different Apple ID must re-enter setup and permissions.
             UserDefaultsWrapper.has_completed_setup = false
             UserDefaultsWrapper.has_shown_permission_sheet = false
             // Purge widget snapshots + drop the scope so ex-user content can't render.
@@ -82,6 +89,46 @@ final class UserSessionManager {
         userListener = nil
         currentUser = nil
         isFirstSnapshot = true
+    }
+
+    // MARK: - Sign Out
+    // Push tokens must go while auth.uid() still resolves, and the server call has to
+    // succeed before anything local is wiped — a half-wiped signed-in state is worse.
+    func signOut() async throws {
+        if let userId = currentUser?.userId {
+            PushNotificationManager.shared.handleSignOut(userId: userId)
+        }
+        try await userService.signOut()
+        stopListening(wipeCache: true)
+        ReviewPromptManager.clearMilestoneTracking()
+    }
+
+    // MARK: - Apple Credential
+    // Apple can revoke from iOS Settings while the app is closed; the Supabase session
+    // stays valid on its own, so nothing else would notice.
+    func verifyAppleCredential() {
+        guard let appleUserId = KeychainHelper.shared.read(key: .appleUserId),
+              userService.currentUserId != nil else { return }
+
+        ASAuthorizationAppleIDProvider().getCredentialState(forUserID: appleUserId) { [weak self] state, _ in
+            guard state == .revoked || state == .notFound else { return }
+            DispatchQueue.main.async { self?.terminateRevokedSession() }
+        }
+    }
+
+    @objc private func handleCredentialRevoked() {
+        terminateRevokedSession()
+    }
+
+    private func terminateRevokedSession() {
+        guard userService.currentUserId != nil else { return }
+        log(.warning, .supabase, "Apple credential revoked — terminating session")
+        KeychainHelper.shared.delete(key: .appleUserId)
+
+        Task { @MainActor [weak self] in
+            try? await self?.signOut()
+            NotificationCenter.default.post(name: .sessionRevoked, object: nil)
+        }
     }
 
     // MARK: - Refresh
