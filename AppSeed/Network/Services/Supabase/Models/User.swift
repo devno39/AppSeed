@@ -16,6 +16,10 @@ struct User: Codable {
     let createdAt: Date?
     let lastLoginAt: Date?
     var lastSeenAt: Date?
+    // Server-owned: only the subscription webhook writes these (006_premium.sql reverts
+    // client writes). IAPHelper stays the fast local path; this is the shared truth.
+    let isPremium: Bool?
+    let premiumUntil: Date?
 
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
@@ -26,6 +30,8 @@ struct User: Codable {
         case createdAt = "created_at"
         case lastLoginAt = "last_login_at"
         case lastSeenAt = "last_seen_at"
+        case isPremium = "is_premium"
+        case premiumUntil = "premium_until"
     }
 
     init(
@@ -36,7 +42,9 @@ struct User: Codable {
         birthDate: Date? = nil,
         createdAt: Date? = nil,
         lastLoginAt: Date? = nil,
-        lastSeenAt: Date? = nil
+        lastSeenAt: Date? = nil,
+        isPremium: Bool? = nil,
+        premiumUntil: Date? = nil
     ) {
         self.userId = userId
         self.displayName = displayName
@@ -46,5 +54,7 @@ struct User: Codable {
         self.createdAt = createdAt
         self.lastLoginAt = lastLoginAt
         self.lastSeenAt = lastSeenAt
+        self.isPremium = isPremium
+        self.premiumUntil = premiumUntil
     }
 }

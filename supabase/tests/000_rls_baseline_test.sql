@@ -72,6 +72,18 @@ reset role;
 insert into t values (6, 'non-admin cannot write app_config', 'false',
     (select (value = '99.0.0')::text from public.app_config where key = 'minimum_supported_version'));
 
+-- The splash reads the version floor before sign-in, so anon must see that row — and
+-- only that row.
+set local role anon;
+select set_config('request.jwt.claims', '', true);
+
+insert into t values (7, 'anon reads the public version floor', '1',
+    (select count(*) from public.app_config where key = 'minimum_supported_version')::text);
+
+insert into t values (8, 'anon sees no private config', '0',
+    (select count(*) from public.app_config where is_public = false)::text);
+reset role;
+
 -- =====================================================
 -- Results
 -- =====================================================

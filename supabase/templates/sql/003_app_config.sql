@@ -21,6 +21,10 @@ create table if not exists public.app_config (
     value       text not null,
     value_type  text not null default 'string',
     description text,
+    -- Readable before sign-in. The force-update floor must be one of these: the splash
+    -- checks it before auth, and the users who most need forcing are the ones who cannot
+    -- get past login. Everything else stays signed-in-only.
+    is_public   boolean not null default false,
     updated_at  timestamptz not null default now()
 );
 
@@ -59,7 +63,7 @@ alter table public.app_config enable row level security;
 
 drop policy if exists app_config_read on public.app_config;
 create policy app_config_read on public.app_config
-    for select using (auth.role() = 'authenticated');
+    for select using (is_public or auth.role() = 'authenticated');
 
 drop policy if exists app_config_admin_write on public.app_config;
 create policy app_config_admin_write on public.app_config
@@ -85,9 +89,9 @@ create trigger app_config_touch_trg
 -- =====================================================
 -- Seed keys the app already reads
 -- =====================================================
-insert into public.app_config (key, value, value_type, description) values
-    ('minimum_supported_version', '1.0.0', 'string',
-     'Below this app version the force-update gate fires on Splash.')
+insert into public.app_config (key, value, value_type, is_public, description) values
+    ('minimum_supported_version', '1.0.0', 'string', true,
+     'Below this app version the force-update gate fires on Splash. Public: read before sign-in.')
 on conflict (key) do nothing;
 
 commit;
@@ -100,3 +104,8 @@ commit;
 --
 --   B) After registering an admin, with that admin's JWT:
 --      select public.is_admin();   -- true
+--
+--   C) The version floor is readable signed out (this is what the splash does):
+--      set role anon;
+--      select key from app_config;      -- minimum_supported_version, nothing else
+--      reset role;

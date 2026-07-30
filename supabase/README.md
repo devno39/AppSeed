@@ -74,13 +74,19 @@ fallback) holds the UI until the app is actually foregrounded:
 |---|---|
 | `001_users.sql` | `public.users` mirror of `auth.users`, own-row RLS, `delete_my_account()` |
 | `002_device_tokens_outbox.sql` | Device tokens + push outbox |
-| `003_app_config.sql` | Remote config table, `admins` registry, `is_admin()`, admin-only writes |
+| `003_app_config.sql` | Remote config table, `admins` registry, `is_admin()`, admin-only writes, `is_public` pre-auth reads |
 | `004_storage.sql` | Private bucket + owner-scoped storage RLS |
 | `005_storage_purge.sql` | Purge queue, orphan scan, cron wiring |
 | `006_premium.sql` | Premium columns + guard trigger (service-role writes only) |
 | `007_items.sql` | Per-user collection: owner RLS, server-stamped `updated_at`, realtime publication |
 
-## Two rules the templates encode
+## Three rules the templates encode
+
+**The force-update floor has to be readable signed out.** The splash checks it before
+auth, so an `authenticated`-only read policy means the gate never fires for the users who
+most need it — the ones who cannot get past login because the API moved. `app_config` rows
+carry `is_public` for exactly this, and only the version floor sets it.
+
 
 **Storage policies OR together.** One bucket-wide `authenticated` policy cancels every
 narrow policy beside it — any signed-in user can then read, overwrite and delete every
