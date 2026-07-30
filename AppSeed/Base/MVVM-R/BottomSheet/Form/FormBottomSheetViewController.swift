@@ -226,7 +226,6 @@ class FormBottomSheetViewController<V: FormBottomSheetViewModelProtocol, R: Base
         let dimTap = UITapGestureRecognizer(target: self, action: #selector(dimTapped))
         dimView.addGestureRecognizer(dimTap)
 
-
         let pan = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         dragHandleView.addGestureRecognizer(pan)
     }

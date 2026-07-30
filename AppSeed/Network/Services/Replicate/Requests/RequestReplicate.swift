@@ -7,8 +7,6 @@
 
 import Alamofire
 
-import Alamofire
-
 struct RequestReplicate: RequestGPTProtocol {
     // MARK: - Properties
     var baseUrl: String { BaseUrl.replicate.rawValue }
@@ -19,7 +17,7 @@ struct RequestReplicate: RequestGPTProtocol {
     var headers: HTTPHeaders?
     var encodingType: ParameterEncoding = JSONEncoding.default
     var showLoading: Bool = false
-    
+
     // MARK: - Init
     init(elements: [String]? = nil, prompt: String? = nil) {
         let prompt = preparePrompt(elements: elements, prompt: prompt)
@@ -40,7 +38,7 @@ private extension RequestReplicate {
         ])
         return headers
     }
-    
+
     func makeParameters(prompt: String) -> Parameters {
         [
             "input": [
@@ -55,7 +53,7 @@ private extension RequestReplicate {
             ]
         ]
     }
-    
+
     func preparePrompt(elements: [String]? = nil, prompt: String? = nil) -> String {
         var final = ""
         if elements.isNotEmpty {

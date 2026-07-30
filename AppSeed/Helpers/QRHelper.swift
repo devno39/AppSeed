@@ -54,7 +54,7 @@ final class QRHelper {
         let logoSize = qrSize * 0.22
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: qrSize, height: qrSize))
 
-        return renderer.image { context in
+        return renderer.image { _ in
             // Draw QR
             qrImage.draw(in: CGRect(origin: .zero, size: CGSize(width: qrSize, height: qrSize)))
 

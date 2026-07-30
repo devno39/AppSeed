@@ -13,18 +13,18 @@ class CircleImageView: UIImageView {
         super.init(frame: frame)
         prepare()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         prepare()
     }
-    
+
     // MARK: - Life Cycle
     override func layoutSubviews() {
         super.layoutSubviews()
         roundCorners(radius: frame.height / 2)
     }
-    
+
     // MARK: - Prepare
     private func prepare() {}
 }

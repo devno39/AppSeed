@@ -17,7 +17,7 @@ struct RequestGPT: RequestGPTProtocol {
     var headers: HTTPHeaders?
     var encodingType: ParameterEncoding
     var showLoading: Bool = true
-    
+
     // MARK: - Init
     init(message: String, role: String, method: HTTPMethod = .post) {
         self.method = method
@@ -28,7 +28,7 @@ struct RequestGPT: RequestGPTProtocol {
         let plan = IAPHelper.shared.userPlan
         let fullMessage = preparePrompt(for: plan, message: message)
         let model = resolveModel(for: plan)
-        
+
         // Parameters
         self.parameters = makeParameters(
             model: model,
@@ -53,7 +53,7 @@ private extension RequestGPT {
         ]
         return HTTPHeaders(headers)
     }
-    
+
     func makeParameters(
         model: String,
         role: String,
@@ -64,9 +64,9 @@ private extension RequestGPT {
     ) -> Parameters {
         let messages: [[String: String]] = [
             ["role": "system", "content": role],
-            ["role": "user",   "content": message]
+            ["role": "user", "content": message]
         ]
-        
+
         return [
             "model": model,
             "messages": messages,
@@ -75,12 +75,12 @@ private extension RequestGPT {
             "top_p": topP
         ]
     }
-    
+
     func resolveModel(for plan: UserPlan) -> String {
         let key: RemoteConfigKeys = (plan == .free) ? .gpt_model_free : .gpt_model_premium
         return RemoteConfigCacher.shared.getCached(key: key, as: String.self) ?? "gpt-4o"
     }
-    
+
     func preparePrompt(for plan: UserPlan, message: String) -> String {
         let langCode = message.detectLanguage() ?? "tr"
         let languageName = langCode.displayNameForLanguage()
@@ -88,7 +88,7 @@ private extension RequestGPT {
         let reminder = Localizable.gpt_prompt_finalReminder
         let jsonFormat = Localizable.gpt_prompt_jsonFormat
         let more = ""
-        
+
         switch plan {
         case .free, .monthly, .yearly:
             return """

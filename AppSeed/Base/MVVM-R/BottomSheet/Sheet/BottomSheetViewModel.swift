@@ -27,7 +27,17 @@ struct BottomSheetAction {
     let isSelected: Bool
     let handler: EmptyClosure?
 
-    init(id: String = UUID().uuidString, title: String, subtitle: String? = nil, icon: String? = nil, emoji: String? = nil, style: Style = .normal, isEnabled: Bool = true, isSelected: Bool = false, handler: EmptyClosure? = nil) {
+    init(
+        id: String = UUID().uuidString,
+        title: String,
+        subtitle: String? = nil,
+        icon: String? = nil,
+        emoji: String? = nil,
+        style: Style = .normal,
+        isEnabled: Bool = true,
+        isSelected: Bool = false,
+        handler: EmptyClosure? = nil
+    ) {
         self.id = id
         self.title = title
         self.subtitle = subtitle

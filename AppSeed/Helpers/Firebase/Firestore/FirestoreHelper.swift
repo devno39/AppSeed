@@ -20,7 +20,7 @@ struct FirestoreHelper {
         }
         write(to: path, data: data, merge: merge, completion: completion)
     }
-    
+
     static func read<T: Decodable>(from path: [String], as type: T.Type, completion: @escaping AnyClosure<T?>) {
         read(from: path) { data in
             let model = data?.toModel(T.self)
@@ -42,7 +42,7 @@ struct FirestoreHelper {
             completion?(error)
         }
     }
-    
+
     static func read(from path: [String], completion: @escaping AnyClosure<[String: Any]?>) {
         guard let ref = documentRef(from: path) else {
             completion(nil)

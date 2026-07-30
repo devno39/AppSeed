@@ -84,11 +84,6 @@ final class TutorialViewController: BaseViewController<TutorialViewModel, Tutori
         collectionView.backgroundColor = ColorBackground.backgroundPrimary.color
     }
 
-    // MARK: - Bind
-    override func bindViewModel() {
-        super.bindViewModel()
-    }
-
     // MARK: - Action
     @objc private func actionButtonTapped() {
         let lastPage = (viewModel?.numberOfItems() ?? 0) - 1

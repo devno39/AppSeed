@@ -31,14 +31,14 @@ final class PaperBackgroundView: UIView {
         ("black", "Black", UIColor(red: 0.12, green: 0.12, blue: 0.12, alpha: 1.0)),
         ("pink", "Pink", UIColor(red: 1.0, green: 0.87, blue: 0.88, alpha: 1.0)),
         ("blue", "Blue", UIColor(red: 0.85, green: 0.92, blue: 1.0, alpha: 1.0)),
-        ("mint", "Mint", UIColor(red: 0.85, green: 0.97, blue: 0.90, alpha: 1.0)),
+        ("mint", "Mint", UIColor(red: 0.85, green: 0.97, blue: 0.90, alpha: 1.0))
     ]
 
     static let patterns: [(id: String, name: String, pattern: PaperConfig.Pattern)] = [
         ("plain", "Plain", .plain),
         ("lined", "Lined", .lined),
         ("dotted", "Dotted", .dotted),
-        ("grid", "Grid", .grid),
+        ("grid", "Grid", .grid)
     ]
 
     // MARK: - Properties
@@ -162,6 +162,7 @@ final class PaperBackgroundView: UIView {
         let darkAlpha: CGFloat = isLight ? 0.07 : 0.04
         let lightAlpha: CGFloat = isLight ? 0.05 : 0.09
 
+        // swiftlint:disable legacy_random - seeded on purpose; .random(in:) can't be seeded
         srand48(42) // deterministic — grain doesn't flicker on redraw
         let area = rect.width * rect.height
         let count = Int(area * 0.015) // ~1.5 specks per 100pt²
@@ -183,6 +184,7 @@ final class PaperBackgroundView: UIView {
             let size = CGFloat(drand48()) * 0.9 + 0.3
             context.fillEllipse(in: CGRect(x: x, y: y, width: size, height: size))
         }
+        // swiftlint:enable legacy_random
     }
 
     private func drawVignette(in rect: CGRect, context: CGContext) {

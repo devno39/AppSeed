@@ -11,7 +11,7 @@ final class AlertHelper {
     private static func topViewController() -> UIViewController? {
         return UIApplication.shared.keyWindow()?.rootViewController?.topMostViewController()
     }
-    
+
     static func showAlert(
         style: UIAlertController.Style = .alert,
         title: String? = nil,
@@ -39,13 +39,13 @@ final class AlertHelper {
             }
             alert.addAction(secondaryButton)
         }
-        
+
         if style == .actionSheet {
             let cancelButton = UIAlertAction(title: Localizable.cancel, style: .cancel) { _ in
                 alert.dismiss(animated: true, completion: nil)
             }
             alert.addAction(cancelButton)
-            
+
             // iPad
             if let popoverController = alert.popoverPresentationController {
                 popoverController.sourceView = topVC.view
@@ -53,7 +53,7 @@ final class AlertHelper {
                 popoverController.permittedArrowDirections = []
             }
         }
-        
+
         DispatchQueue.main.async {
             topVC.present(alert, animated: true) {
                 alert.setTapOutsideToDismiss(hideOnOutsideTap)

@@ -12,7 +12,7 @@ struct ResponseDALLE: Codable {
     var imageUrl: String? {
         data?.first?.url
     }
-    
+
     struct ResponseDALLEData: Codable {
         let url: String?
     }

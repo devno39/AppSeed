@@ -33,7 +33,7 @@ extension TutorialUIModel {
                 subtitle: TutorialLocalizable.tutorial_subtitle_3
             )
         ]
-        
+
         return models
     }
 }

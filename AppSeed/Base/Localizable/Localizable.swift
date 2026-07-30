@@ -31,10 +31,10 @@ enum Localizable {
 
     // MARK: - Replicate
     static var replicate_prompt_general: String { localized("replicate_prompt_general") }
-    
+
     // MARK: - Dalle
     static var dalle_prompt_general: String { localized("dalle_prompt_general") }
-    
+
     // MARK: - GPT
     static var gpt_prompt_language: String { localized("gpt_prompt_language") }
     static var gpt_prompt_finalReminder: String { localized("gpt_prompt_finalReminder") }

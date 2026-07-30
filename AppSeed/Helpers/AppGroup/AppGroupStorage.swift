@@ -332,7 +332,7 @@ enum AppGroupStorage {
         }
     }
 
-    // MARK: - Helpers
+    // MARK: - Private
 
     static func downscale(_ image: UIImage, to targetSize: CGSize) -> UIImage {
         if let thumb = image.preparingThumbnail(of: targetSize) { return thumb }

@@ -11,13 +11,13 @@ import FirebaseRemoteConfig
 extension UserDefaults {
     private enum RCStore {
         static func boolKey(_ k: RemoteConfigKeys) -> String { "rc.bool.\(k.rawValue)" }
-        static func intKey(_  k: RemoteConfigKeys)  -> String { "rc.int.\(k.rawValue)" }
-        static func strKey(_  k: RemoteConfigKeys)  -> String { "rc.str.\(k.rawValue)" }
+        static func intKey(_  k: RemoteConfigKeys) -> String { "rc.int.\(k.rawValue)" }
+        static func strKey(_  k: RemoteConfigKeys) -> String { "rc.str.\(k.rawValue)" }
     }
 
     // SET
-    func rcSet(_ value: Bool,   for key: RemoteConfigKeys) { set(value, forKey: RCStore.boolKey(key)) }
-    func rcSet(_ value: Int,    for key: RemoteConfigKeys) { set(value, forKey: RCStore.intKey(key))  }
+    func rcSet(_ value: Bool, for key: RemoteConfigKeys) { set(value, forKey: RCStore.boolKey(key)) }
+    func rcSet(_ value: Int, for key: RemoteConfigKeys) { set(value, forKey: RCStore.intKey(key))  }
     func rcSet(_ value: String, for key: RemoteConfigKeys) { set(value, forKey: RCStore.strKey(key))  }
 
     // GET

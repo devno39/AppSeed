@@ -16,7 +16,7 @@ final class RemoteConfigHelper {
         settings.minimumFetchInterval = .zero
         remoteConfig.configSettings = settings
     }
-    
+
     func getValue<T>(forKey key: RemoteConfigKeys, as type: T.Type = T.self, completion: AnyClosure<T?>?) {
         remoteConfig.fetchAndActivate { status, error in
             guard status == .successFetchedFromRemote || status == .successUsingPreFetchedData else {
@@ -24,7 +24,7 @@ final class RemoteConfigHelper {
                 completion?(nil)
                 return
             }
-            
+
             let configValue = self.remoteConfig[key.rawValue]
             switch T.self {
             case is String.Type:

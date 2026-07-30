@@ -38,14 +38,14 @@ struct RequestFalaiQueue: RequestGPTProtocol {
 
     // MARK: - Prompt Builder
     private static func preparePrompt(mainElements: [String]?) -> String {
-        // TODO: - Prepare prompt here
+        // Prompt assembly is app-specific — fill in per use case.
         let payload = ""
         let final = ""
         if let jsonString = payload.encodeToString() {
             log(.info, .network, "Fal.ai Payload JSON: \(payload)")
             debugPrint("🧾 Fal.ai Payload JSON:", jsonString)
         }
-        
+
         log(.info, .network, "Fal.ai Prompt: \(final)")
         return final
     }

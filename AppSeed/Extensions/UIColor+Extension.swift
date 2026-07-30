@@ -30,7 +30,7 @@ extension UIColor {
     var hexString: String {
         String(format: "#%06X", rgbHex)
     }
-    
+
     // MARK: - RGB Hex
     var rgbHex: Int {
         var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0

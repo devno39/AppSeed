@@ -9,7 +9,7 @@ import Foundation
 
 enum UserPlan: CaseIterable {
     case free, monthly, yearly
-    
+
     var offeringId: String {
         switch self {
         case .free:
@@ -20,7 +20,7 @@ enum UserPlan: CaseIterable {
             return "subscription_yearly"
         }
     }
-    
+
     var gptMaxTokens: Int {
         switch self {
         case .free: return 500

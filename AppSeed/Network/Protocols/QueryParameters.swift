@@ -10,12 +10,12 @@ import Foundation
 struct QueryParameters {
     // MARK: - Properties
     let queryItems: [URLQueryItem]
-    
-    //MARK: - Init
+
+    // MARK: - Init
     init(url: URL?) {
         queryItems = URLComponents(string: url?.absoluteString ?? "")?.queryItems ?? []
     }
-    
+
     subscript(name: String) -> String? {
         return queryItems.first(where: { $0.name == name })?.value
     }

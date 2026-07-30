@@ -38,7 +38,7 @@ final class TutorialViewModel: BaseViewModel, TutorialViewModelProtocol {
     func numberOfItems() -> Int {
         return models.count
     }
-    
+
     func getTutorial(_ index: Int) -> TutorialUIModel {
         return models[index]
     }

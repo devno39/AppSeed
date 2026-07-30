@@ -39,7 +39,7 @@ final class LargeTitleSectionHeader: UITableViewHeaderFooterView, ReusableView {
         subtitleLabel.text = subtitle
     }
 
-    // MARK: - Helpers
+    // MARK: - Private
     func subtitleFrame(in view: UIView) -> CGRect {
         subtitleLabel.convert(subtitleLabel.bounds, to: view)
     }

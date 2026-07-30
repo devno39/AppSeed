@@ -12,7 +12,7 @@ final class IAPHelper: NSObject {
     static let shared = IAPHelper()
     private let apiKey = "appl_MhxUuSSbDXPMljKBXoXKrqXBRPC"
     private(set) var userPlan: UserPlan = .free
-    
+
     private enum Entitlements {
         static let premium = "premium"
     }
@@ -24,9 +24,9 @@ final class IAPHelper: NSObject {
         Purchases.shared.delegate = self
         Purchases.logLevel = .debug
     }
-    
+
     func getOfferings(completion: @escaping AnyClosure<Offerings?>) {
-        Purchases.shared.getOfferings() { offerings, error in
+        Purchases.shared.getOfferings { offerings, error in
             if let error = error {
                 log(.error, .iap, "Failed to fetch offerings: \(error.localizedDescription)")
                 completion(nil)
@@ -35,7 +35,7 @@ final class IAPHelper: NSObject {
             }
         }
     }
-    
+
     func getOffering(identifier: String, completion: @escaping AnyClosure<Offering?>) {
         Purchases.shared.getOfferings { offerings, error in
             if let error = error {
@@ -47,21 +47,21 @@ final class IAPHelper: NSObject {
             }
         }
     }
-    
+
     func purchase(package: Package, completion: @escaping BoolClosure) {
-        Purchases.shared.purchase(package: package) { transaction, customerInfo, error, userCancelled in
+        Purchases.shared.purchase(package: package) { _, customerInfo, error, userCancelled in
             if let error = error {
                 log(.error, .iap, "Purchase error: \(error.localizedDescription)")
                 completion(false)
                 return
             }
-            
+
             if userCancelled {
                 log(.info, .iap, "Purchase cancelled by user")
                 completion(false)
                 return
             }
-            
+
             if customerInfo?.entitlements[Entitlements.premium]?.isActive == true {
                 log(.success, .iap, "Purchase success and premium is active")
                 completion(true)
@@ -71,7 +71,7 @@ final class IAPHelper: NSObject {
             }
         }
     }
-    
+
     func restorePurchases(completion: @escaping BoolClosure) {
         Purchases.shared.restorePurchases { customerInfo, error in
             if let error = error {
@@ -79,12 +79,12 @@ final class IAPHelper: NSObject {
                 completion(false)
                 return
             }
-            
+
             log(.success, .iap, "Restore purchases: \(String(describing: customerInfo))")
             completion(true)
         }
     }
-    
+
     func isPremium(completion: @escaping BoolClosure) {
         Purchases.shared.getCustomerInfo { customerInfo, error in
             if let error = error {
@@ -92,35 +92,35 @@ final class IAPHelper: NSObject {
                 completion(false)
                 return
             }
-            
+
             guard let info = customerInfo else {
                 completion(false)
                 return
             }
-            
+
             log(.info, .iap, "Entitlements: \(info.entitlements)")
             self.setUserPlan(from: info)
-            
+
             let isActive = info.entitlements[Entitlements.premium]?.isActive == true
             completion(isActive)
         }
     }
-    
+
     func setUserPlan(from info: CustomerInfo) {
         let entitlement = info.entitlements[Entitlements.premium]
-        
+
         guard entitlement?.isActive == true else {
             self.userPlan = .free
             log(.info, .iap, "isActive fallback to free")
             return
         }
-        
+
         for plan in UserPlan.allCases where plan.offeringId == entitlement?.productIdentifier {
             self.userPlan = plan
             log(.info, .iap, "matched: \(plan)")
             return
         }
-        
+
         self.userPlan = .free
         log(.info, .iap, "fallback to free (product mismatch)")
     }

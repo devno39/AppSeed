@@ -103,7 +103,7 @@ final class SplashViewController: BaseViewController<SplashViewModel, SplashRout
     }
 
     private func checkUpdate() {
-        viewModel?.checkUpdate() { [weak self] needs in
+        viewModel?.checkUpdate { [weak self] needs in
             guard let self else { return }
             if needs {
                 observeForegroundForRecheck()

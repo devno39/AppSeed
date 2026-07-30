@@ -13,12 +13,12 @@ class BaseImageView: UIImageView {
         super.init(frame: frame)
         prepare()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         prepare()
     }
-    
+
     // MARK: - Prepare
     private func prepare() {
         backgroundColor = .clear

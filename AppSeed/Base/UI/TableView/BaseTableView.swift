@@ -11,16 +11,16 @@ class BaseTableView: UITableView {
     // MARK: - Init
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        
+
         prepare()
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
+
         prepare()
     }
-    
+
     // MARK: - Prepare
     func prepare() {
         showsVerticalScrollIndicator = false

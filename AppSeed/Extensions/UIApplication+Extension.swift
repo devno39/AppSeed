@@ -12,7 +12,7 @@ extension UIApplication {
     var appDelegate: AppDelegate? {
         return UIApplication.shared.delegate as? AppDelegate
     }
-    
+
     // Falls back to any connected scene — background-launched flows (silent push) must
     // still resolve the delegate or window routing is silently dropped.
     var sceneDelegate: SceneDelegate? {
@@ -43,31 +43,31 @@ extension UIApplication {
         let buildVersion = " b. " + appBuild
         return Configuration.isRelease ? releaseVersion : releaseVersion + buildVersion
     }
-    
+
     func topMostViewController() -> UIViewController? {
         return keyWindow()?.rootViewController?.topMostViewController()
     }
-    
+
     func keyWindow() -> UIWindow? {
         return connectedScenes
             .compactMap { $0 as? UIWindowScene }
             .flatMap { $0.windows }
             .first { $0.isKeyWindow }
     }
-    
+
     func openApplicationSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString),
            UIApplication.shared.canOpenURL((url)) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
-    
+
     // MARK: - Review
     func requestReview() {
         guard let windowScene = UIApplication.shared.keyWindow()?.windowScene else { return }
         SKStoreReviewController.requestReview(in: windowScene)
     }
-    
+
     // MARK: - AppStore
     private static let appStoreId = "6759197861"
 

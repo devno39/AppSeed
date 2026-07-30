@@ -13,7 +13,7 @@ struct ResponseFalaiStatus: Codable {
     let cancel_url: String?
     let logs: String?
     let metrics: Metrics?
-    
+
     struct Metrics: Codable {
         let inference_time: Double?
     }

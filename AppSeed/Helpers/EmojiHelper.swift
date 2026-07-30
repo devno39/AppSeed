@@ -30,8 +30,8 @@ enum EmojiHelper {
 
         // 1. Multi-word phrase match (longest first)
         for data in keywordData {
-            for (phrase, emoji) in data.multiWord {
-                if query.contains(phrase) { return emoji }
+            for (phrase, emoji) in data.multiWord where query.contains(phrase) {
+                return emoji
             }
         }
 

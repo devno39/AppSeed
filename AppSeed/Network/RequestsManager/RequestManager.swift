@@ -10,7 +10,7 @@ import Alamofire
 import JsonFellow
 
 public final class RequestManager {
-    //MARK: - Create
+    // MARK: - Create
     private static func createRequest(_ request: RequestProtocol, completion: @escaping (AFDataResponse<Data>) -> Void) {
         let path = request.baseUrl + request.path
         let af = AF.request(
@@ -20,17 +20,22 @@ public final class RequestManager {
             encoding: request.encodingType,
             headers: request.headers
         )
-        
+
         if request.showLoading { LoadingHelper.shared.showLoading() }
-        
+
         af.validate().responseData { response in
             if request.showLoading { LoadingHelper.shared.hideLoading() }
             completion(response)
         }
     }
-    
-    //MARK: - Request Object
-    static func request<T: Codable>(_ request: RequestProtocol, success: @escaping CodableAnyClosure<T>, failure: ResponseErrorClosure? = nil, failureGPT: ResponseErrorGPTClosure? = nil) {
+
+    // MARK: - Request Object
+    static func request<T: Codable>(
+        _ request: RequestProtocol,
+        success: @escaping CodableAnyClosure<T>,
+        failure: ResponseErrorClosure? = nil,
+        failureGPT: ResponseErrorGPTClosure? = nil
+    ) {
         createRequest(request) { response in
             switch response.result {
             case .success:

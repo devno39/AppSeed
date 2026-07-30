@@ -176,7 +176,11 @@ private enum ConfettiShape: CaseIterable {
                     let radius: CGFloat = i % 2 == 0 ? 7 : 3
                     let angle = (CGFloat(i) * .pi / 5) - .pi / 2
                     let point = CGPoint(x: center.x + radius * cos(angle), y: center.y + radius * sin(angle))
-                    i == 0 ? path.move(to: point) : path.addLine(to: point)
+                    if i == 0 {
+                        path.move(to: point)
+                    } else {
+                        path.addLine(to: point)
+                    }
                 }
                 path.close()
                 ctx.addPath(path.cgPath)

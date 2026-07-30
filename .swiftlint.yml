@@ -1,0 +1,102 @@
+# SwiftLint — the machine-checkable half of CLAUDE.md.
+# Run: Scripts/lint.sh   (or `swiftlint` from the repo root)
+
+included:
+  - AppSeed
+  - AppSeedWidgets
+  - AppSeedNotificationService
+  - AppSeedShareExtension
+
+excluded:
+  - build
+  - Templates      # ___VARIABLE___ placeholders are not valid Swift
+  - Renamer
+  - Scripts
+
+disabled_rules:
+  # Localizable enums and UserDefaults keys are deliberately snake_case — they mirror
+  # the .xcstrings keys and the defaults keys one for one.
+  - identifier_name
+  # Scene files are long by design: UI closures, Draw extension, delegate conformances.
+  - type_body_length
+  - file_length
+  - function_body_length
+  - cyclomatic_complexity
+  # Trailing closures read worse in the SnapKit/UIView.animate idiom used throughout.
+  - multiple_closures_with_trailing_closure
+  # Config structs legitimately nest their own option enums.
+  - nesting
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - first_where
+  - last_where
+  - contains_over_filter_count
+  - contains_over_first_not_nil
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - redundant_nil_coalescing
+  - explicit_init
+  - closure_spacing
+  - vertical_parameter_alignment_on_call
+  - operator_usage_whitespace
+  - overridden_super_call
+  - prohibited_super_call
+
+# The house style keeps signatures on one line where they stay readable; the cluster
+# tops out around 175 characters.
+line_length:
+  warning: 180
+  error: 240
+  ignores_comments: true
+  ignores_urls: true
+
+type_name:
+  max_length:
+    warning: 60
+    error: 80
+
+large_tuple:
+  warning: 3
+
+# Routers and toast/animation helpers legitimately take six presentation parameters.
+function_parameter_count:
+  warning: 7
+  error: 9
+
+force_cast: error
+force_try: error
+
+custom_rules:
+  no_make_view_factory:
+    name: "make* view factory"
+    # UI layers only — request builders elsewhere legitimately have make* helpers.
+    included: '.*/(Scenes|Base/UI)/.*'
+    regex: 'func\s+make[A-Z]\w*\s*\('
+    message: "make* view factories are forbidden — inline the lazy var closure (CLAUDE.md)."
+    severity: error
+
+  forbidden_mark_names:
+    name: "Forbidden MARK name"
+    regex: '\/\/\s*MARK:\s*-\s*(Helpers|Factories)\b'
+    message: "Private helpers live under `// MARK: - Private` (CLAUDE.md)."
+    severity: error
+
+  life_cycle_mark_spelling:
+    name: "Life Cycle MARK spelling"
+    regex: '\/\/\s*MARK:\s*-\s*Lifecycle\b'
+    message: "Write `// MARK: - Life Cycle` — two words (CLAUDE.md)."
+    severity: warning
+
+  no_print:
+    name: "print()"
+    regex: '(^|[^\w.])print\('
+    message: "Use log(_:_:_:) so the category and level are preserved."
+    severity: warning
+
+  no_hardcoded_user_string:
+    name: "Hardcoded user-facing string"
+    regex: '\.(text|title)\s*=\s*"[^"\\]{3,}"'
+    message: "User-facing strings go through the scene's XxxLocalizable enum."
+    severity: warning

@@ -60,12 +60,12 @@ enum WidgetTheme {
 // MARK: - Colors (mirrors Colors.xcassets — keep in sync with main app)
 
 enum WidgetColors {
-    static var backgroundPrimary: Color   { dynamic(light: 0xF8F8F8, dark: 0x1C1D22) }
+    static var backgroundPrimary: Color { dynamic(light: 0xF8F8F8, dark: 0x1C1D22) }
     static var backgroundSecondary: Color { dynamic(light: 0xFFFFFF, dark: 0x262730) }
-    static var backgroundTertiary: Color  { dynamic(light: 0xF0F0F0, dark: 0x2E2F38) }
-    static var backgroundBorder: Color    { dynamic(light: 0xEBEBEB, dark: 0x3A3B45) }
-    static var textPrimary: Color         { dynamic(light: 0x1A1A1A, dark: 0xF5F5F5) }
-    static var textSecondary: Color       { dynamic(light: 0x808080, dark: 0xCFCFD4) }
+    static var backgroundTertiary: Color { dynamic(light: 0xF0F0F0, dark: 0x2E2F38) }
+    static var backgroundBorder: Color { dynamic(light: 0xEBEBEB, dark: 0x3A3B45) }
+    static var textPrimary: Color { dynamic(light: 0x1A1A1A, dark: 0xF5F5F5) }
+    static var textSecondary: Color { dynamic(light: 0x808080, dark: 0xCFCFD4) }
 
     private static func dynamic(light: Int, dark: Int) -> Color {
         Color(uiColor: UIColor { trait in

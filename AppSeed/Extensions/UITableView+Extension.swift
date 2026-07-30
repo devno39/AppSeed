@@ -12,7 +12,7 @@ extension UITableView {
     func register<T: UITableViewCell>(_: T.Type) where T: ReusableView {
         register(T.self, forCellReuseIdentifier: T.identifier)
     }
-    
+
     func dequeueReusableCell<T: UITableViewCell>(for indexPath: IndexPath) -> T where T: ReusableView {
         guard let cell = dequeueReusableCell(withIdentifier: T.identifier, for: indexPath) as? T
         else {
@@ -20,7 +20,7 @@ extension UITableView {
         }
         return cell
     }
-    
+
     func dequeueReusableCell<T: UITableViewCell>() -> T where T: ReusableView {
         guard let cell = dequeueReusableCell(withIdentifier: T.identifier) as? T
         else {
@@ -28,12 +28,12 @@ extension UITableView {
         }
         return cell
     }
-    
+
     // MARK: - Header
     func registerHeaderFooterView<T: UITableViewHeaderFooterView>(_: T.Type) where T: ReusableView {
         register(T.self, forHeaderFooterViewReuseIdentifier: T.identifier)
     }
-    
+
     func dequeueHeaderFooterView<T: UITableViewHeaderFooterView>() -> T where T: ReusableView {
         guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.identifier) as? T else {
             fatalError("Could not dequeue header/footer with identifier: \(T.identifier)")

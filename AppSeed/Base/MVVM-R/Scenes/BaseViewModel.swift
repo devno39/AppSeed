@@ -23,6 +23,6 @@ class BaseViewModel: BaseViewModelProtocol {
     // MARK: - Closures
 
     deinit {
-        // TODO: - create a custom logger
+        log(.info, .lifecycle, "🔴 deinit: \(self)")
     }
 }

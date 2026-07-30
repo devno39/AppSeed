@@ -18,7 +18,7 @@ extension RequestManager {
             completion(nil)
             return
         }
-        
+
         let fileURL = documentsURL.appendingPathComponent(UUID().uuidString + ".jpg")
         AF.download(url).responseData { response in
             guard let data = response.value else {
@@ -26,7 +26,7 @@ extension RequestManager {
                 completion(nil)
                 return
             }
-            
+
             do {
                 try data.write(to: fileURL)
                 completion(fileURL.lastPathComponent)
@@ -35,13 +35,13 @@ extension RequestManager {
             }
         }
     }
-    
+
     // MARK: - Delete Image
     func deleteImage(named imageName: String) {
         guard let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return
         }
-        
+
         let fileURL = documentsURL.appendingPathComponent(imageName)
         if FileManager.default.fileExists(atPath: fileURL.path) {
             do {

@@ -151,7 +151,7 @@ final class ExpandableAddField: UIView {
         updateActionIcon()
     }
 
-    // MARK: - Helpers
+    // MARK: - Private
     private var hasText: Bool {
         !(textField.text?.trimmingCharacters(in: .whitespaces).isEmpty ?? true)
     }

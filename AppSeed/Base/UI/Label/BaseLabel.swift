@@ -30,19 +30,19 @@ class BaseLabel: UILabel {
         numberOfLines = 0
         textAlignment = .left
     }
-    
+
     // MARK: - SetText with LineSpacing
     func setText(_ text: String?, lineSpacing: CGFloat) {
         guard let text else { return }
         let style = NSMutableParagraphStyle()
         style.lineSpacing = lineSpacing
-        
+
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font as Any,
             .foregroundColor: textColor as Any,
             .paragraphStyle: style
         ]
-        
+
         attributedText = NSAttributedString(string: text, attributes: attributes)
     }
 }
