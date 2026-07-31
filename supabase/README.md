@@ -80,19 +80,28 @@ fallback) holds the UI until the app is actually foregrounded:
 | `006_premium.sql` | Premium columns + guard trigger (service-role writes only) |
 | `007_items.sql` | Per-user collection: owner RLS, server-stamped `updated_at`, realtime publication |
 
-## Three rules the templates encode
+## Rules the templates encode
+
+Each one is here because breaking it fails *silently* — nothing crashes, the wrong thing
+just quietly happens.
+
+### Config
 
 **The force-update floor has to be readable signed out.** The splash checks it before
 auth, so an `authenticated`-only read policy means the gate never fires for the users who
 most need it — the ones who cannot get past login because the API moved. `app_config` rows
-carry `is_public` for exactly this, and only the version floor sets it.
+carry `is_public` for exactly this, and only the version floor sets it (`003_app_config.sql`).
 
+### Storage
 
-**Storage policies OR together.** One bucket-wide `authenticated` policy cancels every
-narrow policy beside it — any signed-in user can then read, overwrite and delete every
-object in the bucket. Audit `pg_policy` for leftovers before trusting a narrow policy,
-and put the owner id in the object path from day one (`004_storage.sql`). Retrofitting
-an owner segment later means moving every existing file.
+**Policies OR together.** One bucket-wide `authenticated` policy cancels every narrow
+policy beside it — any signed-in user can then read, overwrite and delete every object in
+the bucket. Audit `pg_policy` for leftovers before trusting a narrow policy.
+
+**The owner id goes in the object path from day one** (`profile_images/{user_id}.ext`,
+`user_files/{user_id}/…`). Without it a policy has no way to tell who may delete an
+object, and retrofitting the segment later means moving every existing file
+(`004_storage.sql`).
 
 **Capture file paths before the rows that name them are deleted.** After the delete
 there is no way to ask who a file belonged to. `enqueue_storage_paths()` runs inside
