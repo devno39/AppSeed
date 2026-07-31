@@ -243,9 +243,23 @@ yok sayıyordu. Düzeltildi, test kilitledi.
 | **Analytics olay katmanı** | Firebase Analytics linkli ama tipli bir olay sarmalayıcı yok. Olay isimleri uygulamaya özgü — şablon yazmak spekülatif olurdu. |
 | **Debug/QA menüsü** | Yok. Faydalı ama seed'in çekirdeği değil. |
 
-## Açık işler
+## Kapanış (2026-07-31)
 
-- F6 — agentic katman (`.claude/skills`, CLI scene/service üretici, CLAUDE.md agent bölümü).
-- `harvest/coupleos-v1` → `main` merge kararı hâlâ Tunay'da.
-- SQL şablonları ve edge fonksiyonları **canlıda çalıştırılmadı** — ilk gerçek doğrulama
-  bir sonraki uygulamanın Supabase projesinde olacak.
+Hasat kapandı. `main` v2'ye fast-forward edildi (çakışma yok — v1, v2'nin atasıydı, v2 de
+main'in); `harvest/coupleos-v1` ve `-v2` geri dönüş işareti olarak duruyor. Kapanışta
+doğrulanan: Develop ve Release temiz derleme, SwiftLint sıfır ihlal, 28/28 test, Renamer
+smoke (App Group id'si sekiz yerde tutarlı, yeniden adlandırılmış proje derleniyor),
+uygulama simülatörde açılıp login'e ulaşıyor.
+
+## Kapanışta hâlâ açık
+
+- **SQL şablonları ve edge fonksiyonları canlıda çalıştırılmadı.** En yüksek riskli
+  artefakt `007_items.sql` — sıfırdan yazıldı. 003-006 üretimde koşan migration'lardan
+  uyarlandı ama yeniden yazıldıkları için yazım hatası ihtimali duruyor. Tek seferlik,
+  atılacak bir Supabase projesinde koşup `supabase/tests/000_rls_baseline_test.sql` ile
+  doğrulamak yeter; kalıcı proje bağlamak gerekmiyor.
+- **Login'in arkası yalnız derlenmiş.** Simülatör Sign in with Apple'ı tamamlayamıyor.
+- **F6 — agentic katman** (`.claude/skills`, CLI scene/servis üretici, CLAUDE.md agent
+  bölümü). Ayrı oturumun işi.
+- **Bu dosya ve kardeşleri Türkçe**, seed'in geri kalanı İngilizce. Çevrilecek mi yoksa
+  `harvest/README.md` özeti yeterli görülüp silinecekler mi — karar verilmedi.
