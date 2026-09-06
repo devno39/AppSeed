@@ -67,6 +67,7 @@ final class UserSessionManager {
                 self.updateLastSeen()
                 // APNs register runs post-auth so the device_tokens upsert has a valid auth.uid().
                 PushNotificationManager.shared.requestAuthorizationAndRegister()
+                IAPHelper.shared.logIn(userId: userId)
             }
 
             NotificationCenter.default.post(name: .userDidChange, object: nil)
@@ -78,12 +79,17 @@ final class UserSessionManager {
         sessionGeneration += 1
         if wipeCache {
             // Device tokens are already gone — signOut() drops them while auth.uid() still
-            // resolves. A different Apple ID must re-enter setup and permissions.
+            // resolves. A different Apple ID must re-enter setup, permissions and the
+            // onboarding paywall.
             UserDefaultsWrapper.has_completed_setup = false
-            UserDefaultsWrapper.has_shown_permission_sheet = false
+            PermissionPromptManager.reset()
+            PaywallPromptManager.reset()
+            UserDefaultsWrapper.onboarding_paywall_shown = false
             // Purge widget snapshots + drop the scope so ex-user content can't render.
             AppGroupStorage.currentScopeId = nil
             AppGroupStorage.wipe()
+            // RevenueCat clears its own cache asynchronously — until then widgets would render unlocked.
+            AppGroupStorage.isPro = false
         }
         userListener?.remove()
         userListener = nil
@@ -100,6 +106,7 @@ final class UserSessionManager {
         }
         try await userService.signOut()
         stopListening(wipeCache: true)
+        IAPHelper.shared.logOut()
         ReviewPromptManager.clearMilestoneTracking()
     }
 

@@ -130,6 +130,9 @@ extension TabBarViewController {
         // Both fields present — setup is already complete for this account.
         if hasName && hasBirthday {
             UserDefaultsWrapper.has_completed_setup = true
+            // An account that skipped the form never stamped a version, and What's New would
+            // greet it with notes for an update it did not live through.
+            WhatsNewManager.markCurrentVersionSeenIfNeeded()
         }
 
         guard !UserDefaultsWrapper.has_completed_setup else { return }

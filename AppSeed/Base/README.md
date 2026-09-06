@@ -59,6 +59,20 @@ except the generic action-sheet shortcut.
 - **`Sheet/`** — `BottomSheetViewController<VM, Router>` + `BottomSheetViewModel/Router/Builder`: action sheets (option lists). `BottomSheetBuilder` is used directly for the inline language/theme pickers in Profile.
 - **`Form/`** — `FormBottomSheetViewController<VM, Router>` + `FormBottomSheetViewModel/Router/Builder`: form sheets (inputs + save). Save is fire-and-forget — the service call completes even if the sheet dismisses.
 
+Four knobs on the action sheet, all reaching the view model through `presentBottomSheet(…)`
+and `BottomSheetBuilder`:
+
+- `onDismiss` — fires once the sheet has left the screen, whichever way it left (button,
+  action row, swipe, backdrop). This is what lets a queued caller take its turn; see
+  `Helpers/README.md` → Launch prompts. The view model has always declared it and the view
+  controller has always fired it; what was missing was a way in from the generic
+  `presentBottomSheet(…)` path, so nothing ever set it.
+- `dismissesOnActionTap` — off for sheets whose rows toggle state in place (the permission sheet).
+- `dismissesOnBackdropTap` — off when a stray tap outside must not close the sheet. Swipe
+  still works; only the accidental dismissal is gone.
+- `BottomSheetAction.isPro` — puts a `ProBadgeView` in the trailing slot. A `.normal` row
+  never shows a chevron, so the slot is free.
+
 ## Form field library (`UI/Form/`)
 
 Building blocks for form sheets — all titled, pre-fill aware:
@@ -78,7 +92,7 @@ Building blocks for form sheets — all titled, pre-fill aware:
 ## Controllers & Transitions
 
 - `BaseNavigationController` / `BaseTabbarController` — nav and tab bar bases. On push, `NoMenuBarButtonItem` disables the back button's long-press history menu app-wide (overriding the `menu` setter is the only reliable route, since the system rebuilds it).
-- `ZoomTransition` (`ZoomTransitionDelegate`) — zoom present/dismiss transition.
+- `ZoomTransition` (`ZoomTransitionDelegate`) — zoom present/dismiss transition. `targetCornerRadius` is the radius the snapshot animates to (and `masksToBounds` is what makes it visible); `dismissSnapshot` supplies a view carrying its own shape, so shrinking a rounded card does not stretch baked pixels.
 
 ## Base UI components (`UI/`)
 
@@ -88,8 +102,20 @@ Building blocks for form sheets — all titled, pre-fill aware:
 - **ImageView:** `BaseImageView`, `CircleImageView`, `CorneredImageView`, `CropImageView`
 - **TableView:** `BaseTableView`, `BaseTableViewCell`, `BaseSectionHeaderView`, `EmptyTVCell`, `LargeTitleSectionHeader`
 - **CollectionView:** `BaseCollectionView`, `BaseCollectionViewCell`, `PhotoViewerCell`, `PagedCarouselView` + `CarouselPageCell` (paged carousel with page control; pages come from a provider closure and are cached, so page state survives scrolling)
-- **UIView:** `AvatarView` (placeholder + photo, tappable), `PalettePickerView` (horizontal accent picker), `ConfettiView`, `HudView` (LoadingHelper overlay), `RingProgressView` (parametric progress ring), `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay` (premium gate), `PaperBackgroundView`, `FloatingWidgetView`, `StatusBubbleView` (pill + tail pointing at any anchor view)
+- **UIView:** `AvatarView` (placeholder + photo, tappable), `PalettePickerView` (horizontal accent picker), `ConfettiView`, `HudView` (LoadingHelper overlay), `RingProgressView` (parametric progress ring), `TooltipBubbleView`, `ExpandableAddField`, `LockedOverlay` (premium gate), `ProBadgeView` (rotated PRO stamp; `filled: true` puts a plate behind it for full-bleed hosts, `onTap` makes it a paywall entry point), `PaperBackgroundView`, `FloatingWidgetView`, `StatusBubbleView` (pill + tail pointing at any anchor view), `WhatsNewView` (emoji-bulleted release notes; drops into a BottomSheet as its `customView`)
 - `ReusableView` protocol — reuse by `static identifier` (file `ReuseableView.swift`)
+
+### Borders
+
+Never assign `layer.borderColor` directly. It resolves the colour once and freezes it,
+so a dynamic `UIColor` stops tracking light/dark and the previous mode's borders survive
+the switch. Use `view.setBorderColor(_:)` (`Extensions/UIView+Extension.swift`) — it
+re-resolves on every style change and cancels its previous registration, so repeated
+calls from selection refreshes don't stack observers.
+
+The exception is a border recomputed by a state update that already re-runs on
+appearance changes (a selected/unselected ternary reapplied from
+`registerForTraitChanges`) — there the direct assignment is the honest one.
 
 ### Map kit (`UI/Map/`)
 

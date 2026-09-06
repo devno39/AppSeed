@@ -53,6 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Catches background changes the realtime channel may have missed.
         session.refreshUser()
+        IAPHelper.shared.refreshFromForeground()
 
         drainPendingSharedItem()
     }

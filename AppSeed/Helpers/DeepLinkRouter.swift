@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 // Template deep-link router: guards the app's URL scheme, maps an allowlist
 // of hosts to tab indices, and survives the cold-launch race (capture the URL
@@ -27,11 +28,12 @@ final class DeepLinkRouter {
     private enum DeepLinkHost: String {
         case home
         case items
+        case paywall
 
         var tabIndex: Int {
             switch self {
-            case .home:  return 0
-            case .items: return 1
+            case .home, .paywall: return 0
+            case .items:          return 1
             }
         }
     }
@@ -39,6 +41,11 @@ final class DeepLinkRouter {
     // MARK: - Capture (cold launch)
     func capture(from options: UIScene.ConnectionOptions) {
         if let url = options.urlContexts.first?.url {
+            pendingURL = url
+        } else if let response = options.notificationResponse,
+                  let type = response.notification.request.content.userInfo["t"] as? String,
+                  let url = URL(string: "\(Self.scheme)://\(type)") {
+            // Fallback: a cold-launch banner tap can reach the notification delegate with no response.
             pendingURL = url
         }
         log(.info, .general, "DeepLinkRouter capture — pendingURL=\(pendingURL?.absoluteString ?? "nil")")
@@ -75,5 +82,11 @@ final class DeepLinkRouter {
 
         log(.info, .general, "DeepLinkRouter routing: \(url.absoluteString)")
         tabBar.selectedIndex = host.tabIndex
+
+        guard host == .paywall else { return }
+        // Async so the tab switch commits before the sheet presents.
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .openPaywallRequested, object: nil)
+        }
     }
 }

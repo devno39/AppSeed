@@ -23,7 +23,7 @@ final class LabelPinAnnotationView: MKAnnotationView {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = chipHeight / 2
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         return view
     }()
 

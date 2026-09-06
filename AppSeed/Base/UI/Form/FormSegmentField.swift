@@ -87,7 +87,7 @@ final class FormSegmentField: UIView {
                 ? ColorBackground.backgroundTertiary.color
                 : ColorBackground.backgroundSecondary.color
             button.layer.borderWidth = isSelected ? 2 : 0
-            button.layer.borderColor = Palette.palette1.color.cgColor
+            button.setBorderColor(Palette.palette1.color)
             button.setTitleColor(isSelected ? ColorText.textPrimary.color : ColorText.textSecondary.color, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 15, weight: isSelected ? .semibold : .medium)
         }

@@ -80,7 +80,7 @@ final class FloatingActionButton: UIView {
             backgroundColor = ColorBackground.backgroundSecondary.color
             layer.cornerRadius = FloatingActionButton.size / 2
             layer.borderWidth = 1
-            layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+            setBorderColor(ColorBackground.backgroundBorder.color)
         }
     }
 

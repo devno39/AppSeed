@@ -31,8 +31,8 @@ extension UIImageView {
     }
 
     // MARK: - Set
-    // Storage URLs are re-signed at read time so stored 365-day tokens never expire on
-    // screen; cacheKey stays the storage path so token rotation keeps the cache warm.
+    // Re-signed at read time so stored 365-day tokens never expire on screen; the cache key tracks
+    // the content version instead of the token, so rotation keeps the cache warm.
     func setImage(with string: String?, placeholder: UIImage? = nil) {
         guard let string else { return }
         pendingImageSource = string

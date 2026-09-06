@@ -18,7 +18,7 @@ final class PaywallPlanCard: UIView {
         label.layer.cornerRadius = 11
         label.clipsToBounds = true
         label.layer.borderWidth = 2.5
-        label.layer.borderColor = Palette.palette1.color.cgColor
+        label.setBorderColor(Palette.palette1.color)
         label.isHidden = true
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -49,7 +49,7 @@ final class PaywallPlanCard: UIView {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = 14
         view.layer.borderWidth = 2
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         return view
     }()
 

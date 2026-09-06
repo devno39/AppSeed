@@ -48,6 +48,12 @@ extension UIApplication {
         return keyWindow()?.rootViewController?.topMostViewController()
     }
 
+    // Presentation can come from any scene in the stack, so asking one view controller
+    // whether *it* presented something is not enough to know the screen is busy.
+    var isPresentingModally: Bool {
+        topMostViewController()?.presentingViewController != nil
+    }
+
     func keyWindow() -> UIWindow? {
         return connectedScenes
             .compactMap { $0 as? UIWindowScene }

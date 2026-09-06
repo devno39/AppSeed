@@ -18,7 +18,7 @@ final class ProfileActionCell: BaseTVCell {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = 18
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         return view
     }()
 

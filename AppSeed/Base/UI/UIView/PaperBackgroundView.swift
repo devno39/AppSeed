@@ -63,10 +63,18 @@ final class PaperBackgroundView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
+        observeAppearance()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // The dynamic background colour updates itself; pattern/grain/vignette need the redraw.
+    private func observeAppearance() {
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (view: PaperBackgroundView, _) in
+            view.setNeedsDisplay()
+        }
     }
 
     // MARK: - Configure

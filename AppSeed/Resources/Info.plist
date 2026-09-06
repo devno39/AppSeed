@@ -13,6 +13,10 @@
             </array>
         </dict>
     </array>
+    <key>NSCameraUsageDescription</key>
+    <string>Used to take photos and scan codes inside the app.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to pick photos from your library.</string>
     <key>SUPABASE_ANON_KEY</key>
     <string>$(SUPABASE_ANON_KEY)</string>
     <key>SUPABASE_URL</key>

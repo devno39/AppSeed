@@ -71,7 +71,7 @@ class BaseButton: UIButton {
         setTitleColor(style?.textColor, for: .normal)
 
         if let borderColor = style?.borderColor {
-            layer.borderColor = borderColor.cgColor
+            setBorderColor(borderColor)
             layer.borderWidth = style?.borderWidth ?? 0
         }
 

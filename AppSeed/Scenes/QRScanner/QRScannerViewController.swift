@@ -19,7 +19,7 @@ final class QRScannerViewController: BaseViewController<QRScannerViewModel, QRSc
     private lazy var scanFrameView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
-        view.layer.borderColor = Palette.palette1.color.cgColor
+        view.setBorderColor(Palette.palette1.color)
         view.layer.borderWidth = 2
         view.layer.cornerRadius = cornerRadius
         return view

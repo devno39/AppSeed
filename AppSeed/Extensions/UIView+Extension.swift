@@ -164,3 +164,23 @@ extension UIView {
         return view
     }
 }
+
+// MARK: - Dynamic border
+extension UIView {
+    // layer.borderColor freezes the colour it resolved at assignment, so a dynamic UIColor stops
+    // tracking light/dark. Re-resolving on style changes is the only way to keep the border honest.
+    private static var borderTraitTokenKey: UInt8 = 0
+
+    func setBorderColor(_ color: UIColor) {
+        layer.borderColor = color.resolvedColor(with: traitCollection).cgColor
+
+        // Repeated calls (selection refreshes) must not stack registrations.
+        if let token = objc_getAssociatedObject(self, &Self.borderTraitTokenKey) as? UITraitChangeRegistration {
+            unregisterForTraitChanges(token)
+        }
+        let token = registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (view: UIView, _) in
+            view.layer.borderColor = color.resolvedColor(with: view.traitCollection).cgColor
+        }
+        objc_setAssociatedObject(self, &Self.borderTraitTokenKey, token, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+}

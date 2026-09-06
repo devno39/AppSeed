@@ -271,6 +271,23 @@
         }
       }
     },
+    "pro": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PRO"
+          }
+        }
+      }
+    },
     "replicate_prompt_general": {
       "comment": "General Replicate prompt; %@ is replaced with keywords",
       "extractionState": "manual",
@@ -321,6 +338,96 @@
           "stringUnit": {
             "state": "translated",
             "value": "Kaydet"
+          }
+        }
+      }
+    },
+    "whats_new_1": {
+      "comment": "Replace with this release's own notes — see WhatsNewManager.items",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A new feature you can try right away."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hemen deneyebileceğin yeni bir özellik."
+          }
+        }
+      }
+    },
+    "whats_new_2": {
+      "comment": "Replace with this release's own notes — see WhatsNewManager.items",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faster, smoother, lighter on your battery."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daha hızlı, daha akıcı, pile daha az yük."
+          }
+        }
+      }
+    },
+    "whats_new_3": {
+      "comment": "Replace with this release's own notes — see WhatsNewManager.items",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fixes for the things you told us about."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bize bildirdiğin şeyler için düzeltmeler."
+          }
+        }
+      }
+    },
+    "whats_new_button": {
+      "comment": "Replace with this release's own notes — see WhatsNewManager.items",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Devam"
+          }
+        }
+      }
+    },
+    "whats_new_title": {
+      "comment": "Replace with this release's own notes — see WhatsNewManager.items",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What's New"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yenilikler"
           }
         }
       }

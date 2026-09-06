@@ -37,7 +37,7 @@ final class FormEmojiField: UIView {
         button.backgroundColor = ColorBackground.backgroundSecondary.color
         button.layer.cornerRadius = 12
         button.layer.borderWidth = 1.5
-        button.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        button.setBorderColor(ColorBackground.backgroundBorder.color)
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -130,7 +130,7 @@ final class FormEmojiField: UIView {
             button.backgroundColor = ColorBackground.backgroundSecondary.color
             button.layer.cornerRadius = 12
             button.layer.borderWidth = 0
-            button.layer.borderColor = Palette.palette1.color.cgColor
+            button.setBorderColor(Palette.palette1.color)
             button.tag = index
             button.addTarget(self, action: #selector(emojiTapped(_:)), for: .touchUpInside)
 

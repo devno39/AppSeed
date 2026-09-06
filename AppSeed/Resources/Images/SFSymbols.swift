@@ -25,6 +25,8 @@ enum Symbols: String, Symbolable {
     case checkmark_circle_fill
     case circle
     case camera
+    case photo_on_rectangle
+    case arrow_triangle_2_circlepath_camera
     case xmark
 
     // MARK: - Feedback
@@ -34,6 +36,7 @@ enum Symbols: String, Symbolable {
 
     // MARK: - Misc
     case calendar
+    case crown
     case info_circle
     case lock_fill
     case pin_fill

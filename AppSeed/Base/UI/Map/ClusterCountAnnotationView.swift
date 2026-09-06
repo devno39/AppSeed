@@ -19,7 +19,7 @@ final class ClusterCountAnnotationView: MKAnnotationView {
         view.backgroundColor = Palette.palette1.color
         view.layer.cornerRadius = badgeSize / 2
         view.layer.borderWidth = 2
-        view.layer.borderColor = ColorBackground.backgroundSecondary.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundSecondary.color)
         return view
     }()
 

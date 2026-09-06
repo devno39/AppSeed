@@ -31,7 +31,7 @@ final class LockedOverlay: UIView {
             button.backgroundColor = ColorBackground.backgroundSecondary.color
             button.layer.cornerRadius = badgeSize / 2
             button.layer.borderWidth = 1
-            button.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+            button.setBorderColor(ColorBackground.backgroundBorder.color)
             let symbolConfig = UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold)
             let image = UIImage(systemName: Symbols.lock_fill.symbolName, withConfiguration: symbolConfig)?
                 .withTintColor(ColorText.textSecondary.color, renderingMode: .alwaysOriginal)

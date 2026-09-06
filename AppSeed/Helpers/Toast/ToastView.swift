@@ -50,7 +50,7 @@ final class ToastView: UIView {
 
     private lazy var titleLabel: BaseLabel = {
         let label = BaseLabel(fontSize: 14, fontWeight: .semibold, textColor: ColorText.textPrimary.color)
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         return label
     }()
 

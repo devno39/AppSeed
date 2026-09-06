@@ -12,11 +12,13 @@ final class ReviewPromptSheetBuilder: BaseBuilder {
     // MARK: - Properties
     private let onYes: EmptyClosure?
     private let onLater: EmptyClosure?
+    private let onDismiss: EmptyClosure?
 
     // MARK: - Init
-    init(onYes: EmptyClosure?, onLater: EmptyClosure?) {
+    init(onYes: EmptyClosure?, onLater: EmptyClosure?, onDismiss: EmptyClosure? = nil) {
         self.onYes = onYes
         self.onLater = onLater
+        self.onDismiss = onDismiss
     }
 
     // MARK: - Build
@@ -37,6 +39,7 @@ final class ReviewPromptSheetBuilder: BaseBuilder {
                 handler: { [onLater] in onLater?() }
             )
         ]
+        viewModel.onDismiss = onDismiss
 
         return ReviewPromptSheetViewController(viewModel: viewModel, router: router)
     }

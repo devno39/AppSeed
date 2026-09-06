@@ -41,7 +41,7 @@ final class AvatarAnnotationView: MKAnnotationView {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = bubbleHeight / 2
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         view.isHidden = true
         return view
     }()
