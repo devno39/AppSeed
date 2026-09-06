@@ -24,7 +24,7 @@ final class ProfileHeaderCell: BaseTVCell {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = 24
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         return view
     }()
 

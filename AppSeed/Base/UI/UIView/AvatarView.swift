@@ -60,7 +60,7 @@ final class AvatarView: UIView, PaletteUpdatable {
         imageView.layer.cornerRadius = bounds.width / 2
         if showBorder {
             imageView.layer.borderWidth = 1
-            imageView.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+            imageView.setBorderColor(ColorBackground.backgroundBorder.color)
         }
     }
 

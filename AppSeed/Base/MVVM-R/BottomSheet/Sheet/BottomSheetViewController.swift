@@ -227,9 +227,10 @@ class BottomSheetViewController<V: BottomSheetViewModelProtocol, R: BottomSheetR
     @objc private func dimTapped() {
         if isKeyboardVisible {
             view.endEditing(true)
-        } else {
-            dismiss(animated: true)
+            return
         }
+        guard viewModel?.dismissesOnBackdropTap ?? true else { return }
+        dismiss(animated: true)
     }
 
     // MARK: - Actions
@@ -326,6 +327,7 @@ extension BottomSheetViewController {
         if let buttonModel = viewModel?.button {
             actionButton.setTitle(buttonModel.title, for: .normal)
             actionButton.style = buttonModel.style
+            actionButton.applyStyle()
             contentStack.addArrangedSubview(buttonContainer)
         }
     }
@@ -343,7 +345,7 @@ final class BottomSheetActionView: UIView, PaletteUpdatable {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = 18
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         return view
     }()
 
@@ -386,6 +388,13 @@ final class BottomSheetActionView: UIView, PaletteUpdatable {
         view.contentMode = .scaleAspectFit
         view.tintColor = ColorText.textSecondary.color
         view.image = Symbols.chevron_right.symbolSmall()
+        return view
+    }()
+
+    // Sits where the chevron would: a .normal row never shows one, so the trailing slot is free.
+    private lazy var proBadge: ProBadgeView = {
+        let view = ProBadgeView(filled: false)
+        view.isHidden = true
         return view
     }()
 
@@ -460,6 +469,8 @@ final class BottomSheetActionView: UIView, PaletteUpdatable {
             }
         }
 
+        proBadge.isHidden = !action.isPro
+
         containerView.alpha = action.isEnabled ? 1.0 : 0.4
         isUserInteractionEnabled = action.isEnabled
     }
@@ -480,6 +491,7 @@ extension BottomSheetActionView {
         containerView.addSubview(titleLabel)
         containerView.addSubview(subtitleLabel)
         containerView.addSubview(chevronView)
+        containerView.addSubview(proBadge)
 
         // Container
         containerView.snp.makeConstraints {
@@ -510,6 +522,12 @@ extension BottomSheetActionView {
             $0.trailing.equalToSuperview().offset(-14)
             $0.centerY.equalToSuperview()
             $0.width.height.equalTo(14)
+        }
+
+        // Pro badge
+        proBadge.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-14)
+            $0.centerY.equalToSuperview()
         }
 
         // Title

@@ -16,6 +16,61 @@ git show 2e750bb:docs/harvest/2026-07-29-harvest-v2-review.md
 Everything here is provenance. It explains why pieces look the way they do and
 where the known holes are — it is not a to-do list for your app.
 
+## Later syncs
+
+The harvest closed on 2026-07-31, but CoupleOS keeps shipping, so the seed gets a sweep
+now and then. Each one is listed here with what came over and why.
+
+**2026-08-14** — a line-by-line diff of both trees plus every CoupleOS commit since the
+close. What came over:
+
+| Taken | Why |
+|---|---|
+| `UIView.setBorderColor(_:)` + 27 call sites | The seed had 33 frozen `layer.borderColor` assignments across its own Base library — every one of them wrong after a light/dark switch. |
+| `PaperBackgroundView` trait observation | The seed's copy never redrew its pattern/grain/vignette on a mode change. |
+| Storage content versioning (`?v=` stamp) | Re-uploading to the same path served the cached bytes forever. |
+| IAP premium state machine | The seed had no `Purchases.logIn`, no `isPro` mirror, and no guard against the false downgrade RevenueCat's empty cache causes. |
+| `CameraCapture/` scene | The seed had no camera capture at all; the scene is domain-free. |
+| `ProBadgeView` + `ProStampView` | The locked widget placeholder had no counterpart inside the app. |
+| `appseed://paywall` + notification-response capture | The locked widget deep-linked nowhere, and a cold-launch banner tap could route nowhere. |
+| `Scripts/supabase_query.sh` | Read-only SQL against the linked project, with a statement guard. |
+
+**2026-09-06** — a second full sweep: the 107 files both trees share, diffed one by one,
+plus the CoupleOS envelope since 1.1.3. What came over:
+
+| Taken | Why |
+|---|---|
+| The launch-prompt queue (`LaunchPromptManager` + `PermissionPromptManager` / `PaywallPromptManager` / `WhatsNewManager` / `WhatsNewView`) | The seed had a lone `ReviewPromptManager` and no rule for what happens when two prompts want the screen at once. The ordering, the session-gap schedules and the `isSettled`-not-`shown` invariant are the expensive part. |
+| `String.postgresDate` | Postgres sends microsecond fractions, `ISO8601DateFormatter` reads three digits. The seed is Supabase-first and had no decoder for its own timestamps. |
+| `UIImage.carriesAlpha` + `StoragePath.imageFormat(for:)` | The seed forced every profile image through PNG: a cut-out avatar needs it, a camera photo pays ~950kB against ~50kB for it. |
+| Storage upload retry + `deleteFiles(relativePaths:)` + `relativePath(fromSignedURL:)` | A dropped connection mid-body read as a rejection. The SDK wraps the URL error, so detection has to walk the `NSUnderlyingErrorKey` chain. |
+| `trimmingTransparentPixels` / `opaquePixelBounds` / `stickerOutlined` / `jpegData(fitting:)` / `String.isEmojiOnly` / `EmojiRenderer` | Font metrics describe the line box, not the glyph, and colour emoji carry no path to measure. Every one of these was re-derived the hard way. |
+| `BottomSheet` `onDismiss` / `dismissesOnBackdropTap` / `isPro`, and the missing `actionButton.applyStyle()` | `onDismiss` was declared on the view model and fired by the view controller, but the generic `presentBottomSheet(…)` path had no way to pass one — so across the whole seed nothing ever set it. The sheet's action button was assigned a `style` after init and `applyStyle()` only runs in `prepare()`, so the font, title colour and background never landed. |
+| `ZoomTransition` `targetCornerRadius` + `masksToBounds` + `dismissSnapshot` | The corner radius was assigned but never clipped, so it did nothing. |
+| `ToastView` multi-line title | Clamped to one line; a long toast was silently truncated. |
+
+Considered and left behind: the campaign timezone work (`075`) — the idea is right, but
+the seed has no campaign SQL at all (`065`/`066` were rejected in the sweep below) and it
+is welded to CoupleOS's `upsert_device_token` design, which the seed deliberately did not
+adopt; the orphan-sweep extensions (`074`/`079`) — the seed's `005_storage_purge` is
+already the generic form and these only add CoupleOS's own prefixes to it.
+
+**Where the seed is now ahead of CoupleOS**, and porting back would be a regression:
+`PermissionManager` (holds its `CLLocationManager` instead of creating one per query, and
+is free of the location-domain welding), `ReviewPromptManager` (`milestone`, not `pair`),
+`SupabaseAppConfigHelper` (`select("key,value")`, which survives the table growing a
+non-text column), `AvatarView` (`placeholder`, not `egg`), `WidgetSyncService`,
+`DateHelper`, `KeychainHelper`, `PushNotificationManager`, `HudView`. The de-domaining
+done during the harvest is the reason — do not sync these back.
+
+Considered and left behind: the background-location stack (`067`, cheap/expensive write
+split) — unproven in the field, CoupleOS's own significant-location monitoring went silent
+on a 500km drive; the push campaign SQL (`065`/`066`) — welded to CoupleOS's solo/pair
+model; the `push_outbox_enabled` kill switch and HMAC collapse-id — the switch lives in a
+pg_cron drain function the seed's template does not have, and the collapse-id belongs to
+the HMAC design the seed deliberately dropped. Porting half of either repeats the mistake
+this page already warns about.
+
 ## The rule that decided what came over
 
 Judge a piece by whether it carries knowledge that is painful to re-derive —
@@ -70,6 +125,19 @@ Verified: five targets build in Develop and Release, SwiftLint is at zero
 violations, the test suite passes, the Renamer round-trips the whole project
 including App Group ids, and the app launches to the login screen.
 
+Both later syncs build (Develop, generic iOS Simulator), sit at zero SwiftLint violations,
+and pass the 28-test suite — the 2026-09-06 build pass covered the 2026-08-14 work too,
+since the two were still sitting in the same working tree and landed in one commit. They
+had to: separating them was tried and abandoned, because the 2026-08-14 state does not
+compile on its own once the 2026-09-06 hunks are pulled out of `IAPHelper` (its
+`refreshFromForeground`, which `SceneDelegate` calls, belongs to the earlier sync while the
+premium gates around it belong to the later one).
+
+What neither has had is a **run**. The 2026-08-14 camera scene still needs a look on a
+device (the simulator falls back to the photo library). The 2026-09-06 launch-prompt queue
+is ordering logic behind the login screen, so its ordering — and the permission sheet's
+three rounds — are argued for, not observed.
+
 **Not verified:** the SQL templates and edge functions under `../../supabase/` have
 never been executed. They were adapted from migrations running in CoupleOS
 production, but they were rewritten — renamed tables, merged files, and
@@ -83,5 +151,10 @@ complete Sign in with Apple.
 
 `SUPABASE_URL` / `SUPABASE_ANON_KEY` (xcconfig), Terms and Privacy URLs
 (`Configuration`), the App Group id, `FeedbackHelper`'s endpoint and token, the
-APNs environment variables, `REVENUECAT_AUTH_HEADER`, and
+APNs environment variables, `REVENUECAT_AUTH_HEADER`, `IAPHelper.apiKey`,
+`SUPABASE_PROJECT_REF` (`Scripts/supabase_query.sh`), and
 `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHANNEL_ID`.
+
+`IAPHelper.apiKey` used to hold a real-looking RevenueCat key carried in from another
+project. It is a placeholder now: a live key belonging to someone else's app silently
+attributes purchases to the wrong project.

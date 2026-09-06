@@ -32,7 +32,7 @@ final class ExpandableAddField: UIView {
         view.backgroundColor = ColorBackground.backgroundSecondary.color
         view.layer.cornerRadius = buttonSize / 2
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         view.clipsToBounds = true
         view.alpha = 0
         view.transform = CGAffineTransform(translationX: 40, y: 0)

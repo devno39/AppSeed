@@ -22,6 +22,14 @@ enum Localizable {
     static var no: String { localized("no") }
     static var retry: String { localized("retry") }
     static var close: String { localized("close") }
+    static var pro: String { localized("pro") }
+
+    // MARK: - What's New
+    static var whats_new_title: String { localized("whats_new_title") }
+    static var whats_new_button: String { localized("whats_new_button") }
+    static var whats_new_1: String { localized("whats_new_1") }
+    static var whats_new_2: String { localized("whats_new_2") }
+    static var whats_new_3: String { localized("whats_new_3") }
 
     // MARK: - Database Errors
     static var db_error_title: String { localized("db_error_title") }

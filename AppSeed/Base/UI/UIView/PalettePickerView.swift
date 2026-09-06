@@ -104,7 +104,7 @@ private final class PaletteCircleView: UIView {
         let view = UIView()
         view.layer.cornerRadius = ringSize / 2
         view.layer.borderWidth = 2.5
-        view.layer.borderColor = UIColor(rgb: preset.colors.primary).cgColor
+        view.setBorderColor(UIColor(rgb: preset.colors.primary))
         view.backgroundColor = .clear
         view.isHidden = true
         return view
@@ -212,7 +212,7 @@ private final class PaletteCustomCircleView: UIView {
         let view = UIView()
         view.layer.cornerRadius = ringSize / 2
         view.layer.borderWidth = 2.5
-        view.layer.borderColor = Palette.palette1.color.cgColor
+        view.setBorderColor(Palette.palette1.color)
         view.backgroundColor = .clear
         view.isHidden = true
         return view
@@ -223,7 +223,7 @@ private final class PaletteCustomCircleView: UIView {
         view.layer.cornerRadius = circleSize / 2
         view.backgroundColor = ColorBackground.backgroundTertiary.color
         view.layer.borderWidth = 1
-        view.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundBorder.color)
         return view
     }()
 
@@ -290,7 +290,7 @@ private final class PaletteCustomCircleView: UIView {
         let color = Palette.palette1.color
         colorCircle.backgroundColor = color
         colorCircle.layer.borderWidth = 0
-        ringView.layer.borderColor = color.cgColor
+        ringView.setBorderColor(color)
     }
 
     @objc private func tapped() {

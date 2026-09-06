@@ -9,12 +9,12 @@ import UIKit
 
 // MARK: - Route Protocol
 protocol ReviewPromptSheetRoute {
-    func presentReviewPromptSheet(onYes: EmptyClosure?, onLater: EmptyClosure?)
+    func presentReviewPromptSheet(onYes: EmptyClosure?, onLater: EmptyClosure?, onDismiss: EmptyClosure?)
 }
 
 extension ReviewPromptSheetRoute where Self: BaseRouter {
-    func presentReviewPromptSheet(onYes: EmptyClosure?, onLater: EmptyClosure?) {
-        let vc = ReviewPromptSheetBuilder(onYes: onYes, onLater: onLater).build()
+    func presentReviewPromptSheet(onYes: EmptyClosure?, onLater: EmptyClosure?, onDismiss: EmptyClosure? = nil) {
+        let vc = ReviewPromptSheetBuilder(onYes: onYes, onLater: onLater, onDismiss: onDismiss).build()
         vc.modalPresentationStyle = .overFullScreen
         viewController?.present(vc, animated: false)
     }

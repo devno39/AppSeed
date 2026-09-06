@@ -17,12 +17,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppGroupStorage.migrateThemePaletteToSharedDefaultsIfNeeded()
         LanguageHelper.setAppLanguage()
         ReviewPromptManager.incrementSession()
-        IAPHelper.shared.configure()
         firebase()
         supabase()
         WidgetSyncService.register([
             DemoWidgetSyncHandler.self
         ])
+        // After register: the premium bootstrap can ask for a widget resync.
+        IAPHelper.shared.configure()
         // APNs registration runs from UserSessionManager once auth.uid() is available
         // for the device_tokens upsert; here we only claim the delegate.
         UNUserNotificationCenter.current().delegate = PushNotificationManager.shared

@@ -35,7 +35,7 @@ final class FormMultiImagePickerField: UIView {
         container.backgroundColor = ColorBackground.backgroundSecondary.color
         container.layer.cornerRadius = 12
         container.layer.borderWidth = 2
-        container.layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+        container.setBorderColor(ColorBackground.backgroundBorder.color)
 
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
         let icon = UIImageView(image: UIImage(systemName: Symbols.plus.symbolName, withConfiguration: config))

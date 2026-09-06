@@ -25,6 +25,7 @@ struct BottomSheetAction {
     let style: Style
     let isEnabled: Bool
     let isSelected: Bool
+    let isPro: Bool
     let handler: EmptyClosure?
 
     init(
@@ -36,6 +37,7 @@ struct BottomSheetAction {
         style: Style = .normal,
         isEnabled: Bool = true,
         isSelected: Bool = false,
+        isPro: Bool = false,
         handler: EmptyClosure? = nil
     ) {
         self.id = id
@@ -46,6 +48,7 @@ struct BottomSheetAction {
         self.style = style
         self.isEnabled = isEnabled
         self.isSelected = isSelected
+        self.isPro = isPro
         self.handler = handler
     }
 }
@@ -73,6 +76,7 @@ protocol BottomSheetViewModelDataSource {
     var cornerRadius: CGFloat { get }
     var prefersGrabberVisible: Bool { get }
     var dismissesOnActionTap: Bool { get }
+    var dismissesOnBackdropTap: Bool { get set }
 }
 
 // MARK: - Closure
@@ -97,6 +101,7 @@ class BottomSheetViewModel: BaseViewModel, BottomSheetViewModelProtocol {
     var cornerRadius: CGFloat { 24 }
     var prefersGrabberVisible: Bool { false }
     var dismissesOnActionTap: Bool = true
+    var dismissesOnBackdropTap: Bool = true
 
     // MARK: - Closure
     var onDismiss: EmptyClosure?

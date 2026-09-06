@@ -13,28 +13,36 @@ final class ZoomTransitionDelegate: NSObject, UIViewControllerTransitioningDeleg
     let sourceFrame: CGRect
     let sourceSnapshot: UIView
     let sourceCornerRadius: CGFloat
+    let targetCornerRadius: CGFloat
     let backgroundColor: UIColor
     let targetFrameProvider: (CGSize, UIView) -> CGRect
     private let dismissEnabled: Bool
     // nil → use full fromView (PhotoViewer behavior).
     let contentFrameProvider: ((UIView) -> CGRect)?
+    // nil → snapshot the presented view. A caller with a shape of its own supplies a view
+    // carrying it as layer properties, so the shrink does not stretch baked pixels.
+    let dismissSnapshotProvider: (() -> UIView?)?
 
     init(
         sourceFrame: CGRect,
         sourceSnapshot: UIView,
         sourceCornerRadius: CGFloat = 10,
+        targetCornerRadius: CGFloat = 12,
         backgroundColor: UIColor = .black,
         targetFrame: @escaping (CGSize, UIView) -> CGRect,
         enableDismiss: Bool = false,
-        contentFrame: ((UIView) -> CGRect)? = nil
+        contentFrame: ((UIView) -> CGRect)? = nil,
+        dismissSnapshot: (() -> UIView?)? = nil
     ) {
         self.sourceFrame = sourceFrame
         self.sourceSnapshot = sourceSnapshot
         self.sourceCornerRadius = sourceCornerRadius
+        self.targetCornerRadius = targetCornerRadius
         self.backgroundColor = backgroundColor
         self.targetFrameProvider = targetFrame
         self.dismissEnabled = enableDismiss
         self.contentFrameProvider = contentFrame
+        self.dismissSnapshotProvider = dismissSnapshot
         super.init()
     }
 
@@ -43,6 +51,7 @@ final class ZoomTransitionDelegate: NSObject, UIViewControllerTransitioningDeleg
             sourceFrame: sourceFrame,
             sourceSnapshot: sourceSnapshot,
             sourceCornerRadius: sourceCornerRadius,
+            targetCornerRadius: targetCornerRadius,
             backgroundColor: backgroundColor,
             targetFrameProvider: targetFrameProvider
         )
@@ -53,8 +62,10 @@ final class ZoomTransitionDelegate: NSObject, UIViewControllerTransitioningDeleg
         return ZoomDismissAnimator(
             destinationFrame: sourceFrame,
             destinationCornerRadius: sourceCornerRadius,
+            startCornerRadius: targetCornerRadius,
             backgroundColor: backgroundColor,
-            contentFrameProvider: contentFrameProvider
+            contentFrameProvider: contentFrameProvider,
+            snapshotProvider: dismissSnapshotProvider
         )
     }
 }
@@ -102,6 +113,7 @@ final class ZoomPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning
     private let sourceFrame: CGRect
     private let sourceSnapshot: UIView
     private let sourceCornerRadius: CGFloat
+    private let targetCornerRadius: CGFloat
     private let backgroundColor: UIColor
     private let targetFrameProvider: (CGSize, UIView) -> CGRect
 
@@ -109,12 +121,14 @@ final class ZoomPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning
         sourceFrame: CGRect,
         sourceSnapshot: UIView,
         sourceCornerRadius: CGFloat,
+        targetCornerRadius: CGFloat,
         backgroundColor: UIColor,
         targetFrameProvider: @escaping (CGSize, UIView) -> CGRect
     ) {
         self.sourceFrame = sourceFrame
         self.sourceSnapshot = sourceSnapshot
         self.sourceCornerRadius = sourceCornerRadius
+        self.targetCornerRadius = targetCornerRadius
         self.backgroundColor = backgroundColor
         self.targetFrameProvider = targetFrameProvider
         super.init()
@@ -146,6 +160,7 @@ final class ZoomPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning
         snapshot.frame = sourceFrame
         snapshot.layer.cornerRadius = sourceCornerRadius
         snapshot.clipsToBounds = true
+        snapshot.layer.masksToBounds = true
 
         let backgroundView = UIView(frame: finalFrame)
         backgroundView.backgroundColor = backgroundColor
@@ -164,7 +179,7 @@ final class ZoomPresentAnimator: NSObject, UIViewControllerAnimatedTransitioning
             options: .curveEaseInOut
         ) {
             snapshot.frame = targetFrame
-            snapshot.layer.cornerRadius = 12
+            snapshot.layer.cornerRadius = self.targetCornerRadius
             backgroundView.alpha = 1
         } completion: { _ in
             toView.alpha = 1
@@ -180,19 +195,25 @@ final class ZoomDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
     private let destinationFrame: CGRect
     private let destinationCornerRadius: CGFloat
+    private let startCornerRadius: CGFloat
     private let backgroundColor: UIColor
     private let contentFrameProvider: ((UIView) -> CGRect)?
+    private let snapshotProvider: (() -> UIView?)?
 
     init(
         destinationFrame: CGRect,
         destinationCornerRadius: CGFloat,
+        startCornerRadius: CGFloat = 12,
         backgroundColor: UIColor,
-        contentFrameProvider: ((UIView) -> CGRect)? = nil
+        contentFrameProvider: ((UIView) -> CGRect)? = nil,
+        snapshotProvider: (() -> UIView?)? = nil
     ) {
         self.destinationFrame = destinationFrame
         self.destinationCornerRadius = destinationCornerRadius
+        self.startCornerRadius = startCornerRadius
         self.backgroundColor = backgroundColor
         self.contentFrameProvider = contentFrameProvider
+        self.snapshotProvider = snapshotProvider
         super.init()
     }
 
@@ -220,19 +241,23 @@ final class ZoomDismissAnimator: NSObject, UIViewControllerAnimatedTransitioning
 
         // Snapshot just the content area (paper square) or full screen
         let snapshot: UIView
-        if useContentFrame {
+        if let provided = snapshotProvider?() {
+            snapshot = provided
+            snapshot.frame = contentFrame
+        } else if useContentFrame {
             snapshot = fromView.resizableSnapshotView(
                 from: contentFrame,
                 afterScreenUpdates: false,
                 withCapInsets: .zero
             ) ?? fromView.snapshotView(afterScreenUpdates: false) ?? UIView()
             snapshot.frame = contentFrame
+            snapshot.layer.cornerRadius = startCornerRadius
         } else {
             snapshot = fromView.snapshotView(afterScreenUpdates: false) ?? UIView()
             snapshot.frame = fromView.frame
+            snapshot.layer.cornerRadius = 0
         }
         snapshot.clipsToBounds = true
-        snapshot.layer.cornerRadius = useContentFrame ? 12 : 0
 
         let backgroundView = UIView(frame: container.bounds)
         backgroundView.backgroundColor = backgroundColor

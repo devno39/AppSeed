@@ -38,8 +38,10 @@ final class SetupFlowViewController: FormBottomSheetViewController<SetupFlowView
             guard let self, let viewModel = self.viewModel else { return }
             viewModel.saveProfile()
             UserDefaultsWrapper.has_completed_setup = true
+            WhatsNewManager.markCurrentVersionSeenIfNeeded()
             self.dismiss(animated: true) {
                 viewModel.onComplete?()
+                NotificationCenter.default.post(name: .setupFlowDidComplete, object: nil)
             }
         }
 

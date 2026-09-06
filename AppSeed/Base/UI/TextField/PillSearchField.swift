@@ -79,7 +79,7 @@ final class PillSearchField: UIView {
             backgroundColor = ColorBackground.backgroundSecondary.color
             layer.cornerRadius = PillSearchField.height / 2
             layer.borderWidth = 1
-            layer.borderColor = ColorBackground.backgroundBorder.color.cgColor
+            setBorderColor(ColorBackground.backgroundBorder.color)
         }
     }
 

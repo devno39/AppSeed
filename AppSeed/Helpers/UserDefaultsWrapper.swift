@@ -85,7 +85,6 @@ enum UserDefaultsKeys: String {
     case tutorials_seen
     // setup
     case has_completed_setup
-    case has_shown_permission_sheet
     // theme
     case selected_theme
     // palette
@@ -95,6 +94,15 @@ enum UserDefaultsKeys: String {
     case review_session_count
     case review_milestone_session_index
     case review_shown_count
+    // permission prompt
+    case permission_sheet_shown_count
+    case permission_sheet_last_session
+    // what's new
+    case whats_new_seen_version
+    // paywall prompt
+    case onboarding_paywall_shown
+    case paywall_shown_count
+    case paywall_last_shown_session
 }
 
 // MARK: - UserDefaultsWrapper
@@ -104,9 +112,6 @@ struct UserDefaultsWrapper {
 
     @UserDefault(.has_completed_setup, defaultValue: false)
     static var has_completed_setup: Bool
-
-    @UserDefault(.has_shown_permission_sheet, defaultValue: false)
-    static var has_shown_permission_sheet: Bool
 
     @SharedUserDefault(.selected_theme, defaultValue: "system")
     static var selected_theme: String
@@ -125,4 +130,22 @@ struct UserDefaultsWrapper {
 
     @UserDefault(.review_shown_count, defaultValue: 0)
     static var review_shown_count: Int
+
+    @UserDefault(.permission_sheet_shown_count, defaultValue: 0)
+    static var permission_sheet_shown_count: Int
+
+    @UserDefault(.permission_sheet_last_session, defaultValue: 0)
+    static var permission_sheet_last_session: Int
+
+    @UserDefault(.whats_new_seen_version, defaultValue: "")
+    static var whats_new_seen_version: String
+
+    @UserDefault(.onboarding_paywall_shown, defaultValue: false)
+    static var onboarding_paywall_shown: Bool
+
+    @UserDefault(.paywall_shown_count, defaultValue: 0)
+    static var paywall_shown_count: Int
+
+    @UserDefault(.paywall_last_shown_session, defaultValue: 0)
+    static var paywall_last_shown_session: Int
 }

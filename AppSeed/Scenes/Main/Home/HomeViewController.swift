@@ -42,6 +42,7 @@ final class HomeViewController: BaseViewController<HomeViewModel, HomeRouter> {
         super.prepare()
         view.backgroundColor = ColorBackground.backgroundPrimary.color
         draw()
+        registerLaunchPrompts()
     }
 
     // MARK: - Life Cycle
@@ -51,7 +52,7 @@ final class HomeViewController: BaseViewController<HomeViewModel, HomeRouter> {
         let hadSharedItem = PendingSharedItem.exists
         handleSharedItem()
         guard !hadSharedItem else { return }
-        presentReviewPromptIfReady()
+        LaunchPromptManager.shared.presentNextIfPossible()
     }
 
     // MARK: - Bind
@@ -63,6 +64,18 @@ final class HomeViewController: BaseViewController<HomeViewModel, HomeRouter> {
             name: .sharedItemReceived,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleOpenPaywallRequested),
+            name: .openPaywallRequested,
+            object: nil
+        )
+    }
+
+    // MARK: - Paywall
+    @objc private func handleOpenPaywallRequested() {
+        guard presentedViewController == nil else { return }
+        router?.presentPaywall()
     }
 
     // MARK: - Share Extension
@@ -75,9 +88,54 @@ final class HomeViewController: BaseViewController<HomeViewModel, HomeRouter> {
         )
     }
 
-    // MARK: - Review Prompt
-    private func presentReviewPromptIfReady() {
-        guard ReviewPromptManager.shouldShow(), presentedViewController == nil else { return }
+    // MARK: - Launch Prompts
+    // The first tab is the app's landing point, so it owns the queue. A scene that lands
+    // elsewhere registers there instead — the order itself lives in LaunchPromptManager.
+    private func registerLaunchPrompts() {
+        // Counted on presentation: counted before it, a dropped present spends a turn unseen.
+        LaunchPromptManager.shared.register(.permissions) { [weak self] onDismiss in
+            self?.router?.presentPermissionSheet(onDismiss: onDismiss) {
+                PermissionPromptManager.markShown()
+            }
+        }
+        LaunchPromptManager.shared.register(.whatsNew) { [weak self] onDismiss in
+            self?.presentWhatsNew(onDismiss: onDismiss)
+        }
+        LaunchPromptManager.shared.register(.review) { [weak self] onDismiss in
+            self?.presentReviewPrompt(onDismiss: onDismiss)
+        }
+        // The paywall is a full screen of its own and reports no dismissal — the next
+        // foreground picks the queue back up.
+        LaunchPromptManager.shared.register(.onboardingPaywall) { [weak self] _ in
+            self?.presentOnboardingPaywall()
+        }
+        LaunchPromptManager.shared.register(.scheduledPaywall) { [weak self] _ in
+            self?.presentScheduledPaywall()
+        }
+    }
+
+    private func presentWhatsNew(onDismiss: @escaping EmptyClosure) {
+        WhatsNewManager.markShown()
+        router?.presentBottomSheet(
+            title: Localizable.whats_new_title,
+            button: BottomSheetButton(title: Localizable.whats_new_button),
+            customView: WhatsNewView(items: WhatsNewManager.items),
+            onDismiss: onDismiss
+        )
+    }
+
+    private func presentOnboardingPaywall() {
+        UserDefaultsWrapper.onboarding_paywall_shown = true
+        PaywallPromptManager.markAnchor()
+        router?.presentPaywall()
+    }
+
+    private func presentScheduledPaywall() {
+        PaywallPromptManager.markScheduledShown()
+        router?.presentPaywall()
+    }
+
+    private func presentReviewPrompt(onDismiss: @escaping EmptyClosure) {
         ReviewPromptManager.markShown()
         router?.presentReviewPromptSheet(
             onYes: {
@@ -85,7 +143,8 @@ final class HomeViewController: BaseViewController<HomeViewModel, HomeRouter> {
             },
             onLater: { [weak self] in
                 self?.router?.presentFeedbackSheet()
-            }
+            },
+            onDismiss: onDismiss
         )
     }
 

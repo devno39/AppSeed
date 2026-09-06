@@ -81,3 +81,36 @@ extension String {
         return ceil(boundingBox.height)
     }
 }
+
+// MARK: - Date
+extension String {
+
+    // Postgres sends microsecond fractions; ISO8601DateFormatter reads at most 3 digits.
+    var postgresDate: Date? {
+        let trimmed = replacingOccurrences(
+            of: #"(\.\d{3})\d+"#,
+            with: "$1",
+            options: .regularExpression
+        )
+        let fractional = ISO8601DateFormatter()
+        fractional.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let plain = ISO8601DateFormatter()
+        plain.formatOptions = [.withInternetDateTime]
+        return fractional.date(from: trimmed) ?? plain.date(from: trimmed)
+    }
+}
+
+// MARK: - Emoji
+extension String {
+
+    // Per character, not per scalar: ✈️ is U+2708 + VS16 and its base scalar reports
+    // isEmojiPresentation == false, so a scalar-wise test calls it text. The presentation check
+    // then keeps plain digits out — they carry isEmoji too.
+    var isEmojiOnly: Bool {
+        guard !isEmpty else { return false }
+        return allSatisfy { character in
+            guard let first = character.unicodeScalars.first, first.properties.isEmoji else { return false }
+            return character.unicodeScalars.count > 1 || first.properties.isEmojiPresentation
+        }
+    }
+}

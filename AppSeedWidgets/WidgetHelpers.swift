@@ -152,21 +152,36 @@ extension String {
     }
 }
 
+// MARK: - Pro Stamp View
+// SwiftUI twin of the app's ProBadgeView.
+struct ProStampView: View {
+
+    var body: some View {
+        HStack(spacing: 3) {
+            Image(systemName: "crown")
+                .font(.system(size: 11, weight: .heavy))
+
+            Text(WidgetLocalizable.pro)
+                .font(.system(size: 11, weight: .heavy))
+        }
+        .foregroundStyle(WidgetTheme.accentColor)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(WidgetTheme.accentColor, lineWidth: 2)
+        )
+        .rotationEffect(.degrees(-18))
+    }
+}
+
 // MARK: - Locked Home Widget View
-// Shared placeholder rendered by premium widgets when AppGroupStorage.isPro is
-// false. Tapping the widget triggers its .widgetURL, which the app routes to
-// the paywall.
+// Rendered by premium widgets when AppGroupStorage.isPro is false; pair with `.widgetURL(appseed://paywall)`.
 struct LockedHomeWidgetView: View {
 
     var body: some View {
-        VStack(spacing: 8) {
-            Image(systemName: "lock.fill")
-                .font(.system(size: 28))
-                .foregroundStyle(WidgetColors.textSecondary)
-
-            Text(WidgetLocalizable.pro)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(WidgetColors.textPrimary)
+        VStack(spacing: 10) {
+            ProStampView()
 
             Text(WidgetLocalizable.tapToUnlock)
                 .font(.caption2)

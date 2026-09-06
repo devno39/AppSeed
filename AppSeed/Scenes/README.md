@@ -41,6 +41,7 @@ TabBar
 | `Paywall/` | Premium sales screen (fullscreen modal) | Profile (premium-gated actions) |
 | `QRScanner/` | Camera QR reader, returns the raw string | Ready to use — no call site yet |
 | `PhotoViewer/` | Full-screen zoomable photo pager | Ready to use — no call site yet |
+| `CameraCapture/` | Square photo capture + confirm/retake preview | Ready to use — no call site yet |
 | `ReviewPrompt/` | "Enjoying the app?" sheet before `SKStoreReviewController` | Home, when `ReviewPromptManager.shouldShow()` |
 
 ## Main tabs (order = tab order)
@@ -63,8 +64,9 @@ Every sheet is a full MVVM-R scene (never inline, except the generic action-shee
 | `AddItem` | FormBottomSheet | `Items/Scenes/AddItem/` | Items → FAB / empty-state button |
 | `EditProfile` | FormBottomSheet | `Profile/Scenes/EditProfile/` | Profile → edit header |
 | `Feedback` | BottomSheet scene | `Profile/Scenes/Feedback/` | Profile → send feedback |
-| `PermissionSheet` | BottomSheet scene | `Setup/Scenes/PermissionSheet/` | Profile → permissions row |
-| `ReviewPromptSheet` | BottomSheet scene | `ReviewPrompt/` | Home, on the review gate |
+| `PermissionSheet` | BottomSheet scene | `Setup/Scenes/PermissionSheet/` | Profile → permissions row, and the launch queue |
+| `ReviewPromptSheet` | BottomSheet scene | `ReviewPrompt/` | Home, from the launch queue |
+| What's New | `BottomSheetBuilder` + `WhatsNewView` | — | Home, from the launch queue, after an update |
 | Language picker | `BottomSheetBuilder` (inline action sheet) | — | Profile → language row |
 | Theme picker | `BottomSheetBuilder` (inline action sheet) | — | Profile → theme row |
 
@@ -93,21 +95,35 @@ Two things in it are worth keeping when you rename it:
 
 ## Ready-to-use scenes
 
-`QRScanner/` and `PhotoViewer/` ship wired but uncalled. They are seed inventory,
-not dead code: delete them only if the app will never scan a code or show a photo
-full-screen.
+`QRScanner/`, `PhotoViewer/` and `CameraCapture/` ship wired but uncalled. They are seed
+inventory, not dead code: delete one only if the app will never scan a code, show a photo
+full-screen, or take a picture.
 
 - `QRScannerRoute.presentQRScanner(onCodeScanned:)` — handles the camera permission
   round-trip and hands back the raw scanned string; validation belongs to the caller.
 - `PhotoViewerRoute.presentPhotoViewer(imageURLs:startIndex:info:actions:sourceFrame:sourceImage:)`
   — paging, counter, tap-to-hide chrome, pan-to-dismiss. Pass `sourceFrame`/`sourceImage`
   for the zoom transition, `actions` to get an options button, `info` for the caption bar.
+- `CameraCaptureRoute.presentCameraCapture(onCaptured:)` — front camera with a custom
+  overlay (shutter, flip, photo library), square centre crop, then a preview with
+  use/retake/close. Returns a `UIImage`; storing or uploading it is the caller's job.
+  Owning the overlay is deliberate: Apple's bar has no library affordance and its layout
+  is private. The simulator has no camera, so it opens the library instead.
 
-## Review prompt
+## Launch prompts
+
+Home owns the queue: `registerLaunchPrompts()` in `prepare()` tells `LaunchPromptManager`
+how to present each prompt, and `viewDidAppear` asks it to run. The order and the "is it
+due" rules live in the manager, not here — see `Helpers/README.md` → Launch prompts, which
+is also where the three registration rules are written down (count on presentation, report
+the dismissal, settle rather than mark shown).
+
+Five prompts in order: permissions → What's New → onboarding paywall → review → scheduled
+paywall. A scene that lands somewhere other than the first tab registers there instead.
 
 `ReviewPromptManager` counts sessions (`incrementSession()` in `AppDelegate`) and waits
 for a milestone the app defines — the seed records it when the Setup flow completes.
-Two sessions later Home offers the sheet once; "yes" goes to `SKStoreReviewController`,
+Two sessions later the sheet is offered once; "yes" goes to `SKStoreReviewController`,
 "not now" opens the feedback sheet instead. Sign-out clears the milestone but never the
 shown flag, so nobody is asked twice.
 
@@ -122,5 +138,12 @@ sync with Info.plist's `CFBundleURLTypes` and the widget `.widgetURL`s.
 |---|---|
 | `home` | Home tab (index 0) |
 | `items` | Items tab (index 1) |
+| `paywall` | Home tab, then posts `.openPaywallRequested` — Home presents the paywall |
 
-Extend `DeepLinkHost` per app as widgets and features add link targets.
+Extend `DeepLinkHost` per app as widgets and features add link targets. A premium-gated
+widget points its `.widgetURL` at `appseed://paywall`; an app whose premium widgets have
+their own hosts sends those down the same path when `IAPHelper.shared.isPremium` is false.
+
+`capture(from:)` also reads `connectionOptions.notificationResponse` — a banner tap that
+cold-launches the app has been observed to reach the notification delegate with no
+response, and without that fallback the tap routes nowhere.

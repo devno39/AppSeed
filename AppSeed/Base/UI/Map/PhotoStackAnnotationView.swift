@@ -32,7 +32,7 @@ final class PhotoStackAnnotationView: MKAnnotationView {
         view.clipsToBounds = true
         view.layer.cornerRadius = cornerRadius
         view.layer.borderWidth = borderWidth
-        view.layer.borderColor = ColorBackground.backgroundSecondary.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundSecondary.color)
         view.backgroundColor = ColorBackground.backgroundTertiary.color
         return view
     }()
@@ -49,7 +49,7 @@ final class PhotoStackAnnotationView: MKAnnotationView {
         view.clipsToBounds = true
         view.layer.cornerRadius = cornerRadius
         view.layer.borderWidth = borderWidth
-        view.layer.borderColor = ColorBackground.backgroundSecondary.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundSecondary.color)
         view.backgroundColor = ColorBackground.backgroundTertiary.color
         return view
     }()
@@ -64,7 +64,7 @@ final class PhotoStackAnnotationView: MKAnnotationView {
         view.clipsToBounds = true
         view.layer.cornerRadius = cornerRadius
         view.layer.borderWidth = borderWidth
-        view.layer.borderColor = ColorBackground.backgroundSecondary.color.cgColor
+        view.setBorderColor(ColorBackground.backgroundSecondary.color)
         view.backgroundColor = ColorBackground.backgroundTertiary.color
         return view
     }()
