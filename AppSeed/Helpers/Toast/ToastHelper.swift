@@ -47,8 +47,10 @@ enum ToastHelper {
         guard let toast = currentToast else { return }
         currentToast = nil
 
+        let clearance = toast.bounds.height + (toast.superview?.safeAreaInsets.top ?? 0) + 24
+
         UIView.animate(withDuration: 0.3, animations: {
-            toast.transform = CGAffineTransform(translationX: 0, y: -120)
+            toast.transform = CGAffineTransform(translationX: 0, y: -clearance)
             toast.alpha = 0
         }) { _ in
             toast.removeFromSuperview()
@@ -70,7 +72,7 @@ enum ToastHelper {
         view.addSubview(toast)
 
         toast.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(-100)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
             $0.leading.equalToSuperview().offset(16)
             $0.trailing.equalToSuperview().offset(-16)
         }
@@ -78,12 +80,11 @@ enum ToastHelper {
         view.layoutIfNeeded()
         currentToast = toast
 
-        toast.snp.updateConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(8)
-        }
+        let offScreen = toast.bounds.height + view.safeAreaInsets.top + 8
+        toast.transform = CGAffineTransform(translationX: 0, y: -offScreen)
 
         UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.5) {
-            view.layoutIfNeeded()
+            toast.transform = .identity
         }
 
         guard autoDismiss else { return }
